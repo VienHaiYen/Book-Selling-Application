@@ -4,7 +4,7 @@ const SignIn = {
   },
   methods: {},
 
-  mounted() {},
+  mounted() { },
 
   template: `
     <section class="text-center text-lg-start">
@@ -60,4 +60,4 @@ const SignIn = {
   `,
 };
 
-export default SignIn;
+export { SignIn };

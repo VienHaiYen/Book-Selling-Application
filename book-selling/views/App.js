@@ -1,15 +1,15 @@
-import SignIn from "/pages/SignIn.js";
-import Register from "/pages/Register.js";
+import { Home, SignIn, Register } from './pages/index.js'
 
 const App = {
   components: {
     SignIn,
     Register,
+    Home,
   },
   data() {
     return {};
   },
-  method: {},
+  methods: {},
   template: `
     <SignIn />
   `,
