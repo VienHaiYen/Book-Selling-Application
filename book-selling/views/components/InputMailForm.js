@@ -4,7 +4,7 @@ const InputMail = {
   },
   methods: {},
 
-  mounted() {},
+  mounted() { },
 
   template: `
             <form>
@@ -24,4 +24,4 @@ const InputMail = {
   `,
 };
 
-export default InputMail;
+export { InputMail };

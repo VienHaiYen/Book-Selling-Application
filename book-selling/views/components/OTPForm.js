@@ -4,7 +4,7 @@ const OTPForm = {
   },
   methods: {},
 
-  mounted() {},
+  mounted() { },
 
   template: `
             <form>
@@ -22,4 +22,4 @@ const OTPForm = {
   `,
 };
 
-export default OTPForm;
+export { OTPForm };

@@ -1,6 +1,4 @@
-import InputMailForm from "/components/InputMailForm.js";
-import ResetPasswordForm from "/components/ResetPasswordForm.js";
-import OTPForm from "/components/OTPForm.js";
+import { InputMailForm, OTPForm, ResetPasswordForm } from "../components/index,js";
 
 const ForgotPassword = {
   components: { InputMailForm, ResetPasswordForm, OTPForm },
@@ -9,7 +7,7 @@ const ForgotPassword = {
   },
   methods: {},
 
-  mounted() {},
+  mounted() { },
 
   template: `
     <section class="text-center text-lg-start">
@@ -34,4 +32,4 @@ const ForgotPassword = {
   `,
 };
 
-export default ForgotPassword;
+export { ForgotPassword };
