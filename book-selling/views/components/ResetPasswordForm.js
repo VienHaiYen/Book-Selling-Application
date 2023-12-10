@@ -4,7 +4,7 @@ const ResetPasswordForm = {
   },
   methods: {},
 
-  mounted() {},
+  mounted() { },
 
   template: `
             <form>
@@ -31,4 +31,4 @@ const ResetPasswordForm = {
   `,
 };
 
-export default ResetPasswordForm;
+export { ResetPasswordForm };

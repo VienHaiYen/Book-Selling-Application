@@ -7,3 +7,12 @@
     margin-right: 0;
   }
 }
+
+.icon {
+  cursor: pointer;
+}
+
+.icon:hover {
+  z-index: 40;
+  transform: scale(1.2);
+}

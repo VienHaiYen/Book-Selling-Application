@@ -4,7 +4,7 @@ const Register = {
   },
   methods: {},
 
-  mounted() {},
+  mounted() { },
 
   template: `
     <section class="text-center text-lg-start">
@@ -92,4 +92,4 @@ const Register = {
   `,
 };
 
-export default Register;
+export { Register };

@@ -9,7 +9,7 @@ const App = {
   data() {
     return {};
   },
-  method: {},
+  methods: {},
   template: `
     <SignIn />
   `,
