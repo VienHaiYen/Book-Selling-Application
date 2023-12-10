@@ -1,8 +1,6 @@
 const Navbar = {
   data() {
-    return {
-      searchString: ""
-    }
+    return {}
   },
   methods() {
     // Handle Search here
@@ -11,11 +9,18 @@ const Navbar = {
     `
     <nav id="navbar" class="navbar navbar-expand-lg rounded-3">
       <div class="container-fluid">
-        <h4 style="cursor:pointer;">Home</h4>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-success" preventDefault>Search</button>
-        </form>
+        <div class="d-flex align-items-center" style="gap:16px;">
+          <i class="fa-solid fa-bars icon"></i>
+          <div>
+            <i class="fa-solid fa-table-cells-large icon"></i>
+          </div>
+        </div>
+        <h4 style="cursor:pointer;">MeBook</h4>
+        <div class="d-flex align-items-center" style="gap:16px;">
+          <i class="fa-solid fa-magnifying-glass icon"></i>
+          <i class="fa-solid fa-user icon"></i>
+          <i class="fa-solid fa-cart-shopping icon"></i>
+        </div>
       </div>
     </nav>
     `
