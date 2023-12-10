@@ -21,7 +21,7 @@ app.set("views", "views");
 //   res.sendFile("./views/index.html", options);
 // });
 
-app.use('/', require("./routers/index.js"));
+app.use("/", require("./routers/book.r.js"));
 
 // app.use("/", routers);
 app.listen(PORT, () => console.log(`Server is running at port ${PORT}`));

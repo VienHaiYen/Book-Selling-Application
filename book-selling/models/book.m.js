@@ -6,7 +6,8 @@ module.exports = {
       const rs = await db.many(`SELECT * FROM public."books"
             ORDER BY id ASC `)
       return rs
-    } catch (e) {
+    } catch (err) {
+      console.log(err)
       return null
     }
   }
