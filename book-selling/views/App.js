@@ -1,10 +1,10 @@
-import { Home, SignIn, Register } from './pages/index.js'
+import { SignIn, Register, ForgotPassword } from "/pages/index.js";
 
 const App = {
   components: {
     SignIn,
     Register,
-    Home,
+    ForgotPassword,
   },
   data() {
     return {};
