@@ -1,9 +1,9 @@
-const { pgp, db } = require('../configs/postgres')
+const { pgp, db } = require('../configs/postgres.js')
 
 module.exports = {
   getAll: async () => {
     try {
-      var rs = await db.any(`SELECT * FROM public."books"
+      const rs = await db.many(`SELECT * FROM public."books"
             ORDER BY id ASC `)
       return rs
     } catch (e) {
