@@ -8,7 +8,7 @@ const TextInput = {
   data() {
     return {}
   },
-  methods() {
+  methods: {
   },
   template: `
     <label v-if="this.label" class="form-label text-start w-25" for="email">{{ this.label }}</label>

@@ -8,7 +8,7 @@ const Home = {
     Navbar,
     TextInput,
   },
-  methods() { },
+  methods: {},
   mounted() { },
   template:
     `

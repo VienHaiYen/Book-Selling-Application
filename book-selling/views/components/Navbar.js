@@ -1,8 +1,15 @@
+import { Dropdown } from './index.js'
+
 const Navbar = {
-  data() {
-    return {}
+  components: {
+    Dropdown,
   },
-  methods() {
+  data() {
+    return {
+      categories: [{ 'title': 'aaaa' }, { 'title': 'b' }], // WARNING: should change this -> get categories from db
+    }
+  },
+  methods: {
     // Handle Search here
   },
   template:
@@ -11,9 +18,7 @@ const Navbar = {
       <div class="container-fluid">
         <div class="d-flex align-items-center" style="gap:16px;">
           <i class="fa-solid fa-bars icon"></i>
-          <div>
-            <i class="fa-solid fa-table-cells-large icon"></i>
-          </div>
+          <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" />
         </div>
         <h4 style="cursor:pointer;">MeBook</h4>
         <div class="d-flex align-items-center" style="gap:16px;">
