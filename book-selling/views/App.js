@@ -1,17 +1,30 @@
-import { ForgotPassword, Home, Register, SignIn } from "./pages/index.js";
+import {
+  SignIn,
+  Register,
+  ForgotPassword,
+  Setting,
+  EditProfile,
+} from "/pages/index.js";
 
 const App = {
   components: {
-    Home,
+    SignIn,
+    Register,
+    ForgotPassword,
+    Setting,
+    EditProfile,
+    Footer,
+    Navbar,
   },
   data() {
     return {};
   },
   methods: {},
-  template:
-    `
-    <Home />
-    `,
+  template: `
+    <Navbar />
+    <Setting  />
+    <Footer />
+  `,
 };
 
 export default App;

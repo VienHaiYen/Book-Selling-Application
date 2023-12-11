@@ -1,10 +1,10 @@
-const InputMail = {
+const InputMailForm = {
   data() {
     return {};
   },
   methods: {},
 
-  mounted() { },
+  mounted() {},
 
   template: `
             <form>
@@ -24,4 +24,4 @@ const InputMail = {
   `,
 };
 
-export { InputMail };
+export { InputMailForm };

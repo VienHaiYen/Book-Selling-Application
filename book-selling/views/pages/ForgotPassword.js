@@ -1,4 +1,8 @@
-import { InputMailForm, OTPForm, ResetPasswordForm } from "../components/index,js";
+import {
+  InputMailForm,
+  OTPForm,
+  ResetPasswordForm,
+} from "../components/index.js";
 
 const ForgotPassword = {
   components: { InputMailForm, ResetPasswordForm, OTPForm },
@@ -7,7 +11,7 @@ const ForgotPassword = {
   },
   methods: {},
 
-  mounted() { },
+  mounted() {},
 
   template: `
     <section class="text-center text-lg-start">

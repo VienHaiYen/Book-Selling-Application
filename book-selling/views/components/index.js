@@ -6,3 +6,4 @@ export * from './Navbar.js'
 export * from './OTPForm.js'
 export * from './ResetPasswordForm.js'
 export * from './TextInput.js'
+export * from "./HorrizontalBookCard.js";
