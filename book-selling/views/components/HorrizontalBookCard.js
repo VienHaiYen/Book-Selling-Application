@@ -15,14 +15,17 @@ const HorrizontalBookCard = {
                       />
                     </div>
                     <div class="col-lg-9 col-md-8">
-                      <div class="card-body">
-                        <h3 class="card-title">Harry Potter</h3>
+                      <div class="card-body d-flex flex-column justify-content-between h-100">
+                        <div>
+                          <h3 class="card-title">Harry Potter</h3>
+                          <p class="card-text mt-auto">
+                            This is a wider card with supporting text below as a natural lead-in to
+                            additional content. This content is a little bit longer.
+                          </p>
+                        </div>
+                        <h3><small class="text fs-5 fw-light text-decoration-line-through">$120</small>$100</h3>
                         <p class="card-text">
-                          This is a wider card with supporting text below as a natural lead-in to
-                          additional content. This content is a little bit longer.
-                        </p>
-                        <p class="card-text">
-                          <small class="text-muted">Đã nhận hàng</small>
+                          <small class="text-muted">Đã mua vào lúc 12:00 11 Dec 2023</small>
                         </p>
                       </div>
                     </div>

@@ -5,9 +5,15 @@ const Setting = {
     HorrizontalBookCard,
   },
   data() {
-    return {};
+    return {
+      isShowingMyBook: false,
+    };
   },
-  methods: {},
+  methods: {
+    handleStateShowingMyBook() {
+      this.isShowingMyBook = !this.isShowingMyBook;
+    },
+  },
   mounted() {},
   template: `
     <section >
@@ -25,7 +31,7 @@ const Setting = {
             </div>
           </div>
           <div class="col-lg-8">
-            <div class="card mb-4">
+            <div v-if="!isShowingMyBook" class="card mb-4">
               <div class="card-body">
                 <div class="d-flex justify-content-end">
                   <button type="button" class="btn ">Edit <i class="fa-regular fa-pen-to-square"></i></button>
@@ -67,7 +73,10 @@ const Setting = {
                 </div>
               </div>
             </div>
-                <h4 class="pb-2">My book</h4>
+              <div class="d-flex justify-content-between mb-3">
+                <h3 class="pb-2 mb-0">My book</h3>
+                <button type="button" class="btn btn-dark" @click="handleStateShowingMyBook">{{isShowingMyBook?"Back to my Profile":"See more"}} </button>
+              </div>
               <div class="col">
                 <HorrizontalBookCard />
               </div>
