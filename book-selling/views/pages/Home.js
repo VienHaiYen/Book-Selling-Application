@@ -1,20 +1,29 @@
-import { Navbar, TextInput } from '../components/index.js'
+import { Navbar, TextInput } from '../components/index.js';
 
 const Home = {
   data() {
-    return {};
+    return {
+      books: [],
+    };
   },
   components: {
     Navbar,
     TextInput,
   },
   methods: {},
-  mounted() { },
+  mounted() {
+    axios
+      .get('/books')
+      .then((response) => {
+        this.books = response.data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },
   template:
     `
       <Navbar />
-      <TextInput />
-      <div>aaaa</div>
     `
 };
 
