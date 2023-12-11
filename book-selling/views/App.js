@@ -6,6 +6,8 @@ import {
   EditProfile,
 } from "/pages/index.js";
 
+import { Dropdown, Footer, Navbar } from "/components/index.js";
+
 const App = {
   components: {
     SignIn,
@@ -13,13 +15,17 @@ const App = {
     ForgotPassword,
     Setting,
     EditProfile,
+    Footer,
+    Navbar,
   },
   data() {
     return {};
   },
   methods: {},
   template: `
+    <Navbar />
     <Setting  />
+    <Footer />
   `,
 };
 
