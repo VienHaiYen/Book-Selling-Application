@@ -1,4 +1,4 @@
-import { HorrizontalBookCard } from "../components/HorrizontalBookCard.js";
+import { HorrizontalBookCard } from "../components/index.js";
 
 const EditProfile = {
   components: {
