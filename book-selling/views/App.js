@@ -1,4 +1,10 @@
-import { SignIn, Register, ForgotPassword, Setting } from "/pages/index.js";
+import {
+  SignIn,
+  Register,
+  ForgotPassword,
+  Setting,
+  EditProfile,
+} from "/pages/index.js";
 
 const App = {
   components: {
@@ -6,13 +12,14 @@ const App = {
     Register,
     ForgotPassword,
     Setting,
+    EditProfile,
   },
   data() {
     return {};
   },
   methods: {},
   template: `
-    <Setting />
+    <EditProfile />
   `,
 };
 
