@@ -16,3 +16,16 @@
   z-index: 40;
   transform: scale(1.2);
 }
+
+.w-30 {
+  max-width: 600px !important;
+  min-width: 300px !important;
+  width: 30rem !important;
+  max-height: 40rem !important;
+  min-height: 250px !important;
+  height: 60vh !important;
+}
+
+.indicators {
+    background-color: #9e9e9e !important;
+}

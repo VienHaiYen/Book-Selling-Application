@@ -1,3 +1,4 @@
+export * from './Banner.js'
 export * from './Dropdown.js'
 export * from './Footer.js'
 export * from './InputMailForm.js'
