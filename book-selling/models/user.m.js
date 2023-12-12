@@ -3,10 +3,15 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 module.exports = class User {
-    constructor({ username, password, role }) {
+    constructor({ username, password, role = User.roles.client }) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.role = Object.values(User.roles).includes(role) ? role : User.roles.client;
+    }
+
+    static roles = {
+        client: "client",
+        admin: "admin"
     }
 
     static async getByUsername(username) {
