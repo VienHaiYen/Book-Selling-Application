@@ -1,4 +1,4 @@
-import { Dropdown } from './index.js'
+import { Dropdown } from './index.js';
 
 const Navbar = {
   components: {
@@ -26,17 +26,30 @@ const Navbar = {
   },
   template:
     `
-    <nav id="navbar" class="navbar navbar-expand-lg rounded-3">
+    <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <div class="d-flex align-items-center" style="gap:16px;">
-          <i class="fa-solid fa-bars icon"></i>
-          <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" />
-        </div>
-        <h4 style="cursor:pointer;" @click="this.navigation('home')">MeBook</h4>
-        <div class="d-flex align-items-center" style="gap:16px;">
-          <i class="fa-solid fa-magnifying-glass icon"></i>
-          <i class="fa-solid fa-user icon" @click="this.navigation('setting')"></i>
-          <i class="fa-solid fa-cart-shopping icon"></i>
+        <a class="navbar-brand" @click="this.navigation('home')">MeBook</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" @click="this.navigation('home')">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" @click="this.navigation('setting')">
+                <i class="fa-solid fa-cart-shopping icon" />
+                Profile
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" />
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
         </div>
       </div>
     </nav>

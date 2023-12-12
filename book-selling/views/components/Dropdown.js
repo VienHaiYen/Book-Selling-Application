@@ -14,7 +14,7 @@ const Dropdown = {
   template:
     `
     <div class="dropdown">
-      <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <button class="btn dropdown-toggle nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i v-if="this.iconLeft" :class="this.iconLeft"></i>
         {{ this.label }}
       </button>
