@@ -8,13 +8,15 @@
   }
 }
 
-.icon {
+.nav-link {
   cursor: pointer;
 }
 
-.icon:hover {
-  z-index: 40;
-  transform: scale(1.2);
+.nav-link:hover {
+  i {
+    z-index: 40;
+    transform: scale(1.2);
+  }
 }
 
 .w-30 {
