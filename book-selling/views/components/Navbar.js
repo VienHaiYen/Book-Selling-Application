@@ -38,7 +38,7 @@ const Navbar = {
             </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" @click="this.navigation('setting')">
-                <i class="fa-solid fa-cart-shopping icon" />
+                <i class="fa-solid fa-user icon" />
                 Profile
               </a>
             </li>
