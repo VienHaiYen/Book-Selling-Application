@@ -6,13 +6,23 @@ const Navbar = {
   },
   data() {
     return {
-      categories: [{ 'title': 'aaaa' }, { 'title': 'b' }], // WARNING: should change this -> get categories from db
+      categories: [], // WARNING: should change this -> get categories from db
     }
   },
   methods: {
     navigation(screen) {
       this.$emit('changeView', screen);
     }
+  },
+  mounted() {
+    axios
+      .get('/books/all-categories')
+      .then((res) => {
+        this.categories = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   },
   template:
     `

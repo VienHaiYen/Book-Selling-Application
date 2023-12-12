@@ -16,7 +16,7 @@ const Home = {
   methods: {},
   mounted() {
     axios
-      .get('/books')
+      .get('/books/all-books')
       .then((res) => {
         this.books = res.data;
         state.bannerList = res.data;

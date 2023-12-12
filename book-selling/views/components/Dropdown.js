@@ -20,7 +20,7 @@ const Dropdown = {
       </button>
       <ul class="dropdown-menu">
         <li v-for="(each,index) in this.dropdownMenu">
-          <a :id="'item' + index" class="dropdown-item" href="#">{{ each.title }}</a>
+          <a :id="each.id" class="dropdown-item" href="#">{{ each.name }}</a>
         </li>
       </ul>
     </div>
