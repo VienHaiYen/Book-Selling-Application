@@ -16,7 +16,7 @@ const Navbar = {
   },
   mounted() {
     axios
-      .get('/books/all-categories')
+      .get('/categories')
       .then((res) => {
         this.categories = res.data;
       })
