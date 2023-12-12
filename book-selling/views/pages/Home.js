@@ -1,20 +1,33 @@
-import { Navbar, TextInput } from '../components/index.js'
+import { Banner, Navbar, TextInput } from '../components/index.js';
+
+import state from '../stores/app-state.js';
 
 const Home = {
   data() {
-    return {};
+    return {
+      books: [],
+    };
   },
   components: {
+    Banner,
     Navbar,
     TextInput,
   },
   methods: {},
-  mounted() { },
+  mounted() {
+    axios
+      .get('/books')
+      .then((res) => {
+        this.books = res.data;
+        state.bannerList = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
   template:
     `
-      <Navbar />
-      <TextInput />
-      <div>aaaa</div>
+      <Banner />
     `
 };
 

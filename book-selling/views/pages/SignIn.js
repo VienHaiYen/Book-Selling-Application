@@ -28,7 +28,7 @@ const SignIn = {
                   <div class="form-outline mb-4 d-flex">
                     <label class="form-label text-start w-25" for="email">Password</label>
                     <div class="w-75 text-start">
-                      <input required type="password" id="email" class="form-control border border-secondary w-75" />
+                      <input required type="password" id="password" class="form-control border border-secondary w-75" />
                       <span class="small"><a  href="#!">Forgot password?</a></span>
                       </div>
                   </div>

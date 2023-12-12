@@ -4,7 +4,6 @@ const cors = require("cors");
 const cookieParser = require('cookie-parser')
 require("dotenv").config();
 
-
 const app = express();
 PORT = process.env.PORT || 3000;
 
@@ -22,11 +21,15 @@ app.set("views", "views");
 
 // Routers
 // const options = { root: path.join(__dirname, "../views") };
+
 const routers = require("./routers")
 app.use("/", routers.authRouter)
-app.get("/", function (req, res) {
+
+app.get("/", function(req, res) {
   res.sendFile("./views/index.html", options);
 });
+
+app.use("/", routers.bookRouter);
 
 app.use((err, req, res, next) => {
   console.error(err)
