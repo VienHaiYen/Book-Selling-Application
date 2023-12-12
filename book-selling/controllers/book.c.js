@@ -1,25 +1,26 @@
-const bookM = require('../models/book.m.js');
+const { Book } = require('../models');
 
 async function getAll(req, res, next) {
   try {
-    const rs = await bookM.getAll()
+    const rs = await Book.getAll()
     if (rs === null) {
       throw new Error()
     } else {
-      return res.send(rs)
+      return res.status(200).send(rs)
     }
   } catch (err) {
+    console.log(err)
     next(err)
   }
 }
 
 async function getCategories(req, res, next) {
   try {
-    const rs = await bookM.getCategories()
+    const rs = await Book.getCategories()
     if (rs === null) {
       throw new Error()
     } else {
-      return res.send(rs)
+      return res.status(200).send(rs)
     }
   } catch (err) {
     next(err)

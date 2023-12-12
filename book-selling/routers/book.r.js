@@ -1,8 +1,8 @@
 const routers = require("express").Router();
-const bookC = require('../controllers/book.c.js');
+const { bookController } = require('../controllers');
 
-routers.get("/all-books", bookC.getAll);
+routers.get("/all-books", bookController.getAll);
 
-routers.get("/all-categories", bookC.getCategories);
+routers.get("/all-categories", bookController.getCategories);
 
 module.exports = routers;
