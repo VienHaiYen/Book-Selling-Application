@@ -6,7 +6,7 @@ const Navbar = {
   },
   data() {
     return {
-      categories: [], // WARNING: should change this -> get categories from db
+      categories: [],
     }
   },
   methods: {
