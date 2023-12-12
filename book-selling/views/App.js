@@ -4,7 +4,9 @@ import {
   ForgotPassword,
   Setting,
   EditProfile,
-} from "/pages/index.js";
+} from "./pages/index.js";
+
+import { Footer, Navbar } from './components/index.js';
 
 const App = {
   components: {
