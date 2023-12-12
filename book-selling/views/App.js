@@ -1,4 +1,5 @@
 import {
+  Home,
   SignIn,
   Register,
   ForgotPassword,
@@ -10,6 +11,7 @@ import { Footer, Navbar } from './components/index.js';
 
 const App = {
   components: {
+    Home,
     SignIn,
     Register,
     ForgotPassword,
@@ -19,12 +21,23 @@ const App = {
     Navbar,
   },
   data() {
-    return {};
+    return {
+      view: 'Home',
+    };
   },
-  methods: {},
+  methods: {
+    changeView(type) {
+      if (type === "setting") {
+        this.view = "Setting"
+      }
+      if (type === "home") {
+        this.view = "Home"
+      }
+    },
+  },
   template: `
-    <Navbar />
-    <Setting  />
+    <Navbar @changeView="changeView" />
+    <component :is="view" @changeView="changeView"></component>
     <Footer />
   `,
 };

@@ -27,7 +27,6 @@ const Home = {
   },
   template:
     `
-      <Navbar />
       <Banner />
     `
 };
