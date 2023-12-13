@@ -1,6 +1,6 @@
-import { Banner, Navbar, TextInput } from '../components/index.js';
+import { Banner, TextInput, BookItemList } from "../components/index.js";
 
-import state from '../stores/app-state.js';
+import state from "../stores/app-state.js";
 
 const Home = {
   data() {
@@ -10,13 +10,13 @@ const Home = {
   },
   components: {
     Banner,
-    Navbar,
     TextInput,
+    BookItemList,
   },
   methods: {},
   mounted() {
     axios
-      .get('/books')
+      .get("/books")
       .then((res) => {
         this.books = res.data;
         state.bannerList = res.data;
@@ -25,10 +25,9 @@ const Home = {
         console.error(err);
       });
   },
-  template:
-    `
-      <Banner />
-    `
+  template: `
+      <BookItemList />
+    `,
 };
 
 export { Home };
