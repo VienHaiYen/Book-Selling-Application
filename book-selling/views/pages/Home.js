@@ -27,7 +27,7 @@ const Home = {
   },
   template: `
       <Banner />
-      <BookItemList title="Top books"/>
+      <BookItemList :isInCart=false title="Top books"/>
     `,
 };
 

@@ -5,6 +5,7 @@ import {
   ForgotPassword,
   Setting,
   EditProfile,
+  MyCart,
 } from "./pages/index.js";
 
 import { Footer, Navbar } from "./components/index.js";
@@ -19,6 +20,7 @@ const App = {
     EditProfile,
     Footer,
     Navbar,
+    MyCart,
   },
   data() {
     return {

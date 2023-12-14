@@ -17,8 +17,7 @@ const BookItem = {
           <h5 class="card-title">{{movie.title}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">100.000d</h6>
           <p class="card-text bookcard-decription">{{movie.description}}</p>
-          <button class="btn btn-outline-primary mr-2 mb-2"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-          <button class="btn btn-outline-primary"> Mua ngay</button>
+          <slot/>
         </div>
       </div>
     </div>
