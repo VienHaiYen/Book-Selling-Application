@@ -1,22 +1,29 @@
-import { Dropdown } from './index.js';
+import { Dropdown } from "./Dropdown.js";
+import { Avatar } from "./Avatar.js";
 
 const Navbar = {
+  props: {
+    isLogin: Boolean,
+    avatarImg: String,
+  },
   components: {
     Dropdown,
+    Avatar,
   },
   data() {
     return {
       categories: [],
-    }
+    };
   },
   methods: {
     navigation(screen) {
-      this.$emit('changeView', screen);
-    }
+      this.$emit("changeView", screen);
+    },
   },
   mounted() {
+    console.log(this.isLogin);
     axios
-      .get('/categories')
+      .get("/categories")
       .then((res) => {
         this.categories = res.data;
       })
@@ -24,8 +31,7 @@ const Navbar = {
         console.error(err);
       });
   },
-  template:
-    `
+  template: `
     <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" @click="this.navigation('home')">MeBook</a>
@@ -51,10 +57,12 @@ const Navbar = {
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
-        </div>
+          <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
+          <Avatar v-if="isLogin" style="margin-left:20px" :source="avatarImg" size="40px" />
+          </div>
       </div>
     </nav>
-    `
+    `,
 };
 
 export { Navbar };
