@@ -26,7 +26,8 @@ const Home = {
       });
   },
   template: `
-      <BookItemList />
+      <Banner />
+      <BookItemList title="Top books"/>
     `,
 };
 

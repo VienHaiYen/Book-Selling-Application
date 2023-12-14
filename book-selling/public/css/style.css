@@ -29,9 +29,18 @@
 }
 
 .indicators {
-    background-color: #9e9e9e !important;
+  background-color: #9e9e9e !important;
 }
 
 .img-fluid.avartar.hover {
   opacity: 0.5;
+}
+
+.bookcard-decription {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
