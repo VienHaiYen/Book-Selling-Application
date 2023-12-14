@@ -7,7 +7,7 @@ import {
   EditProfile,
 } from "./pages/index.js";
 
-import { Footer, Navbar } from './components/index.js';
+import { Footer, Navbar } from "./components/index.js";
 
 const App = {
   components: {
@@ -22,21 +22,20 @@ const App = {
   },
   data() {
     return {
-      view: 'Home',
+      view: "Home",
+      isLogin: true,
+      avatarImg:
+        "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
     };
   },
   methods: {
     changeView(type) {
-      if (type === "setting") {
-        this.view = "Setting"
-      }
-      if (type === "home") {
-        this.view = "Home"
-      }
+      console.log(type);
+      this.view = type;
     },
   },
   template: `
-    <Navbar @changeView="changeView" />
+    <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
     <component :is="view" @changeView="changeView"></component>
     <Footer />
   `,
