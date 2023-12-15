@@ -43,12 +43,6 @@ const Navbar = {
                 Home
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" @click="this.navigation('setting')">
-                <i class="fa-solid fa-user icon" />
-                Profile
-              </a>
-            </li>
             <li class="nav-item dropdown">
               <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" />
             </li>
@@ -58,7 +52,9 @@ const Navbar = {
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
           <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
-          <Avatar v-if="isLogin" style="margin-left:20px" :source="avatarImg" size="40px" />
+          <Avatar v-if="isLogin" style="margin-left:20px" :source="avatarImg" size="40px" @click="this.navigation('setting')" />
+
+          <button v-if="isLogin" class="btn ml-2  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
           </div>
       </div>
     </nav>

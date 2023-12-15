@@ -7,4 +7,6 @@ export * from "./OTPForm.js";
 export * from "./ResetPasswordForm.js";
 export * from "./TextInput.js";
 export * from "./HorrizontalBookCard.js";
+export * from "./BookItem.js";
+export * from "./BookItemList.js";
 export * from "./Avatar.js";

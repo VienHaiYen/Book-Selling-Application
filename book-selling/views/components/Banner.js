@@ -1,11 +1,11 @@
-import state from '../stores/app-state.js';
+import state from "../stores/app-state.js";
 
 const Banner = {
   data() {
     return {
       state,
       activeBanner: 0,
-    }
+    };
   },
   methods: {
     viewNext() {
@@ -21,14 +21,13 @@ const Banner = {
       }
     },
     buttonClick(page) {
-      this.activeBanner = page
+      this.activeBanner = page;
     },
     selectMovie(id) {
-      console.log(id)
-    }
+      console.log(id);
+    },
   },
-  template:
-    `
+  template: `
     <div id="bannerview" class="d-flex mt-2 mb-2 w-100 justify-content-around">
       <button class="banner-control d-flex align-items-center" type="button" @click="this.viewPrev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -38,7 +37,6 @@ const Banner = {
         <div class="carousel-indicators">
           <button type="button"  v-for="(movie,index) in state.bannerList.slice(0,5)" data-bs-target="#carousel-indicators" :data-bs-slide-to="index" :class="activeBanner==index?'active':''" class="indicators" aria-label="Slide 1" @click="this.buttonClick(index)"></button>
         </div>
-      
         <div class="carousel-inner" v-for="(movie,index) in state.bannerList.slice(0,5)" data-bs-interval="10000">
           <div class="carousel-item" :class="index==this.activeBanner?'active':''" @click="selectMovie(movie.id)" style="cursor:pointer;">
             <img :src="movie.thumbnail" class="d-block w-30" alt="movie.title" >
@@ -54,7 +52,7 @@ const Banner = {
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    `
+    `,
 };
 
 export { Banner };

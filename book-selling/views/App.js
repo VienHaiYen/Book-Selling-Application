@@ -5,9 +5,12 @@ import {
   ForgotPassword,
   Setting,
   EditProfile,
+  MyCart,
+  BookDetail,
 } from "./pages/index.js";
 
 import { Footer, Navbar } from "./components/index.js";
+import state from "../stores/app-state.js";
 
 const App = {
   components: {
@@ -19,6 +22,8 @@ const App = {
     EditProfile,
     Footer,
     Navbar,
+    MyCart,
+    BookDetail,
   },
   data() {
     return {
@@ -34,6 +39,17 @@ const App = {
       this.view = type;
     },
   },
+  async created() {
+    await axios
+      .get("/books")
+      .then((res) => {
+        state.bannerList = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
+  mounted() {},
   template: `
     <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
     <component :is="view" @changeView="changeView"></component>

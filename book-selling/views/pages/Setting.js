@@ -23,7 +23,6 @@ const Setting = {
           <div class="col-lg-4">
             <div class="card mb-4">
               <div class="card-body text-center">
-               
                 <Avatar source="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" size="150px" />
                 <h5 class="my-3">John Smith</h5>
                 <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>

@@ -1,34 +1,22 @@
-import { Banner, Navbar, TextInput } from '../components/index.js';
+import { Banner, TextInput, BookItemList } from "../components/index.js";
 
-import state from '../stores/app-state.js';
+import state from "../stores/app-state.js";
 
 const Home = {
   data() {
-    return {
-      books: [],
-    };
+    return {};
   },
   components: {
     Banner,
-    Navbar,
     TextInput,
+    BookItemList,
   },
   methods: {},
-  mounted() {
-    axios
-      .get('/books')
-      .then((res) => {
-        this.books = res.data;
-        state.bannerList = res.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  },
-  template:
-    `
+  mounted() {},
+  template: `
       <Banner />
-    `
+      <BookItemList :isInCart=false title="Top books"/>
+    `,
 };
 
 export { Home };
