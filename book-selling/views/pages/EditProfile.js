@@ -16,8 +16,6 @@ const EditProfile = {
       e.target.querySelector("img").classList.remove("hover");
       e.target.querySelector(".icon").classList.add("d-none");
     },
-    test: (e) =>
-      console.log(e.target.parentElement.classList.contains("hover")),
   },
   mounted() {},
   template: `

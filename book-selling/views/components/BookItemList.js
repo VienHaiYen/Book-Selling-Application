@@ -15,8 +15,9 @@ const BookItemList = {
     BookItem,
   },
   methods: {},
+  created() {},
   mounted() {
-    // console.log(isIn   Cart);
+    // console.log(this.state.bannerList.bannerList.slice(0, 10));
   },
   template: `
       <div class="mx-2">

@@ -4,9 +4,7 @@ import state from "../stores/app-state.js";
 
 const Home = {
   data() {
-    return {
-      books: [],
-    };
+    return {};
   },
   components: {
     Banner,
@@ -14,17 +12,7 @@ const Home = {
     BookItemList,
   },
   methods: {},
-  mounted() {
-    axios
-      .get("/books")
-      .then((res) => {
-        this.books = res.data;
-        state.bannerList = res.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  },
+  mounted() {},
   template: `
       <Banner />
       <BookItemList :isInCart=false title="Top books"/>
