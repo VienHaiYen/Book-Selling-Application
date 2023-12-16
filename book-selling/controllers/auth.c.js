@@ -1,8 +1,8 @@
 const User = require("../models/user.m")
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
-const tokenOption = require("../config/tokenOption")
-const cookieOption = require("../config/cookieOption")
+const tokenOption = require("../configs/tokenOption")
+const cookieOption = require("../configs/cookieOption")
 
 module.exports = {
     signIn: async (req, res, next) => {
