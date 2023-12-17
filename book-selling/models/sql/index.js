@@ -3,7 +3,9 @@ const { join } = require('path');
 module.exports = {
     userSQL: {
         add: sql("user/add.sql"),
-        getByUserName: sql("user/getByUserName.sql")
+        getByUserName: sql("user/getByUserName.sql"),
+        get: sql("user/get.sql"),
+        count: sql("user/count.sql"),
     },
     // movieSQL: {
     //     add: sql("movie/add.sql"),

@@ -28,4 +28,14 @@ module.exports = class User {
             .then(user => new User(user))
 
     }
+
+    static async getAll(page, pageSize) {
+        const offset = pageSize * (page - 1);
+        return db.any(userSQL.get, [pageSize, offset])
+            .then(userList => userList.map(user => new User(user)));
+    }
+
+    static async count() {
+        return db.one(userSQL.count).then(data => data.count)
+    }
 }
