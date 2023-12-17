@@ -21,7 +21,6 @@ const Navbar = {
     },
   },
   mounted() {
-    console.log(this.isLogin);
     axios
       .get("/categories")
       .then((res) => {

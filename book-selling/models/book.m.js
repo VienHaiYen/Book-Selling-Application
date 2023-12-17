@@ -1,11 +1,19 @@
 const { pgp, db } = require("../configs/postgres.js");
 
 module.exports = {
-  getAll: async () => {
+  getAllBook: async () => {
     try {
       const rs = await db.many(`SELECT * FROM public."books"
       ORDER BY id ASC LIMIT 50`);
-      console.log("getdata", rs);
+      return rs;
+    } catch (err) {
+      return null;
+    }
+  },
+  getBookById: async (id) => {
+    try {
+      const rs = await db.oneOrNone(`SELECT * FROM public."books" as b
+      WHERE b.id = ${id}`)
       return rs;
     } catch (err) {
       return null;
