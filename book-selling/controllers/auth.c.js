@@ -7,14 +7,13 @@ const cookieOption = require("../configs/cookieOption")
 module.exports = {
     signIn: async (req, res, next) => {
         try {
-            const { username, password } = req.body
-            const user = new User({ username, password_hash: password })
+            const { username, password, role } = req.body
+            const user = new User({ username, password_hash: password, role })
             if (await User.getByUsername(user.username)) {
                 throw new Error("Username already in use")
             }
             const savedUser = await User.create(user)
-            const { role, ...userData } = savedUser
-            res.status(200).send(userData)
+            res.status(200).send(savedUser)
         } catch (error) {
             next(error)
         }
