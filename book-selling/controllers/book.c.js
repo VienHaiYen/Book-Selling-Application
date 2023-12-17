@@ -17,7 +17,6 @@ async function getBookById(req, res, next) {
   try {
     if (req.query && req.query?.id) {
       const rs = await Book.getBookById(req.query.id)
-      console.log(rs);
       return res.status(200).send(rs)
     } else {
       throw new Error()
