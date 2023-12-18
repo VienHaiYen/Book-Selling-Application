@@ -3,7 +3,7 @@ const { bookController } = require('../controllers');
 
 routers.get("/books", bookController.getAll);
 
-routers.get("/book/:bookId", bookController.getBookById);
+routers.get("/books/:bookId", bookController.getBookById);
 
 routers.get("/books/:bookTitle", bookController.getBookByTitle);
 
