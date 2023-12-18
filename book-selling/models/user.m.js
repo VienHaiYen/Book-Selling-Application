@@ -43,8 +43,13 @@ module.exports = class User {
 
     static async count() {
         return await db.one(userSQL.count).then(data => data.count)
+    }
+
+    static async getById(id) {
         return await db.oneOrNone(userSQL.getById, [id]).then(user => user ? new User(user) : null)
     }
 
+    async save() {
+        return await db.one(userSQL.update, [this.id, this.address, this.full_name, this.phone]).then(user => new User(user))
     }
 }

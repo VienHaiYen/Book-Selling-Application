@@ -25,6 +25,7 @@ module.exports.getAmount = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
 
 module.exports.getUser = async (req, res, next) => {
     try {
@@ -35,4 +36,21 @@ module.exports.getUser = async (req, res, next) => {
         next(error)
     }
 }
+
+module.exports.updateUser = async (req, res, next) => {
+    try {
+        const { userId } = req.params
+        if (userId != req.user.id) {
+            throw new Error('Forbidden')
+        }
+        const { address, full_name, phone } = req.body
+        const updateUser = new User({
+            ...req.user,
+            address, full_name, phone
+        })
+        const updatedUser = await updateUser.save()
+        res.send(updatedUser)
+    } catch (error) {
+        next(error)
+    }
 }

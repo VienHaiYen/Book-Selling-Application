@@ -7,6 +7,7 @@ module.exports = {
         get: sql("user/get.sql"),
         count: sql("user/count.sql"),
         getById: sql("user/getById.sql"),
+        update: sql("user/update.sql")
     },
     // movieSQL: {
     //     add: sql("movie/add.sql"),
