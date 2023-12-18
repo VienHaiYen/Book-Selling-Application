@@ -4,6 +4,7 @@ const router = require("express").Router();
 
 router.post("/signin", authController.signIn)
 router.post("/login", authController.login)
+router.post("/logout", authController.logout)
 
 // router.get("/logined", verifyUser(), (req, res, next) => { res.send("logined") })
 // router.get("/admin", verifyUser(User.roles.admin), (req, res, next) => { res.send("admin") })

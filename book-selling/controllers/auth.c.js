@@ -1,19 +1,19 @@
 const User = require("../models/user.m")
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
-const tokenOption = require("../config/tokenOption")
-const cookieOption = require("../config/cookieOption")
+const tokenOption = require("../configs/tokenOption")
+const cookieOption = require("../configs/cookieOption")
 
 module.exports = {
     signIn: async (req, res, next) => {
         try {
-            const user = new User(req.body)
+            const { username, password, role } = req.body
+            const user = new User({ username, password_hash: password, role })
             if (await User.getByUsername(user.username)) {
                 throw new Error("Username already in use")
             }
             const savedUser = await User.create(user)
-            const { role, ...userData } = savedUser
-            res.status(200).send(userData)
+            res.status(200).send(savedUser)
         } catch (error) {
             next(error)
         }
@@ -21,13 +21,13 @@ module.exports = {
 
     login: async (req, res, next) => {
         try {
-            const user = new User(req.body)
-            const userDb = await User.getByUsername(user.username);
+            const { username, password } = req.body
+            const userDb = await User.getByUsername(username);
             if (!userDb) {
                 throw new Error("Username not exist")
             }
 
-            const checkResult = await bcrypt.compare(user.password, userDb.password)
+            const checkResult = await bcrypt.compare(password, userDb.password_hash)
             if (!checkResult) {
                 throw new Error("Password incorrect")
             }
@@ -38,6 +38,15 @@ module.exports = {
             )
             res.cookie('aToken', accessToken, cookieOption)
             res.send(userDb)
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    logout: async (req, res, next) => {
+        try {
+            res.clearCookie('aToken', cookieOption)
+            res.send("Logout successful")
         } catch (error) {
             next(error)
         }
