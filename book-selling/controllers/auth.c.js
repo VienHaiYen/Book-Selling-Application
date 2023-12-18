@@ -24,7 +24,7 @@ module.exports = {
             const { email, password } = req.body
             const userDb = await User.getByEmail(email);
             if (!userDb) {
-                throw new Error("Email not exist")
+                throw new Error("User does not exist")
             }
 
             const checkResult = await bcrypt.compare(password, userDb.password_hash)
