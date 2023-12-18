@@ -25,4 +25,14 @@ module.exports.getAmount = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+
+module.exports.getUser = async (req, res, next) => {
+    try {
+        const { userId } = req.params
+        const user = await User.getById(userId)
+        res.send(user)
+    } catch (error) {
+        next(error)
+    }
+}
 }

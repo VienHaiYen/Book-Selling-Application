@@ -16,6 +16,10 @@ const paginationResponse = (total, page, records) => {
     }
 }
 
+const getOffset = (page, pageSize) => {
+    return pageSize * (page - 1)
+}
+
 module.exports = {
-    paginationResponse
+    paginationResponse, getOffset
 }
