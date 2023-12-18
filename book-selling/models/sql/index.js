@@ -15,7 +15,9 @@ module.exports = {
         getAll: sql("book/getAll.sql"),
         getById: sql("book/getById.sql"),
         getByTitle: sql("book/getByTitle.sql"),
-        getCategories: sql("book/getCategories.sql")
+    },
+    categorySQL: {
+        getAll: sql("category/getAll.sql")
     },
     // movieSQL: {
     //     add: sql("movie/add.sql"),

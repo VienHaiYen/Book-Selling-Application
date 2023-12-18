@@ -30,6 +30,7 @@ app.get("/", function(req, res) {
 });
 
 app.use("/", routers.bookRouter);
+app.use("/", routers.categoryRouter);
 
 app.use((err, req, res, next) => {
   console.error(err)

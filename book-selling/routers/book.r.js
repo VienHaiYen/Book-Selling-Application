@@ -7,6 +7,4 @@ routers.get("/books/:bookId", bookController.getBookById);
 
 routers.get("/books/:bookTitle", bookController.getBookByTitle);
 
-routers.get("/categories", bookController.getCategories);
-
 module.exports = routers;

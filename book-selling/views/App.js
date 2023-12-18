@@ -35,7 +35,6 @@ const App = {
   },
   methods: {
     changeView(type) {
-      console.log(type);
       this.view = type;
     },
   },

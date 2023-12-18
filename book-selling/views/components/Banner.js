@@ -47,9 +47,9 @@ const Banner = {
       </button>
       <div id="carousel-banner" class="carousel" data-bs-ride="carousel">
         <div class="carousel-indicators">
-          <button type="button" v-for="(book,index) in state.bannerList.data.slice(0,5)" data-bs-target="#carousel-indicators" :data-bs-slide-to="index" :class="activeBanner==index?'active':''" class="indicators" aria-label="Slide 1" @click="this.buttonClick(index)"></button>
+          <button type="button" v-for="(book,index) in state.bannerList?.data.slice(0,5)" data-bs-target="#carousel-indicators" :data-bs-slide-to="index" :class="activeBanner == index ? 'active' : ''" class="indicators" aria-label="Slide 1" @click="this.buttonClick(index)"></button>
         </div>
-        <div class="carousel-inner" v-for="(book,index) in state.bannerList.data.slice(0,5)" data-bs-interval="10000">
+        <div class="carousel-inner" v-for="(book,index) in state.bannerList?.data.slice(0,5)" data-bs-interval="10000">
           <div class="carousel-item" :class="index==this.activeBanner?'active':''" @click="selectBook(book.id)" style="cursor:pointer;">
             <BookItem :book="book" :key="index" />
           </div>

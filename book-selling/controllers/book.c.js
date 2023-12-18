@@ -58,22 +58,8 @@ async function getBookByTitle(req, res, next) {
   }
 }
 
-async function getCategories(req, res, next) {
-  try {
-    const rs = await Book.getCategories()
-    if (rs === null) {
-      throw new Error()
-    } else {
-      return res.status(200).send(rs)
-    }
-  } catch (err) {
-    next(err)
-  }
-}
-
 module.exports = {
   getAll,
   getBookById,
   getBookByTitle,
-  getCategories,
 }
