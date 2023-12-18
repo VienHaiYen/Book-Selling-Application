@@ -14,5 +14,15 @@ module.exports.getUserList = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
 
+module.exports.getAmount = async (req, res, next) => {
+    try {
+        const amount = await User.count();
+        res.send({
+            amount: amount
+        })
+    } catch (error) {
+        next(error)
+    }
 }
