@@ -23,8 +23,8 @@ app.set("views", "views");
 // const options = { root: path.join(__dirname, "../views") };
 
 const routers = require("./routers")
+app.use("/users", routers.userRouter)
 app.use("/", routers.authRouter)
-
 app.get("/", function(req, res) {
   res.sendFile("./views/index.html", options);
 });

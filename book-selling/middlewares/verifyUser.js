@@ -3,11 +3,11 @@ const { User } = require("../models")
 
 const verifyAccessToken = async (token) => {
     try {
-        const { username } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        const user = await User.getByUsername(username)
+        const { email } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        const user = await User.getByEmail(email)
         return user
     } catch (error) {
-        throw new Error("Token expired")
+        throw new Error("Token invalid")
     }
 }
 
@@ -29,4 +29,6 @@ const verifyUser = (role) => async (req, res, next) => {
     }
 }
 
-module.exports = verifyUser
+
+
+module.exports = { verifyUser }
