@@ -15,7 +15,7 @@ const BookItem = {
         <img :src="book.thumbnail" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{book.title}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">100.000d</h6>
+          <h6 class="card-subtitle mb-2 text-muted">100.000d</h6>
           <p class="card-text bookcard-decription">{{book.description}}</p>
           <slot/>
         </div>
