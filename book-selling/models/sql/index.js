@@ -11,6 +11,7 @@ module.exports = {
         delete: sql("user/delete.sql")
     },
     bookSQL: {
+        addBook: sql("book/addBook.sql"),
         getAll: sql("book/getAll.sql"),
         getById: sql("book/getById.sql"),
         getByTitle: sql("book/getByTitle.sql"),

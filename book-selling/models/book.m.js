@@ -46,4 +46,11 @@ module.exports = class Book {
       return null;
     }
   }
+
+  static async addBook(book) {
+    const newBook = new Book(book)
+    return await db.one(bookSQL.addBook,
+      [newBook.id, newBook.title, newBook.language, newBook.description, newBook.thumbnail, newBook.publisher, newBook.published_year, newBook.page_count]
+    ).then((book) => newBook(book))
+  }
 };
