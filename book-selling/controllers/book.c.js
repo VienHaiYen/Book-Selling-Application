@@ -1,13 +1,20 @@
 const { Book } = require('../models');
+const { paginationResponse } = require("../helpers/pagination")
 
 async function getAll(req, res, next) {
   try {
-    const rs = await Book.getAllBook()
-    if (rs === null) {
-      throw new Error()
-    } else {
-      return res.status(200).send(rs)
+    let { page = "1", pageSize = "10" } = req.query
+    page = parseInt(page)
+    pageSize = parseInt(pageSize)
+
+    let totalRecord = 0
+
+    const rs = await Book.getAll(page, pageSize)
+    if (rs.length > 0) {
+      totalRecord = Number(rs[0].count)
+      res.send(paginationResponse(totalRecord, page, rs))
     }
+
   } catch (err) {
     next(err)
   }
@@ -15,11 +22,36 @@ async function getAll(req, res, next) {
 
 async function getBookById(req, res, next) {
   try {
-    if (req.query && req.query?.id) {
-      const rs = await Book.getBookById(req.query.id)
+    const { bookId } = req.params
+
+    if (bookId) {
+      const rs = await Book.getBookById(bookId)
       return res.status(200).send(rs)
     } else {
-      throw new Error()
+      return res.status(200).send({})
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
+async function getBookByTitle(req, res, next) {
+  try {
+    const { bookTitle } = req.params
+    let { page = "1", pageSize = "10" } = req.query
+    page = parseInt(page)
+    pageSize = parseInt(pageSize)
+
+    let totalRecord = 0
+
+    if (bookTitle && bookTitle.length > 0) {
+      const rs = await Book.getBooksByTitle(bookTitle, page, pageSize)
+      if (rs.length > 0) {
+        totalRecord = Number(rs[0].count)
+        res.send(paginationResponse(totalRecord, page, rs))
+      }
+    } else {
+      return res.status(200).send([])
     }
   } catch (err) {
     next(err)
@@ -42,5 +74,6 @@ async function getCategories(req, res, next) {
 module.exports = {
   getAll,
   getBookById,
+  getBookByTitle,
   getCategories,
 }
