@@ -10,6 +10,15 @@ module.exports = {
         update: sql("user/update.sql"),
         delete: sql("user/delete.sql")
     },
+    bookSQL: {
+        addBook: sql("book/addBook.sql"),
+        getAll: sql("book/getAll.sql"),
+        getById: sql("book/getById.sql"),
+        getByTitle: sql("book/getByTitle.sql"),
+    },
+    categorySQL: {
+        getAll: sql("category/getAll.sql")
+    },
     // movieSQL: {
     //     add: sql("movie/add.sql"),
     //     add_Movie_Cast: sql("movie/add_movie_cast.sql"),

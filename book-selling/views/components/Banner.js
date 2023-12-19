@@ -1,11 +1,16 @@
 import state from "../stores/app-state.js";
 
+import { BookItem } from './BookItem.js';
+
 const Banner = {
   data() {
     return {
       state,
       activeBanner: 0,
     };
+  },
+  components: {
+    BookItem,
   },
   methods: {
     viewNext() {
@@ -23,8 +28,15 @@ const Banner = {
     buttonClick(page) {
       this.activeBanner = page;
     },
-    selectMovie(id) {
-      console.log(id);
+    async selectBook(id) {
+      await axios
+        .get(`/books/${id}`)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
     },
   },
   template: `
@@ -35,15 +47,11 @@ const Banner = {
       </button>
       <div id="carousel-banner" class="carousel" data-bs-ride="carousel">
         <div class="carousel-indicators">
-          <button type="button"  v-for="(movie,index) in state.bannerList.slice(0,5)" data-bs-target="#carousel-indicators" :data-bs-slide-to="index" :class="activeBanner==index?'active':''" class="indicators" aria-label="Slide 1" @click="this.buttonClick(index)"></button>
+          <button type="button" v-for="(book,index) in state.bannerList?.data.slice(0,5)" data-bs-target="#carousel-indicators" :data-bs-slide-to="index" :class="activeBanner == index ? 'active' : ''" class="indicators" aria-label="Slide 1" @click="this.buttonClick(index)"></button>
         </div>
-        <div class="carousel-inner" v-for="(movie,index) in state.bannerList.slice(0,5)" data-bs-interval="10000">
-          <div class="carousel-item" :class="index==this.activeBanner?'active':''" @click="selectMovie(movie.id)" style="cursor:pointer;">
-            <img :src="movie.thumbnail" class="d-block w-30" alt="movie.title" >
-            <div class="carousel-caption text-danger d-none d-md-block">
-              <h5>{{movie.title}}</h5>
-              <p class="text-truncate">{{movie.description}}</p>
-            </div>
+        <div class="carousel-inner" v-for="(book,index) in state.bannerList?.data.slice(0,5)" data-bs-interval="10000">
+          <div class="carousel-item" :class="index==this.activeBanner?'active':''" @click="selectBook(book.id)" style="cursor:pointer;">
+            <BookItem :book="book" :key="index" />
           </div>
         </div>
       </div>

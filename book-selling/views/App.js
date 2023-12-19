@@ -35,7 +35,6 @@ const App = {
   },
   methods: {
     changeView(type) {
-      console.log(type);
       this.view = type;
     },
   },
@@ -49,7 +48,7 @@ const App = {
         console.error(err);
       });
   },
-  mounted() {},
+  mounted() { },
   template: `
     <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
     <component :is="view" @changeView="changeView"></component>
