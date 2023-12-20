@@ -48,10 +48,11 @@ const App = {
         console.error(err);
       });
   },
-  mounted() { },
+  mounted() {},
+  // <component :is="view" @changeView="changeView"></component>
   template: `
     <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
-    <component :is="view" @changeView="changeView"></component>
+    <BookDetail id="10"/>
     <Footer />
   `,
 };
