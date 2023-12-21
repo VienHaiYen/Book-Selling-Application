@@ -14,3 +14,4 @@ export * from "./MyCart.js";
 
 export * from "./AdminHome.js";
 export * from "./AdminBooks.js";
+export * from "./User.js";

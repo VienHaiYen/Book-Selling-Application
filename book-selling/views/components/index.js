@@ -14,5 +14,6 @@ export * from "./Avatar.js";
 // admin
 export * from "./SidebarAdmin.js";
 export * from "./AdminSearch.js";
-
+export * from "./UserItem.js";
+export * from "./UserList.js";
 // charts

@@ -1,4 +1,4 @@
-import { AdminHome, AdminBooks } from "./pages/index.js";
+import { AdminHome, AdminBooks, User } from "./pages/index.js";
 
 import { SidebarAdmin, Footer } from "./components/index.js";
 import state from "../stores/app-state.js";
@@ -9,6 +9,7 @@ const AdminApp = {
     AdminBooks,
     SidebarAdmin,
     Footer,
+    User,
   },
   data() {
     return {
@@ -38,7 +39,7 @@ const AdminApp = {
   template: `
     <div class= "d-flex">
       <SidebarAdmin @changeView="changeView" :avatarImg="avatarImg"/>
-      <component is="AdminBooks" @changeView="changeView"></component>
+      <component :is="view" @changeView="changeView"></component>
     </div>
     <Footer />
   `,
