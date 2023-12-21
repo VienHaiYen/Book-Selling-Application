@@ -16,7 +16,7 @@ const AdminBooks = {
   template: `
     <div d-flex>
       <AdminSearch />
-      <BookItemList :isInCart=false title="All books"/>
+      <BookItemList :isInCart=true :isAdmin=true title="All books"/>
 
     </div>
   `,

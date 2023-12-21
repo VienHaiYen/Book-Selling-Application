@@ -5,6 +5,7 @@ const BookItemList = {
   props: {
     title: String,
     isInCart: Boolean,
+    isAdmin: Boolean,
   },
   data() {
     return {
@@ -15,8 +16,8 @@ const BookItemList = {
     BookItem,
   },
   methods: {},
-  created() { },
-  mounted() { },
+  created() {},
+  mounted() {},
   template: `
       <div class="mx-2">
         <h2>{{this.title}}</h2>
@@ -25,6 +26,10 @@ const BookItemList = {
            <div v-if="!isInCart">
               <button class="btn btn-outline-primary mr-2 mb-2"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
               <button class="btn btn-outline-primary"> Mua ngay</button>
+           </div>
+           <div v-if="isInCart" class=" mb-2 d-flex justify-content-between">
+              <button class="btn btn-outline-primary mr-2"><i class="fas fa-edit"></i> Chỉnh sửa</button>
+              <button class="btn btn-danger"> Xóa </button>
            </div>
           </BookItem>
         </div>
