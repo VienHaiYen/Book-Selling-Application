@@ -1,33 +1,18 @@
-import {
-  Home,
-  SignIn,
-  Register,
-  ForgotPassword,
-  Setting,
-  EditProfile,
-  MyCart,
-  BookDetail,
-} from "./pages/index.js";
+import { AdminHome, AdminBooks } from "./pages/index.js";
 
-import { Footer, Navbar } from "./components/index.js";
+import { SidebarAdmin, Footer } from "./components/index.js";
 import state from "../stores/app-state.js";
 
-const App = {
+const AdminApp = {
   components: {
-    Home,
-    SignIn,
-    Register,
-    ForgotPassword,
-    Setting,
-    EditProfile,
+    AdminHome,
+    AdminBooks,
+    SidebarAdmin,
     Footer,
-    Navbar,
-    MyCart,
-    BookDetail,
   },
   data() {
     return {
-      view: "Home",
+      view: "AdminHome",
       isLogin: true,
       avatarImg:
         "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
@@ -49,11 +34,14 @@ const App = {
       });
   },
   mounted() {},
+  // <component :is="view" @changeView="changeView"></component>
   template: `
-  <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
-    <component :is="view" @changeView="changeView"></component>
-  <Footer />
+    <div class= "d-flex">
+      <SidebarAdmin @changeView="changeView" :avatarImg="avatarImg"/>
+      <component is="AdminBooks" @changeView="changeView"></component>
+    </div>
+    <Footer />
   `,
 };
 
-export default App;
+export default AdminApp;
