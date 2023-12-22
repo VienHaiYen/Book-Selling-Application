@@ -8,7 +8,7 @@ const BookItem = {
     };
   },
   methods: {},
-  mounted() { },
+  mounted() {},
   template: `
     <div class="m-2 col" style="minWidth:14rem ; maxWidth:18rem">
       <div class="card">
