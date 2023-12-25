@@ -11,3 +11,4 @@ export * from "./BookDetail.js";
 export * from "./Setting.js";
 export * from "./EditProfile.js";
 export * from "./MyCart.js";
+export * from "./OrderSummary.js";

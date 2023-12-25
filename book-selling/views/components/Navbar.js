@@ -10,6 +10,7 @@ const Navbar = {
     Dropdown,
     Avatar,
   },
+  emits: ["changeView"],
   data() {
     return {
       categories: [],

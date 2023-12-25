@@ -7,6 +7,7 @@ import {
   EditProfile,
   MyCart,
   BookDetail,
+  OrderSummary,
 } from "./pages/index.js";
 
 import { Footer, Navbar } from "./components/index.js";
@@ -24,18 +25,19 @@ const App = {
     Navbar,
     MyCart,
     BookDetail,
+    OrderSummary,
   },
   data() {
     return {
-      view: "Home",
       isLogin: true,
       avatarImg:
         "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
+      state,
     };
   },
   methods: {
     changeView(type) {
-      this.view = type;
+      state.view = type;
     },
   },
   async created() {
@@ -48,11 +50,13 @@ const App = {
         console.error(err);
       });
   },
+  // / <BookDetail id="10"/>
   mounted() {},
   // <component :is="view" @changeView="changeView"></component>
+  // <component :is="state.view"></component>
   template: `
     <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
-    <BookDetail id="10"/>
+ <component :is="state.view"></component>
     <Footer />
   `,
 };
