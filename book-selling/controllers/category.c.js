@@ -28,7 +28,20 @@ async function getById(req, res, next) {
   }
 }
 
+async function add(req, res, next) {
+  try {
+    const cate = new Category(req.body)
+    const rs = await Category.add(cate)
+    if (rs.id) {
+      res.status(200).send("Add Success")
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   getAll,
   getById,
+  add,
 }

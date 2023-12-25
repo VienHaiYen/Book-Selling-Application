@@ -19,9 +19,14 @@ module.exports = class Category {
 
   static async getById(id) {
     try {
-      return await db.oneOrNone(categorySQL.getById, [id]).then((book) => new Category(book))
+      return await db.oneOrNone(categorySQL.getById, [id]).then((cate) => new Category(cate))
     } catch (err) {
       return null;
     }
+  }
+
+  static async add(cat) {
+    const newCat = new Category(cat)
+    return await db.one(bookSQL.add, [newCat.name]).then((cate) => new Category(cate))
   }
 };
