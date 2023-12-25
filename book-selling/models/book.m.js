@@ -53,4 +53,26 @@ module.exports = class Book {
       [newBook.title, newBook.language, newBook.description, newBook.thumbnail, newBook.publisher, newBook.published_year, newBook.page_count]
     ).then((book) => new Book(book))
   }
+
+  static async updateBook(bookId, updateData) {
+    let sql = 'UPDATE public."books" SET';
+
+    const params = [];
+
+    for (let key in updateData) {
+      if (updateData.hasOwnProperty(key)) {
+        const value = updateData[key];
+        if (value !== undefined) {
+          sql += ` ${key} = $${params.length + 1},`;
+          params.push(value);
+        }
+      }
+    }
+
+    // Remove trailing comma and add WHERE clause
+    sql = sql.slice(0, -1) + ` WHERE id = ${bookId} RETURNING *;`;
+
+    return await db.oneOrNone(sql, params).then((book) => new Book(book))
+  }
+
 };

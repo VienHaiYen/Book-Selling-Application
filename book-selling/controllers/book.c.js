@@ -58,6 +58,7 @@ async function getBookByTitle(req, res, next) {
   }
 }
 
+// Remember to use Content-Type: application/json
 async function addBook(req, res, next) {
   try {
     const book = new Book(req.body)
@@ -73,10 +74,13 @@ async function addBook(req, res, next) {
 async function updateBook(req, res, next) {
   try {
     const { bookId } = req.params
+    const updateData = req.body
 
-    if (bookId) {
-      const rs = await Book.getBookById(bookId)
-      return res.status(200).send(rs)
+    const checkBook = await Book.getBookById(bookId)
+
+    if (checkBook && checkBook.id) {
+      const rs = await Book.updateBook(bookId, updateData)
+      return res.status(200).send("Update Success")
     } else {
       return res.status(400).send("Book Not Found")
     }
@@ -90,4 +94,5 @@ module.exports = {
   getBookById,
   getBookByTitle,
   addBook,
+  updateBook,
 }
