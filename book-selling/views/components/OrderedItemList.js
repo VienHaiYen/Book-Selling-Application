@@ -24,31 +24,30 @@ const OrderedItemList = {
       selectedIds.includes(item.id)
     );
   },
-
   template: `
-      <div class="shopping-order">
-  
-        <div class="shopping-cart-title">
-           CHECK OUT
-        </div>
- 
-<div class="order-item">
- 
-    <div>
-      
-    </div>
- 
-    <div>Item</div>
- 
-    <div>Quantity</div>
- 
-    <div>Total</div>
-   
-  </div>
+<div class="shopping-order">
 
-        <OrderedItem v-for="(item,index) in this.selectedItems" :item="item" :key="item.id">
-          
-        </OrderedItem>
+    <fieldset class="border p-2 order-fieldset">
+   <legend  class="w-auto order-legend">Ordered Items</legend>
+
+    <div class="order-item">
+
+        <div>
+
+        </div>
+
+        <div>Item</div>
+
+        <div>Quantity</div>
+
+        <div>Total</div>
+
+    </div>
+
+    <OrderedItem v-for="(item,index) in this.selectedItems" :item="item" :key="item.id">
+
+    </OrderedItem>
+    </fieldset>
 </div>
   `,
 };

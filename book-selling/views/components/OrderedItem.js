@@ -20,7 +20,7 @@ const OrderedItem = {
  
     <div class="order-description">
       <span>{{item.title}}</span>
-      <span>{{item.unit_price}}</span>
+      <span><i class="fa-solid fa-dollar-sign"></i>{{item.unit_price}}</span>
     </div>
  
     <div class="order-quantity">
@@ -29,7 +29,7 @@ const OrderedItem = {
      
     </div>
  
-    <div class="item-total-price">{{item.quantity*item.unit_price}}</div>
+    <div class="item-total-price"><i class="fa-solid fa-dollar-sign"></i>{{item.quantity*item.unit_price}}</div>
    
   </div>
   `,

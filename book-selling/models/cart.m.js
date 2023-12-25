@@ -2,8 +2,9 @@ const { db } = require("../configs/postgres.js");
 const { cartSQL } = require("./sql");
 
 class CartItem {
-  constructor({ id, title, quantity, unit_price, thumbnail }) {
+  constructor({ id, item_id, title, quantity, unit_price, thumbnail }) {
     this.id = id;
+    this.item_id = item_id;
     this.title = title;
     this.quantity = quantity;
     this.unit_price = unit_price;

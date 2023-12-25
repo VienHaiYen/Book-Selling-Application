@@ -32,6 +32,8 @@ app.get("/", function (req, res) {
 app.use("/", routers.bookRouter);
 app.use("/", routers.categoryRouter);
 app.use("/", routers.cartRouter);
+app.use("/", routers.inventoryRouter);
+app.use("/", routers.orderRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

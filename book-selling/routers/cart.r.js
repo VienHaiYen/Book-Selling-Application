@@ -1,6 +1,6 @@
-const routers = require("express").Router();
+const router = require("express").Router();
 const { cartController } = require("../controllers");
 
-routers.get("/myCart", cartController.getByUserId);
+router.get("/myCart", cartController.getByUserId);
 
-module.exports = routers;
+module.exports = router;

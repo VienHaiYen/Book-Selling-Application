@@ -3,6 +3,8 @@ const bookRouter = require("./book.r");
 const categoryRouter = require("./category.r");
 const userRouter = require("./user.r");
 const cartRouter = require("./cart.r");
+const inventoryRouter = require("./inventory.r");
+const orderRouter = require("./order.r");
 
 module.exports = {
   authRouter,
@@ -10,4 +12,6 @@ module.exports = {
   categoryRouter,
   userRouter,
   cartRouter,
+  inventoryRouter,
+  orderRouter,
 };

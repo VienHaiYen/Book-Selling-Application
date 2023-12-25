@@ -72,8 +72,8 @@ const CartItemList = {
 
 
 	<div class="cart-total-selected-sticky">
-		<div class="item-total-price">Total: <span id="">{{calculatedTotal }}</span></div>
-		<button class="btn btn-success"  @click="navigate('CheckOut')">Check out</button>
+		<div class="item-total-price text-bold">Total: <span><i class="fa-solid fa-dollar-sign"></i>{{calculatedTotal }}</span></div>
+		<button class="btn btn-success text-bold"  @click="navigate('OrderSummary')">Check out</button>
 	</div>
 </div>
   `,

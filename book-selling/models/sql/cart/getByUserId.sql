@@ -1,8 +1,9 @@
 SELECT
-    c.*,
+    u.id,
     array_agg(
         jsonb_build_object(
             'id', ci.id,
+            'item_id',ci.item_id,
             'quantity', ci.quantity,
             'title', b.title,
             'thumbnail', b.thumbnail,
@@ -10,14 +11,14 @@ SELECT
         )
     ) AS cart_items
 FROM
-    carts AS c
+    users AS u
 JOIN
-    cart_item AS ci ON c.id = ci.cart_id
+    cart_item AS ci ON u.id = ci.cart_id
 JOIN
     books AS b ON ci.item_id = b.id
 JOIN
     book_inventory AS bi ON ci.item_id = bi.book_id	
 WHERE
-    c.user_id = $1
+    u.id = $1
 GROUP BY
-    c.id;
+    u.id;

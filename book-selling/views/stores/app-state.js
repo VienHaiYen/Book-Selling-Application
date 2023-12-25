@@ -1,9 +1,9 @@
 const { reactive } = Vue;
 
 export default reactive({
-  view: "Home",
+  view: "MyCart",
   darkMode: false,
   bannerList: undefined,
   inCart: [],
-  inCartSelected: [],
+  inCartSelected: [1, 2, 3],
 });

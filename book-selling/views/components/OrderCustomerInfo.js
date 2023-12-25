@@ -1,6 +1,6 @@
 import state from "../stores/app-state.js";
 
-const ShippingInfo = {
+const OrderCustomerInfo = {
   props: {
     title: String,
   },
@@ -37,14 +37,12 @@ const ShippingInfo = {
 
   template: `
 <div class="shopping-order">
-
-	<div class="shopping-cart-title">
-		ORDER SUMMARY
-	</div>
+	 <fieldset class="border p-2 order-fieldset">
+   <legend  class="w-auto order-legend">Customer Information</legend>
 	<div class="card-body">
 	<div class="row">
 		<div class="col-sm-3">
-			<p class="mb-0">Full Name</p>
+			<p class="mb-0">Customer Name</p>
 		</div>
 		<div class="col-sm-9">
 			<p class="text-muted mb-0">Johnatan Smith</p>
@@ -79,22 +77,9 @@ const ShippingInfo = {
         </div>
 	</div>
     
-        <div class="row order-item">
- 
-    <div>
-      
-    </div>
- 
-    <div></div>
- 
-    <div>Total: </div>
- 
-    <div class="item-total-price">{{calculatedTotal}}</div>
-   
-  <button class="btn btn-success" >Purchase</button>
-</div>
-
+  
+</fieldset>
 </div>
   `,
 };
-export { ShippingInfo };
+export { OrderCustomerInfo };

@@ -22,6 +22,14 @@ module.exports = {
   cartSQL: {
     getByUserId: sql("cart/getByUserId.sql"),
   },
+  inventorySQL: {
+    getAvailableQuantity: sql("inventory/getAvailableQuantity.sql"),
+    checkAvailableQuantity: sql("inventory/checkAvailableQuantity.sql"),
+  },
+  orderSQL: {
+    makeNewOrder: sql("order/makeNewOrder.sql"),
+    getOrderById: sql("order/getOrderById.sql"),
+  },
   // movieSQL: {
   //     add: sql("movie/add.sql"),
   //     add_Movie_Cast: sql("movie/add_movie_cast.sql"),

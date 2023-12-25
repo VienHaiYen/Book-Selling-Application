@@ -230,9 +230,11 @@ input:focus {
 }
 
 .order-container {
-    width: 1100px;
-    display: grid;
-    grid-template-columns: 50% 50%;
+    width: 900px;
+    background-color: #FFFFFF;
+    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 6px;
+
 }
 
 .order-item {
@@ -244,14 +246,14 @@ input:focus {
 }
 
 .shopping-order {
-    width: 500px;
+    width: 80%;
     /* height: 423px; */
     margin: 10px auto;
     background: #FFFFFF;
-    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.10);
-    border-radius: 6px;
+
     display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 
 .order-image {
@@ -266,4 +268,49 @@ input:focus {
 .order-item:nth-child(n+3) {
     border-top: 1px solid #E1E8EE;
     border-bottom: 1px solid #E1E8EE;
+}
+
+.order-fieldset {
+    margin-bottom: 1em !important;
+    border: 1px solid #B6C4B6 !important;
+    padding: 1px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    border-radius: 1px;
+}
+
+.order-legend {
+    padding: 1px 10px !important;
+    float: none;
+    width: auto;
+}
+
+.total-checkout {
+    padding: 20px 30px;
+    /* height: 150px;
+        display: flex; */
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+
+}
+
+.text-bold {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.payment-method-group {
+    display: grid;
+    grid-template-columns: 3% 5% auto;
+    grid-column-gap: 10px;
+    align-items: center;
+
+}
+
+.payment-method-name {
+    font-size: 18px !important;
+}
+
+.font-big {
+    font-size: 24px !important;
 }

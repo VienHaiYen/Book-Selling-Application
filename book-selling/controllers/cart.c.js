@@ -1,19 +1,19 @@
 const { Cart } = require("../models");
+const { commonSuccessfulResponse } = require("../helpers/successfulRes");
+const { commonErrorResponse } = require("../helpers/errorRes");
 const { paginationResponse } = require("../helpers/pagination");
 
 async function getByUserId(req, res, next) {
   try {
-    // let { page = "1", pageSize = "10" } = req.query;
-    // page = parseInt(page);
-    // pageSize = parseInt(pageSize);
+    user_id = req.body.user_id;
+    if (!user_id) {
+      return res
+        .status(400)
+        .json(commonErrorResponse("Invalid user id", user_id));
+    }
+    const rs = await Cart.getByUserId(user_id);
 
-    // let totalRecord = 0;
-    const rs = await Cart.getByUserId(1);
-    // if (rs.length > 0) {
-    //   totalRecord = Number(rs[0].count);
-    //   res.send(paginationResponse(totalRecord, page, rs));
-    // }
-    res.send(rs);
+    return res.json(commonSuccessfulResponse(rs));
   } catch (err) {
     next(err);
   }

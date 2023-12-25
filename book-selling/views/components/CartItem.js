@@ -16,7 +16,16 @@ const CartItem = {
     },
     decreaseQuantity() {
       //TODO check if increasement is available
-      if (this.item.quantity > 1) this.item.quantity--;
+      isAvailable = false;
+      axios
+        .post("/myCart/checkAvailable")
+        .then((res) => {
+          isAvailable = res.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      if (isAvailable) this.item.quantity--;
     },
     removeItem(id) {
       //TODO remove on DB
@@ -50,7 +59,7 @@ const CartItem = {
  
     <div class="description">
       <span>{{item.title}}</span>
-      <span>{{item.unit_price}}</span>
+      <span><i class="fa-solid fa-dollar-sign"></i>{{item.unit_price}}</span>
     </div>
  
     <div class="quantity">
@@ -63,7 +72,7 @@ const CartItem = {
       </button>
     </div>
  
-    <div class="item-total-price">{{item.quantity*item.unit_price}}</div>
+    <div class="item-total-price"><i class="fa-solid fa-dollar-sign"></i>{{item.quantity*item.unit_price}}</div>
      <button class="cart-delete-btn" type="button" name="button"  @click="this.removeItem(item.id)">
         <img class="cart-button-image" src="images/remove-item.svg" />
       </button>
