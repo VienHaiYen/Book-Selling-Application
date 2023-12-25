@@ -58,8 +58,36 @@ async function getBookByTitle(req, res, next) {
   }
 }
 
+async function addBook(req, res, next) {
+  try {
+    const book = new Book(req.body)
+    const rs = await Book.addBook(book)
+    if (rs.id) {
+      res.status(200).send("Add Success")
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
+async function updateBook(req, res, next) {
+  try {
+    const { bookId } = req.params
+
+    if (bookId) {
+      const rs = await Book.getBookById(bookId)
+      return res.status(200).send(rs)
+    } else {
+      return res.status(400).send("Book Not Found")
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   getAll,
   getBookById,
   getBookByTitle,
+  addBook,
 }
