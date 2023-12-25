@@ -23,7 +23,7 @@ module.exports = class Book {
     }
   }
 
-  static async getBookById(id) {
+  static async getById(id) {
     try {
       return await db.oneOrNone(bookSQL.getById, [id]).then((book) => new Book(book))
     } catch (err) {
@@ -31,7 +31,7 @@ module.exports = class Book {
     }
   }
 
-  static async getBooksByTitle(title, page, pageSize) {
+  static async getByTitle(title, page, pageSize) {
     try {
       return await db.manyOrNone(bookSQL.getByTitle, [`%${title}%`, pageSize, pageSize * (page - 1)]).then((books) => books.map((book) => new Book(book)))
     } catch (err) {
@@ -39,22 +39,14 @@ module.exports = class Book {
     }
   }
 
-  static async getCategories() {
-    try {
-      return await db.many(bookSQL.getCategories);
-    } catch (err) {
-      return null;
-    }
-  }
-
-  static async addBook(book) {
+  static async add(book) {
     const newBook = new Book(book)
-    return await db.one(bookSQL.addBook,
+    return await db.one(bookSQL.add,
       [newBook.title, newBook.language, newBook.description, newBook.thumbnail, newBook.publisher, newBook.published_year, newBook.page_count]
     ).then((book) => new Book(book))
   }
 
-  static async updateBook(bookId, updateData) {
+  static async update(bookId, updateData) {
     let sql = 'UPDATE public."books" SET';
 
     const params = [];

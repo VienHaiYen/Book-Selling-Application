@@ -16,4 +16,12 @@ module.exports = class Category {
       return null;
     }
   }
+
+  static async getById(id) {
+    try {
+      return await db.oneOrNone(categorySQL.getById, [id]).then((book) => new Category(book))
+    } catch (err) {
+      return null;
+    }
+  }
 };
