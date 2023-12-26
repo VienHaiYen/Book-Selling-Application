@@ -20,6 +20,7 @@ module.exports = {
     add: sql("category/add.sql"),
     getAll: sql("category/getAll.sql"),
     getById: sql("category/getById.sql"),
+    getBooks: sql("category/getBooks.sql"),
   },
   cartSQL: {
     getByUserId: sql("cart/getByUserId.sql"),

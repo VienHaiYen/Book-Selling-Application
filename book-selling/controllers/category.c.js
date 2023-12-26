@@ -21,7 +21,7 @@ async function getById(req, res, next) {
       const rs = await Category.getById(categoryId)
       return res.status(200).send(rs)
     } else {
-      return res.status(200).send({})
+      return res.status(404).send('Not Found')
     }
   } catch (err) {
     next(err)
