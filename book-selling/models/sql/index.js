@@ -21,6 +21,7 @@ module.exports = {
     getAll: sql("category/getAll.sql"),
     getById: sql("category/getById.sql"),
     getBooks: sql("category/getBooks.sql"),
+    update: sql("category/update.sql"),
   },
   cartSQL: {
     getByUserId: sql("cart/getByUserId.sql"),

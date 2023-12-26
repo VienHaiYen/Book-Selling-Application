@@ -40,8 +40,23 @@ async function add(req, res, next) {
   }
 }
 
+async function update(req, res, next) {
+  try {
+    const { categoryId } = req.params
+    const updateData = req.body
+
+    const rs = await Category.update(categoryId, updateData)
+    if (rs.id) {
+      res.status(200).send("Update Success")
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   getAll,
   getById,
   add,
+  update,
 }

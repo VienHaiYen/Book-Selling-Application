@@ -79,7 +79,7 @@ async function update(req, res, next) {
     const checkBook = await Book.getById(bookId)
 
     if (checkBook && checkBook.id) {
-      const rs = await Book.updateBook(bookId, updateData)
+      await Book.update(bookId, updateData)
       return res.status(200).send("Update Success")
     } else {
       return res.status(400).send("Book Not Found")

@@ -34,4 +34,10 @@ module.exports = class Category {
     const newCat = new Category(cat)
     return await db.one(categorySQL.add, [newCat.name]).then((cate) => new Category(cate))
   }
+
+  static async update(id, updateData) {
+    const params = [];
+    Object.values(updateData).map((value) => params.push(value))
+    return await db.oneOrNone(categorySQL.update, [id, ...params])
+  }
 };

@@ -51,19 +51,14 @@ module.exports = class Book {
 
     const params = [];
 
-    for (let key in updateData) {
-      if (updateData.hasOwnProperty(key)) {
-        const value = updateData[key];
-        if (value !== undefined) {
-          sql += ` ${key} = $${params.length + 1},`;
-          params.push(value);
-        }
+    Object.entries(updateData).map(([key, value]) => {
+      if (value !== undefined) {
+        sql += ` ${key} = $${params.length + 1},`;
+        params.push(value);
       }
-    }
+    })
 
-    // Remove trailing comma and add WHERE clause
     sql = sql.slice(0, -1) + ` WHERE id = ${bookId} RETURNING *;`;
-
     return await db.oneOrNone(sql, params).then((book) => new Book(book))
   }
 
