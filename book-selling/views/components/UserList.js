@@ -1,28 +1,15 @@
-import state from "../stores/app-state.js";
-import { BookItem } from "./BookItem.js";
+import { UserItem } from "./UserItem.js";
 
-const BookItemList = {
-  props: {
-    title: String,
-    isInCart: Boolean,
-    isAdmin: Boolean,
-  },
-  data() {
-    return {
-      state,
-    };
-  },
+const UserList = {
+  props: {},
   components: {
-    BookItem,
+    UserItem,
   },
-  methods: {},
-  created() {},
-  mounted() {},
   template: `
-      <div class="mx-2">
-        <h2>{{this.title}}</h2>
+    <div class="mx-2">
+        <h2>Danh sách người dùng</h2>
         <div class="m-0 d-flex flex-wrap justify-content-start ">
-          <BookItem v-for="(book,index) in state.bannerList?.data.slice(0,10)" :book="book" :key="index">
+          <UserItem v-for="(book,index) in 10" :key="index">
            <div v-if="!isInCart">
               <button class="btn btn-outline-primary mr-2 mb-2"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
               <button class="btn btn-outline-primary"> Mua ngay</button>
@@ -31,9 +18,9 @@ const BookItemList = {
               <button class="btn btn-outline-primary mr-2"><i class="fas fa-edit"></i> Chỉnh sửa</button>
               <button class="btn btn-danger"> Xóa </button>
            </div>
-          </BookItem>
+          </UserItem>
         </div>
       </div>
   `,
 };
-export { BookItemList };
+export { UserList };

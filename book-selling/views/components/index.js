@@ -11,6 +11,12 @@ export * from "./BookItem.js";
 export * from "./BookItemList.js";
 export * from "./Avatar.js";
 
+// admin
+export * from "./SidebarAdmin.js";
+export * from "./AdminSearch.js";
+export * from "./UserItem.js";
+export * from "./UserList.js";
+// charts
 export * from "./CartItem.js";
 export * from "./CartItemList.js";
 export * from "./OrderedItem.js";
