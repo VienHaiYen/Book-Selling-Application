@@ -1,7 +1,7 @@
-import { UserItem, UserList } from "../components/index.js";
+import { UserItem, UserList, AdminSearch } from "../components/index.js";
 
 const User = {
-  components: { UserItem, UserList },
+  components: { UserItem, UserList, AdminSearch },
   data() {
     return {};
   },
@@ -10,7 +10,10 @@ const User = {
   mounted() {},
 
   template: `
-    <UserList/>
+    <div>
+      <AdminSearch />
+      <UserList/>
+    </div>
   `,
 };
 

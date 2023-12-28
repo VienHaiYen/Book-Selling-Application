@@ -35,7 +35,6 @@ const AdminApp = {
       });
   },
   mounted() {},
-  // <component :is="view" @changeView="changeView"></component>
   template: `
     <div class= "d-flex">
       <SidebarAdmin @changeView="changeView" :avatarImg="avatarImg"/>
