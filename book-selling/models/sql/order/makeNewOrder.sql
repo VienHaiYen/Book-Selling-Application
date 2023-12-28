@@ -1,0 +1,1 @@
+SELECT makeNewOrder($1, $2) AS new_order_id;

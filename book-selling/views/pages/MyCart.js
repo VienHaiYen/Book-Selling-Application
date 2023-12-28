@@ -1,16 +1,20 @@
-import { BookItemList } from "../components/index.js";
+import { CartItemList } from "../components/index.js";
 
 const MyCart = {
-  components: { BookItemList },
+  components: { CartItemList },
   data: function () {
     return {
-      books: [],
+      items: [],
     };
   },
   method: {},
   mounted() {},
+
   template: `
-    <BookItemList :isInCart=true title="My cart" />
+  <div>
+   <link rel="stylesheet" href="./css/cart.css" />
+    <CartItemList  title="My cart" />
+    </div>
   `,
 };
 
