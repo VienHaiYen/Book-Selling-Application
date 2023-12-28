@@ -2,9 +2,13 @@ const Register = {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    navigator(screen) {
+      this.$emit("changeView", screen);
+    },
+  },
 
-  mounted() { },
+  mounted() {},
 
   template: `
     <section class="text-center text-lg-start">
@@ -29,21 +33,16 @@ const Register = {
               </div>
 
               <div class="form-outline mb-4 d-flex">
-                <label class="form-label text-start w-25" for="birthday">Birthday</label>
+                <label class="form-label text-start w-25" for="address">Address</label>
                 <div class="w-75 text-start">
-                  <input required type="date" id="birthday" class="form-control border border-secondary w-75" />
+                  <input required type="text" id="address" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
-              <div class="form-outline mb-4 d-flex ">
-                <label class="form-label text-start w-25" for="gender">Gender</label>
-                <div class="w-25 text-start border border-secondary">
-                  <select class="form-select" aria-label="Default select example">
-                    <option selected>Select</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
+              <div class="form-outline mb-4 d-flex">
+                <label class="form-label text-start w-25" for="phone">Phone number</label>
+                <div class="w-75 text-start">
+                  <input required type="number" id="phone" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
@@ -73,7 +72,7 @@ const Register = {
                 REGISTER
               </button>
 
-              <p>Already had an account? <a href="#!" class="link-info">Sign In here</a></p>
+              <p>Already had an account? <a href="#!" @click="navigator('SignIn')" class="link-info">Sign In here</a></p>
 
             </form>
           </div>

@@ -1,3 +1,4 @@
+import state from "../stores/app-state.js";
 const SignIn = {
   data() {
     return {
@@ -7,7 +8,28 @@ const SignIn = {
   },
   methods: {
     logIn: async function () {
-      alert(this.email + " " + this.password);
+      console.log(this.email, this.password);
+      await axios
+        .post("/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status == 200) {
+            this.$emit("changeView", "Home");
+            state.user = res.data;
+          } else {
+            alert("Wrong email or password");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+
+    navigator(screen) {
+      this.$emit("changeView", screen);
     },
   },
 
@@ -28,8 +50,7 @@ const SignIn = {
                   <div class="form-outline mb-4 d-flex">
                     <label class="form-label text-start w-25" for="email">User email</label>
                     <div class="w-75 text-start">
-                      <input :value="email"
-                        @input="event => text = event.target.value"
+                      <input v-model="email"
                         required type="text" id="email" class="form-control border border-secondary w-75" />
                       </div>
                   </div>
@@ -38,8 +59,8 @@ const SignIn = {
                     <label class="form-label text-start w-25" for="email">Password</label>
                     <div class="w-75 text-start">
                       <input
-                        :value="password"
-                          @input="event => text = event.target.value"
+                      current-password
+                        v-model="password"
                         required type="password" id="password" class="form-control border border-secondary w-75" />
                         <span class="small"><a  href="#!">Forgot password?</a></span>
                       </div>
@@ -50,7 +71,7 @@ const SignIn = {
                     SIGN IN
                   </button>
 
-                  <p>Don't have an account? <a href="#!" class="link-info">Register here</a></p>
+                  <p>Don't have an account? <a href="#!" class="link-info" @click="navigator('Register')">Register here</a></p>
 
                 </form>
               </div>

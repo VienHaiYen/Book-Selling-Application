@@ -35,19 +35,20 @@ const App = {
   },
   data() {
     return {
-      isLogin: false,
       avatarImg:
         "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
       state,
-      isAdmin: false,
     };
   },
+  mounted() {},
   methods: {
     changeView(type) {
       state.view = type;
     },
   },
   async created() {
+    alert("Welcome to Bookstore");
+    console.log(state);
     await axios
       .get("/books")
       .then((res) => {
@@ -62,10 +63,10 @@ const App = {
   // <component :is="view" @changeView="changeView"></component>
   // <component :is="state.view"></component>
   template: `
-  <div :class="{'d-flex':isAdmin}">
-    <Navbar v-if="!isAdmin" @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
-    <SidebarAdmin v-else @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
-        <component :is="state.view"></component>
+  <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
+    <Navbar v-if="!(state.user == undefined ? false : state.user.role == 'admin')" @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+    <SidebarAdmin v-else @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+        <component :is="state.view" @changeView="changeView"></component>
   </div>
     <Footer />
   `,
