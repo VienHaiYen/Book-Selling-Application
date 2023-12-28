@@ -8,9 +8,11 @@ import {
   MyCart,
   BookDetail,
   OrderSummary,
+  AdminHome,
+  User,
 } from "./pages/index.js";
 
-import { Footer, Navbar } from "./components/index.js";
+import { Footer, Navbar, SidebarAdmin } from "./components/index.js";
 import state from "../stores/app-state.js";
 
 const App = {
@@ -26,13 +28,18 @@ const App = {
     MyCart,
     BookDetail,
     OrderSummary,
+    SidebarAdmin,
+    // admin
+    AdminHome,
+    User,
   },
   data() {
     return {
-      isLogin: true,
+      isLogin: false,
       avatarImg:
         "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
       state,
+      isAdmin: false,
     };
   },
   methods: {
@@ -55,8 +62,11 @@ const App = {
   // <component :is="view" @changeView="changeView"></component>
   // <component :is="state.view"></component>
   template: `
-    <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
- <component :is="state.view"></component>
+  <div :class="{'d-flex':isAdmin}">
+    <Navbar v-if="!isAdmin" @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
+    <SidebarAdmin v-else @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
+        <component :is="state.view"></component>
+  </div>
     <Footer />
   `,
 };
