@@ -47,8 +47,6 @@ const App = {
     },
   },
   async created() {
-    alert("Welcome to Bookstore");
-    console.log(state);
     await axios
       .get("/books")
       .then((res) => {
