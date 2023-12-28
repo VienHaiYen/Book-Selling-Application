@@ -56,7 +56,7 @@ const App = {
   // <component :is="state.view"></component>
   template: `
     <Navbar @changeView="changeView" :avatarImg="avatarImg" :isLogin="isLogin"/>
- <component :is="state.view"></component>
+      <component :is="state.view"></component>
     <Footer />
   `,
 };
