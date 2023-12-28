@@ -1,10 +1,10 @@
+
 const User = require("../models/user.m")
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
 const tokenOption = require("../configs/tokenOption")
 const cookieOption = require("../configs/cookieOption")
 const googleOption = require("../configs/googleOption")
-const { user } = require("../configs/connectStr")
 
 class GoogleUser {
     constructor({ id, email, verified_email, name, given_name, family_name, picture, locale, }) {
@@ -138,3 +138,4 @@ module.exports = {
 //     picture: 'https://lh3.googleusercontent.com/a/ACg8ocIQzpTqJ9mOY3ywaDqy4TS14GJx3Gn6fMCrQHBMOw8Z=s96-c',
 //     locale: 'vi'
 //   }
+
