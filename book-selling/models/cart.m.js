@@ -27,4 +27,30 @@ module.exports = class Cart {
       return null;
     }
   }
+  static async updateQuantity(cart_id, item_id, new_quantity) {
+    try {
+      const result = await db.oneOrNone(cartSQL.updateQuantity, [
+        cart_id,
+        item_id,
+        new_quantity,
+      ]);
+      if (result && result.new_quantity) {
+        return result.new_quantity;
+      }
+      return 0;
+    } catch (err) {
+      console.error(err);
+      return 0;
+    }
+  }
+  static async removeItemById(cart_id, cart_item_id) {
+    try {
+      const result = await db.query(cartSQL.removeItemById, [
+        cart_id,
+        cart_item_id,
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 };

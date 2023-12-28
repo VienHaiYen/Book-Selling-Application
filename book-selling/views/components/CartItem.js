@@ -10,25 +10,66 @@ const CartItem = {
     };
   },
   methods: {
-    increaseQuantity() {
-      //TODO check if increasement is available
-      this.item.quantity++;
-    },
-    decreaseQuantity() {
-      //TODO check if increasement is available
-      isAvailable = false;
-      axios
-        .post("/myCart/checkAvailable")
-        .then((res) => {
-          isAvailable = res.data;
-        })
-        .catch((err) => {
-          console.error(err);
+    increaseQuantity(item_id) {
+      const newQuantity = this.item.quantity + 1;
+      if (newQuantity > 0) {
+        $.ajax({
+          url: "/myCart/quantity",
+          type: "PUT",
+          data: {
+            item_id: item_id,
+            new_quantity: newQuantity,
+          },
+          success: (data) => {
+            if (data) {
+              this.item.quantity = data.data;
+            }
+          },
+          error: function (error) {
+            console.error(error);
+          },
         });
-      if (isAvailable) this.item.quantity--;
+      } else {
+        console.error("Quantity cannot be less than zero.");
+      }
+    },
+    decreaseQuantity(item_id) {
+      const newQuantity = this.item.quantity - 1;
+      if (newQuantity > 0) {
+        $.ajax({
+          url: "/myCart/quantity",
+          type: "PUT",
+          data: {
+            item_id: item_id,
+            new_quantity: newQuantity,
+          },
+          success: (data) => {
+            if (data) {
+              this.item.quantity = data.data;
+            }
+          },
+          error: function (error) {
+            console.error(error);
+          },
+        });
+      } else {
+        console.error("Quantity cannot be less than zero.");
+      }
     },
     removeItem(id) {
-      //TODO remove on DB
+      $.ajax({
+        url: `/myCart/item/${id}`,
+        type: "DELETE",
+        success: function (data) {
+          if (data.data.data == true)
+            state.inCart = state.inCart.filter(
+              (item_in_cart) => item_in_cart.id !== id
+            );
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
       state.inCart = state.inCart.filter(
         (item_in_cart) => item_in_cart.id !== id
       );
@@ -63,11 +104,11 @@ const CartItem = {
     </div>
  
     <div class="quantity">
-      <button class="adjust-btn plus-btn" type="button" name="button" @click="this.increaseQuantity()">
+      <button class="adjust-btn plus-btn" type="button" name="button" @click="this.increaseQuantity(item.book_id)">
         <img class="cart-button-image" src="images/plus.svg" />
       </button>
       <input type="text" name="name" :value="item.quantity">
-      <button class="adjust-btn minus-btn" type="button" name="button" @click="this.decreaseQuantity()">
+      <button class="adjust-btn minus-btn" type="button" name="button" @click="this.decreaseQuantity(item.book_id)">
         <img class="cart-button-image" src="images/minus.svg" />
       </button>
     </div>

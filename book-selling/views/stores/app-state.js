@@ -5,5 +5,6 @@ export default reactive({
   darkMode: false,
   bannerList: undefined,
   inCart: [],
-  inCartSelected: [1, 2, 3],
+  inCartSelected: [],
+  previousPage: "Home",
 });
