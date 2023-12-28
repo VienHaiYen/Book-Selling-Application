@@ -25,7 +25,10 @@ module.exports = class Book {
 
   static async getById(id) {
     try {
-      return await db.oneOrNone(bookSQL.getById, [id]).then((book) => new Book(book))
+      const bookData = await db.oneOrNone(bookSQL.getById, [id]).then((book) => new Book(book))
+      const authorData = await db.oneOrNone(bookSQL.getAuthor, [id])
+
+      return { book: bookData, author: authorData }
     } catch (err) {
       return null;
     }

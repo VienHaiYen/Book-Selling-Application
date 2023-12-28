@@ -13,6 +13,7 @@ module.exports = {
   bookSQL: {
     add: sql("book/add.sql"),
     getAll: sql("book/getAll.sql"),
+    getAuthor: sql("book/getAuthor.sql"),
     getById: sql("book/getById.sql"),
     getByTitle: sql("book/getByTitle.sql"),
   },
