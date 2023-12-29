@@ -14,8 +14,27 @@ const OrderedItemList = {
   components: {
     OrderedItem,
   },
-  methods: {},
-  created() {},
+  computed: {
+    calculatedSelectedItems() {
+      const selectedIds = this.state.inCartSelected.map(Number);
+      return this.state.inCart.filter((item) => selectedIds.includes(item.id));
+    },
+  },
+  methods: {
+    fetchCartItems() {
+      fetch("/myCart")
+        .then((response) => response.json())
+        .then((data) => {
+          this.state.inCart = data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+  created() {
+    this.fetchCartItems();
+  },
   mounted() {
     const selectedIds = this.state.inCartSelected.map(Number);
 
@@ -44,7 +63,7 @@ const OrderedItemList = {
 
     </div>
 
-    <OrderedItem v-for="(item,index) in this.selectedItems" :item="item" :key="item.id">
+    <OrderedItem v-for="(item,index) in calculatedSelectedItems" :item="item" :key="item.id">
 
     </OrderedItem>
     </fieldset>

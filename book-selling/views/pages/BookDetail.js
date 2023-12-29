@@ -1,14 +1,12 @@
-// import state from "../stores/app-state.js";
+import state from "../stores/app-state.js";
 
 const BookDetail = {
-  props: {
-    id: String,
-  },
+  props: {},
   components: {},
   data() {
     return {
       book: {},
-      // state,
+      state,
     };
   },
   methods: {
@@ -23,6 +21,45 @@ const BookDetail = {
           console.error(err);
         });
     },
+    addToCart(item_id) {
+      $.ajax({
+        url: "/myCart/item",
+        type: "POST",
+        data: {
+          item_id: item_id,
+          quantity: 1,
+        },
+        success: (data) => {
+          console.log(data);
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    },
+    shopNow(item_id) {
+      $.ajax({
+        url: "/myCart/item",
+        type: "POST",
+        data: {
+          item_id: item_id,
+          quantity: 1,
+        },
+        success: (data) => {
+          const new_item_id = data.data.new_item_id;
+          if (new_item_id !== -1) {
+            state.inCartSelected = [new_item_id];
+            state.view = "OrderSummary";
+          }
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    },
+  },
+  created() {
+    this.id = state.bookId;
   },
   mounted() {
     this.getBookDetail();
@@ -48,8 +85,8 @@ const BookDetail = {
                     <h2 class="mb-2">100.000d</h2>
                 </div>
                 <div class="d-flex">
-                  <button class="btn btn-outline-primary"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-                  <button class="btn btn-outline-primary mx-2"> Mua ngay</button>
+                  <button class="btn btn-outline-primary" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+                  <button class="btn btn-outline-primary mx-2" @click="shopNow(book.id)"> Mua ngay</button>
                 </div>
               </div>
           </div>

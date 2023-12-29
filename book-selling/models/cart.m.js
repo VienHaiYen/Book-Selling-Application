@@ -53,4 +53,16 @@ module.exports = class Cart {
       console.error(err);
     }
   }
+  static async addItem(cart_id, item_id, quantity) {
+    try {
+      const result = await db.one(cartSQL.addItem, [
+        cart_id,
+        item_id,
+        quantity,
+      ]);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 };

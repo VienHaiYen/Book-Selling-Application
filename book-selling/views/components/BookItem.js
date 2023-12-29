@@ -1,3 +1,4 @@
+import state from "../stores/app-state.js";
 const BookItem = {
   props: {
     book: Object,
@@ -5,13 +6,19 @@ const BookItem = {
   data() {
     return {
       data: Object,
+      state,
     };
   },
-  methods: {},
+  methods: {
+    navBookDetail(book_id) {
+      state.bookId = book_id;
+      state.view = "BookDetail";
+    },
+  },
   mounted() {},
   template: `
     <div class="m-2 col" style="minWidth:14rem ; maxWidth:18rem">
-      <div class="card">
+      <div class="card" @click='navBookDetail(book.id)'>
         <img :src="book.thumbnail" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{book.title}}</h5>

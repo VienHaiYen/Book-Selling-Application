@@ -23,6 +23,7 @@ module.exports = {
     getByUserId: sql("cart/getByUserId.sql"),
     updateQuantity: sql("cart/updateQuantity.sql"),
     removeItemById: sql("cart/removeItemById.sql"),
+    addItem: sql("cart/addItem.sql"),
   },
   inventorySQL: {
     getAvailableQuantity: sql("inventory/getAvailableQuantity.sql"),

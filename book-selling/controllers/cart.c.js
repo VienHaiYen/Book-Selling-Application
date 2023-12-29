@@ -5,7 +5,7 @@ const { paginationResponse } = require("../helpers/pagination");
 
 async function getByUserId(req, res, next) {
   try {
-    user_id = req.body.user_id || 1;
+    user_id = 1;
     if (!user_id) {
       return res
         .status(400)
@@ -45,8 +45,23 @@ async function removeItemById(req, res, next) {
     next(err);
   }
 }
+async function addItem(req, res, next) {
+  try {
+    cart_id = req.body.cart_id || 1;
+    item_id = req.body.item_id;
+    quantity = req.body.quantity;
+    if (!cart_id || !item_id || !quantity || quantity < 1) {
+      return res.status(400).json(commonErrorResponse("Invalid payload"));
+    }
+    const rs = await Cart.addItem(cart_id, item_id, quantity);
+    return res.json(commonSuccessfulResponse(rs));
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = {
   getByUserId,
   updateQuantity,
   removeItemById,
+  addItem,
 };
