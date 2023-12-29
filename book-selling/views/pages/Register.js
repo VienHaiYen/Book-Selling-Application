@@ -1,14 +1,74 @@
+import { ValidateModel } from "../utils/index.js";
 const Register = {
   data() {
-    return {};
+    return {
+      full_name: "",
+      address: "",
+      phone: "",
+      email: "",
+      password: "",
+      repeatPassword: "",
+      role: "client",
+    };
   },
-  methods: {},
 
-  mounted() { },
+  methods: {
+    register: async function () {
+      if (
+        !ValidateModel.areAllStringsNotEmpty([
+          this.full_name,
+          this.address,
+          this.phone,
+          this.email,
+          this.password,
+          this.repeatPassword,
+        ])
+      ) {
+        alert("Please fill in all fields");
+        return;
+      }
+      if (!ValidateModel.isValidateEmail(this.email)) {
+        alert("Invalid Email ");
+        return;
+      }
+      if (!ValidateModel.isMoreThanNChars(this.password)) {
+        alert("Password must be at least 4 characters ");
+        return;
+      }
+      if (this.password != this.repeatPassword) {
+        alert("Password doesn't match");
+        return;
+      }
+      axios
+        .post("/signin", {
+          full_name: this.full_name,
+          address: this.address,
+          phone: this.phone,
+          email: this.email,
+          password: this.password,
+          role: "client",
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            alert("Register successfully");
+            this.$emit("changeView", "SignIn");
+          } else {
+            alert("Wrong email or password");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    navigator(screen) {
+      this.$emit("changeView", screen);
+    },
+  },
+
+  mounted() {},
 
   template: `
     <section class="text-center text-lg-start">
-
 
   <!-- Jumbotron -->
   <div class="container py-4">
@@ -24,56 +84,52 @@ const Register = {
               <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="name">User name</label>
                 <div class="w-75 text-start">
-                  <input required type="text" id="name" class="form-control border border-secondary w-75" />
-                  </div>
-              </div>
-
-              <div class="form-outline mb-4 d-flex">
-                <label class="form-label text-start w-25" for="birthday">Birthday</label>
-                <div class="w-75 text-start">
-                  <input required type="date" id="birthday" class="form-control border border-secondary w-75" />
-                  </div>
-              </div>
-
-              <div class="form-outline mb-4 d-flex ">
-                <label class="form-label text-start w-25" for="gender">Gender</label>
-                <div class="w-25 text-start border border-secondary">
-                  <select class="form-select" aria-label="Default select example">
-                    <option selected>Select</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
+                  <input required v-model="full_name" type="text" id="name" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
               <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="email">User email</label>
                 <div class="w-75 text-start">
-                  <input required type="mail" id="email" class="form-control border border-secondary w-75" />
+                  <input v-model="email" required type="mail" id="email" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
               <div class="form-outline mb-4 d-flex">
+                <label class="form-label text-start w-25" for="address">Address</label>
+                <div class="w-75 text-start">
+                  <input v-model="address" required type="text" id="address" class="form-control border border-secondary w-75" />
+                  </div>
+              </div>
+
+              <div class="form-outline mb-4 d-flex">
+                <label class="form-label text-start w-25" for="phone">Phone number</label>
+                <div class="w-75 text-start">
+                  <input v-model="phone" required type="text" id="phone" class="form-control border border-secondary w-75" />
+                  </div>
+              </div>
+
+
+              <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="password">Password</label>
                 <div class="w-75 text-start">
-                  <input required type="password" id="password" class="form-control border border-secondary w-75" />
+                  <input v-model="password" required type="password" id="password" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
               <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="repeat-password">Repeat your password</label>
                 <div class="w-75 text-start">
-                  <input required type="password" id="repeat-password" class="form-control border border-secondary w-75" />
+                  <input v-model="repeatPassword" required type="password" id="repeat-password" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
               <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-block mb-4">
+              <button type="submit" @click="this.register" class="btn btn-primary btn-block mb-4">
                 REGISTER
               </button>
 
-              <p>Already had an account? <a href="#!" class="link-info">Sign In here</a></p>
+              <p>Already had an account? <a href="#!" @click="navigator('SignIn')" class="link-info">Sign In here</a></p>
 
             </form>
           </div>

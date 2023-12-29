@@ -5,10 +5,11 @@ const { getOffset } = require('../helpers/pagination');
 const saltRounds = 10;
 
 module.exports = class User {
-    constructor({ id, email, password_hash, role = User.roles.client, address, full_name, phone }) {
+    constructor({ id, email, password_hash = "", role = User.roles.client, google_id, address, full_name, phone }) {
         this.id = id;
         this.email = email;
         this.password_hash = password_hash;
+        this.google_id = google_id;
         this.role = Object.values(User.roles).includes(role) ? role : User.roles.client;
         this.address = address;
         this.full_name = full_name;
@@ -30,7 +31,7 @@ module.exports = class User {
         const hashedPassword = await bcrypt.hash(password, saltRounds)
         const newUser = new User({ ...user, password_hash: hashedPassword })
         return await db.one(userSQL.add,
-            [newUser.email, newUser.password_hash, newUser.role, newUser.address, newUser.full_name, newUser.phone]
+            [newUser.email, newUser.password_hash, newUser.role, newUser.address, newUser.full_name, newUser.phone, newUser.google_id]
         ).then(user => new User(user))
 
     }
