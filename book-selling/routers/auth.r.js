@@ -4,6 +4,8 @@ const router = require("express").Router();
 
 router.post("/signin", authController.signIn)
 router.post("/login", authController.login)
+router.get("/login/google", authController.googleLogin)
+router.get("/login/google/callback", authController.googleLoginCallback)
 router.post("/logout", authController.logout)
 
 // router.get("/logined", verifyUser(), (req, res, next) => { res.send("logined") })
