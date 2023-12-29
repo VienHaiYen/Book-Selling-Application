@@ -26,6 +26,7 @@ const SignIn = {
         .then((res) => {
           this.$emit("changeView", "Home");
           state.user = res.data;
+          console.log(state.user);
         })
         .catch((err) => {
           alert("Wrong email or password");
