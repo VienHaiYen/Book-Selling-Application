@@ -1,3 +1,4 @@
+import { ValidateModel } from "../utils/index.js";
 import state from "../stores/app-state.js";
 const SignIn = {
   data() {
@@ -9,22 +10,25 @@ const SignIn = {
   methods: {
     logIn: async function () {
       console.log(this.email, this.password);
+      if (!ValidateModel.areAllStringsNotEmpty([this.email, this.password])) {
+        alert("Please fill in all fields");
+        return;
+      }
+      if (!ValidateModel.isValidateEmail(this.email)) {
+        alert("Invalid Email ");
+        return;
+      }
       await axios
         .post("/login", {
           email: this.email,
           password: this.password,
         })
         .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            this.$emit("changeView", "Home");
-            state.user = res.data;
-          } else {
-            alert("Wrong email or password");
-          }
+          this.$emit("changeView", "Home");
+          state.user = res.data;
         })
         .catch((err) => {
-          console.error(err);
+          alert("Wrong email or password");
         });
     },
 

@@ -1,3 +1,4 @@
+import { ValidateModel } from "../utils/index.js";
 const Register = {
   data() {
     return {
@@ -6,47 +7,61 @@ const Register = {
       phone: "",
       email: "",
       password: "",
-      role: "",
+      repeatPassword: "",
+      role: "client",
     };
   },
+
   methods: {
-    navigator(screen) {
-      this.$emit("changeView", screen);
-    },
-    register: async () => {
-      console.log(
-        this.full_name,
-        this.address,
-        this.phone,
-        this.email,
-        this.password,
-        this.role
-      );
+    register: async function () {
+      if (
+        !ValidateModel.areAllStringsNotEmpty([
+          this.full_name,
+          this.address,
+          this.phone,
+          this.email,
+          this.password,
+          this.repeatPassword,
+        ])
+      ) {
+        alert("Please fill in all fields");
+        return;
+      }
+      if (!ValidateModel.isValidateEmail(this.email)) {
+        alert("Invalid Email ");
+        return;
+      }
+      if (!ValidateModel.isMoreThanNChars(this.password)) {
+        alert("Password must be at least 4 characters ");
+        return;
+      }
       if (this.password != this.repeatPassword) {
         alert("Password doesn't match");
-      } else {
-        axios
-          .post("/register", {
-            full_name: this.full_name,
-            address: this.address,
-            phone: this.phone,
-            email: this.email,
-            password: this.password,
-            role: "client",
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.status == 200) {
-              this.$emit("changeView", "SignIn");
-              console.log(res);
-            } else {
-              alert("Wrong email or password");
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        return;
       }
+      axios
+        .post("/signin", {
+          full_name: this.full_name,
+          address: this.address,
+          phone: this.phone,
+          email: this.email,
+          password: this.password,
+          role: "client",
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            alert("Register successfully");
+            this.$emit("changeView", "SignIn");
+          } else {
+            alert("Wrong email or password");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    navigator(screen) {
+      this.$emit("changeView", screen);
     },
   },
 
@@ -74,6 +89,13 @@ const Register = {
               </div>
 
               <div class="form-outline mb-4 d-flex">
+                <label class="form-label text-start w-25" for="email">User email</label>
+                <div class="w-75 text-start">
+                  <input v-model="email" required type="mail" id="email" class="form-control border border-secondary w-75" />
+                  </div>
+              </div>
+
+              <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="address">Address</label>
                 <div class="w-75 text-start">
                   <input v-model="address" required type="text" id="address" class="form-control border border-secondary w-75" />
@@ -83,16 +105,10 @@ const Register = {
               <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="phone">Phone number</label>
                 <div class="w-75 text-start">
-                  <input v-model="phone" required type="number" id="phone" class="form-control border border-secondary w-75" />
+                  <input v-model="phone" required type="text" id="phone" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
-              <div class="form-outline mb-4 d-flex">
-                <label class="form-label text-start w-25" for="email">User email</label>
-                <div class="w-75 text-start">
-                  <input v-model="email" required type="mail" id="email" class="form-control border border-secondary w-75" />
-                  </div>
-              </div>
 
               <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="password">Password</label>
@@ -109,7 +125,7 @@ const Register = {
               </div>
 
               <!-- Submit button -->
-              <button type="submit" @click="register" class="btn btn-primary btn-block mb-4">
+              <button type="submit" @click="this.register" class="btn btn-primary btn-block mb-4">
                 REGISTER
               </button>
 
