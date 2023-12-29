@@ -23,15 +23,17 @@ const OrderCustomerInfo = {
       const selectedIds = this.state.inCartSelected.map(Number);
 
       // Filter the items in inCart that match the selected IDs
-      const selectedItems = this.state.inCart.filter((item) =>
-        selectedIds.includes(item.id)
-      );
-
-      // Calculate the total based on selected items
-      return selectedItems.reduce(
-        (total, item) => total + item.quantity * item.unit_price,
-        0
-      );
+      if (state.inCart) {
+        const selectedItems = this.state.inCart.filter((item) =>
+          selectedIds.includes(item.id)
+        );
+        // Calculate the total based on selected items
+        return selectedItems.reduce(
+          (total, item) => total + item.quantity * item.unit_price,
+          0
+        );
+      }
+      return 0;
     },
   },
 

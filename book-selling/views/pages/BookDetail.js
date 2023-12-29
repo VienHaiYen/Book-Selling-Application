@@ -15,7 +15,6 @@ const BookDetail = {
         .get("/books/" + this.id)
         .then((res) => {
           this.book = res.data;
-          console.log(this.book);
         })
         .catch((err) => {
           console.error(err);
@@ -30,14 +29,17 @@ const BookDetail = {
           quantity: 1,
         },
         success: (data) => {
-          console.log(data);
+          const new_item_id = data.data.new_item_id;
+          if (new_item_id !== -1) alert("Added to cart");
+          else alert("Fail to add item to cart");
         },
         error: function (error) {
           console.error(error);
+          alert("Fail to add this item to cart");
         },
       });
     },
-    shopNow(item_id) {
+    buyNow(item_id) {
       $.ajax({
         url: "/myCart/item",
         type: "POST",
@@ -50,7 +52,7 @@ const BookDetail = {
           if (new_item_id !== -1) {
             state.inCartSelected = [new_item_id];
             state.view = "OrderSummary";
-          }
+          } else alert("Fail to buy item");
         },
         error: function (error) {
           console.error(error);
@@ -85,8 +87,8 @@ const BookDetail = {
                     <h2 class="mb-2">100.000d</h2>
                 </div>
                 <div class="d-flex">
-                  <button class="btn btn-outline-primary" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-                  <button class="btn btn-outline-primary mx-2" @click="shopNow(book.id)"> Mua ngay</button>
+                  <button class="btn btn-outline-primary" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+                  <button class="btn btn-outline-primary mx-2" @click="buyNow(book.id)"> Buy now</button>
                 </div>
               </div>
           </div>

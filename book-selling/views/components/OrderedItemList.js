@@ -17,7 +17,10 @@ const OrderedItemList = {
   computed: {
     calculatedSelectedItems() {
       const selectedIds = this.state.inCartSelected.map(Number);
-      return this.state.inCart.filter((item) => selectedIds.includes(item.id));
+      if (state.inCart) {
+        return state.inCart.filter((item) => selectedIds.includes(item.id));
+      }
+      return [];
     },
   },
   methods: {

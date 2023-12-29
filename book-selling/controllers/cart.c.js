@@ -5,7 +5,7 @@ const { paginationResponse } = require("../helpers/pagination");
 
 async function getByUserId(req, res, next) {
   try {
-    user_id = 1;
+    const user_id = req.user.id;
     if (!user_id) {
       return res
         .status(400)
@@ -19,9 +19,9 @@ async function getByUserId(req, res, next) {
 }
 async function updateQuantity(req, res, next) {
   try {
-    cart_id = req.body.cart_id || 1;
-    item_id = req.body.item_id || 3;
-    new_quantity = req.body.new_quantity || 1;
+    const cart_id = req.user.id;
+    const item_id = req.body.item_id;
+    const new_quantity = req.body.new_quantity;
     if (!cart_id || !item_id || !new_quantity || new_quantity < 1) {
       return res.status(400).json(commonErrorResponse("Invalid Quantity"));
     }
@@ -34,8 +34,8 @@ async function updateQuantity(req, res, next) {
 }
 async function removeItemById(req, res, next) {
   try {
-    cart_id = req.params.cart_id || 1;
-    cart_item_id = req.params.id;
+    const cart_id = req.user.id;
+    const cart_item_id = req.params.id;
     if (!cart_id || !cart_item_id) {
       return res.status(400).json(commonErrorResponse("Invalid item"));
     }
@@ -47,9 +47,9 @@ async function removeItemById(req, res, next) {
 }
 async function addItem(req, res, next) {
   try {
-    cart_id = req.body.cart_id || 1;
-    item_id = req.body.item_id;
-    quantity = req.body.quantity;
+    const cart_id = req.user.id;
+    const item_id = req.body.item_id;
+    const quantity = req.body.quantity;
     if (!cart_id || !item_id || !quantity || quantity < 1) {
       return res.status(400).json(commonErrorResponse("Invalid payload"));
     }

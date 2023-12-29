@@ -10,14 +10,14 @@ const CartItem = {
     };
   },
   methods: {
-    increaseQuantity(item_id) {
+    increaseQuantity() {
       const newQuantity = this.item.quantity + 1;
       if (newQuantity > 0) {
         $.ajax({
           url: "/myCart/quantity",
           type: "PUT",
           data: {
-            item_id: item_id,
+            item_id: this.item.item_id,
             new_quantity: newQuantity,
           },
           success: (data) => {
@@ -26,6 +26,7 @@ const CartItem = {
             }
           },
           error: function (error) {
+            alert("Action fail");
             console.error(error);
           },
         });
@@ -33,14 +34,14 @@ const CartItem = {
         console.error("Quantity cannot be less than zero.");
       }
     },
-    decreaseQuantity(item_id) {
+    decreaseQuantity() {
       const newQuantity = this.item.quantity - 1;
       if (newQuantity > 0) {
         $.ajax({
           url: "/myCart/quantity",
           type: "PUT",
           data: {
-            item_id: item_id,
+            item_id: this.item.item_id,
             new_quantity: newQuantity,
           },
           success: (data) => {
@@ -53,15 +54,17 @@ const CartItem = {
           },
         });
       } else {
+        alert("Quantity cannot be less than zero");
         console.error("Quantity cannot be less than zero.");
       }
     },
     removeItem(id) {
+      var id = this.item.id;
       $.ajax({
         url: `/myCart/item/${id}`,
         type: "DELETE",
         success: function (data) {
-          if (data.data.data == true)
+          if (data.data.data == true && state.inCart)
             state.inCart = state.inCart.filter(
               (item_in_cart) => item_in_cart.id !== id
             );
@@ -70,12 +73,15 @@ const CartItem = {
           console.error(error);
         },
       });
-      state.inCart = state.inCart.filter(
-        (item_in_cart) => item_in_cart.id !== id
-      );
-      state.inCartSelected = state.inCartSelected.filter(
-        (selected_item) => parseInt(selected_item) !== id
-      );
+      if (state.inCart) {
+        state.inCart = state.inCart.filter(
+          (item_in_cart) => item_in_cart.id !== id
+        );
+      }
+      if (state.inCartSelected)
+        state.inCartSelected = state.inCartSelected.filter(
+          (selected_item) => parseInt(selected_item) !== id
+        );
     },
     clickCheckBox({ target }) {
       const isSelected = target.checked;
@@ -83,9 +89,10 @@ const CartItem = {
         state.inCartSelected.push(target.value);
       } else {
         const itemId = target.id;
-        state.inCartSelected = state.inCartSelected.filter(
-          (selected_item) => selected_item !== itemId
-        );
+        if (state.inCartSelected)
+          state.inCartSelected = state.inCartSelected.filter(
+            (selected_item) => selected_item !== itemId
+          );
       }
     },
   },
@@ -104,17 +111,17 @@ const CartItem = {
     </div>
  
     <div class="quantity">
-      <button class="adjust-btn plus-btn" type="button" name="button" @click="this.increaseQuantity(item.book_id)">
+      <button class="adjust-btn plus-btn" type="button" name="button" @click="increaseQuantity()">
         <img class="cart-button-image" src="images/plus.svg" />
       </button>
       <input type="text" name="name" :value="item.quantity">
-      <button class="adjust-btn minus-btn" type="button" name="button" @click="this.decreaseQuantity(item.book_id)">
+      <button class="adjust-btn minus-btn" type="button" name="button" @click="decreaseQuantity()">
         <img class="cart-button-image" src="images/minus.svg" />
       </button>
     </div>
  
     <div class="item-total-price"><i class="fa-solid fa-dollar-sign"></i>{{item.quantity*item.unit_price}}</div>
-     <button class="cart-delete-btn" type="button" name="button"  @click="this.removeItem(item.id)">
+     <button class="cart-delete-btn" type="button" name="button"  @click="this.removeItem()">
         <img class="cart-button-image" src="images/remove-item.svg" />
       </button>
   </div>
