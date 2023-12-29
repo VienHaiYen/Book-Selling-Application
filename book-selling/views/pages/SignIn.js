@@ -7,8 +7,15 @@ const SignIn = {
     };
   },
   methods: {
-    isEmptyFiled: function (email, password) {
-      return email.length != 0 && password.length != 0;
+    areAllFieldsNotEmpty: function ({ ...obj }) {
+      console.log(123, obj);
+      for (let key in obj) {
+        console.log(obj[key]);
+        if (obj[key] === "") {
+          return false;
+        }
+      }
+      return true;
     },
     isValidateEmail: function (email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,7 +23,7 @@ const SignIn = {
     },
     logIn: async function () {
       console.log(this.email, this.password);
-      if (!this.isEmptyFiled(this.email, this.password)) {
+      if (!this.areAllFieldsNotEmpty([this.email, this.password])) {
         alert("Please fill in all fields");
         return;
       }
