@@ -40,7 +40,7 @@ const App = {
       state,
     };
   },
-  mounted() {},
+
   methods: {
     changeView(type) {
       state.view = type;

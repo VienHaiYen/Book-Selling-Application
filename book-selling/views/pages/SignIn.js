@@ -1,3 +1,4 @@
+import { ValidateModel } from "../utils/index.js";
 import state from "../stores/app-state.js";
 const SignIn = {
   data() {
@@ -7,27 +8,13 @@ const SignIn = {
     };
   },
   methods: {
-    areAllFieldsNotEmpty: function ({ ...obj }) {
-      console.log(123, obj);
-      for (let key in obj) {
-        console.log(obj[key]);
-        if (obj[key] === "") {
-          return false;
-        }
-      }
-      return true;
-    },
-    isValidateEmail: function (email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    },
     logIn: async function () {
       console.log(this.email, this.password);
-      if (!this.areAllFieldsNotEmpty([this.email, this.password])) {
+      if (!ValidateModel.areAllStringsNotEmpty([this.email, this.password])) {
         alert("Please fill in all fields");
         return;
       }
-      if (!this.isValidateEmail(this.email)) {
+      if (!ValidateModel.isValidateEmail(this.email)) {
         alert("Invalid Email ");
         return;
       }
