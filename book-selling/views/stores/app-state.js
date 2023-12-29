@@ -6,6 +6,4 @@ export default reactive({
   bannerList: undefined,
   inCart: [],
   inCartSelected: [],
-  previousPage: "Home",
-  bookId: 10,
 });
