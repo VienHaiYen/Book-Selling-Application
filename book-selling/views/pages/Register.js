@@ -6,27 +6,20 @@ const Register = {
       phone: "",
       email: "",
       password: "",
-      role: "",
+      repeatPassword: "",
+      role: "client",
     };
   },
+  created() {
+    console.log(this.full_name);
+  },
   methods: {
-    navigator(screen) {
-      this.$emit("changeView", screen);
-    },
-    register: async () => {
-      console.log(
-        this.full_name,
-        this.address,
-        this.phone,
-        this.email,
-        this.password,
-        this.role
-      );
+    register: async function () {
       if (this.password != this.repeatPassword) {
         alert("Password doesn't match");
       } else {
         axios
-          .post("/register", {
+          .post("/signin", {
             full_name: this.full_name,
             address: this.address,
             phone: this.phone,
@@ -35,10 +28,9 @@ const Register = {
             role: "client",
           })
           .then((res) => {
-            console.log(res);
             if (res.status == 200) {
+              alert("Register successfully");
               this.$emit("changeView", "SignIn");
-              console.log(res);
             } else {
               alert("Wrong email or password");
             }
@@ -47,6 +39,9 @@ const Register = {
             console.error(err);
           });
       }
+    },
+    navigator(screen) {
+      this.$emit("changeView", screen);
     },
   },
 
@@ -83,7 +78,7 @@ const Register = {
               <div class="form-outline mb-4 d-flex">
                 <label class="form-label text-start w-25" for="phone">Phone number</label>
                 <div class="w-75 text-start">
-                  <input v-model="phone" required type="number" id="phone" class="form-control border border-secondary w-75" />
+                  <input v-model="phone" required type="text" id="phone" class="form-control border border-secondary w-75" />
                   </div>
               </div>
 
@@ -109,7 +104,7 @@ const Register = {
               </div>
 
               <!-- Submit button -->
-              <button type="submit" @click="register" class="btn btn-primary btn-block mb-4">
+              <button type="submit" @click="this.register" class="btn btn-primary btn-block mb-4">
                 REGISTER
               </button>
 

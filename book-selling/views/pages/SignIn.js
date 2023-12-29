@@ -7,24 +7,34 @@ const SignIn = {
     };
   },
   methods: {
+    isEmptyFiled: function (email, password) {
+      return email.length != 0 && password.length != 0;
+    },
+    isValidateEmail: function (email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
     logIn: async function () {
       console.log(this.email, this.password);
+      if (!this.isEmptyFiled(this.email, this.password)) {
+        alert("Please fill in all fields");
+        return;
+      }
+      if (!this.isValidateEmail(this.email)) {
+        alert("Invalid Email ");
+        return;
+      }
       await axios
         .post("/login", {
           email: this.email,
           password: this.password,
         })
         .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            this.$emit("changeView", "Home");
-            state.user = res.data;
-          } else {
-            alert("Wrong email or password");
-          }
+          this.$emit("changeView", "Home");
+          state.user = res.data;
         })
         .catch((err) => {
-          console.error(err);
+          alert("Wrong email or password");
         });
     },
 
