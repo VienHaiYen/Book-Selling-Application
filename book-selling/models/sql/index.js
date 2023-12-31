@@ -11,13 +11,18 @@ module.exports = {
     delete: sql("user/delete.sql"),
   },
   bookSQL: {
-    addBook: sql("book/addBook.sql"),
+    add: sql("book/add.sql"),
     getAll: sql("book/getAll.sql"),
+    getAuthor: sql("book/getAuthor.sql"),
     getById: sql("book/getById.sql"),
     getByTitle: sql("book/getByTitle.sql"),
   },
   categorySQL: {
+    add: sql("category/add.sql"),
     getAll: sql("category/getAll.sql"),
+    getById: sql("category/getById.sql"),
+    getBooks: sql("category/getBooks.sql"),
+    update: sql("category/update.sql"),
   },
   cartSQL: {
     getByUserId: sql("cart/getByUserId.sql"),
