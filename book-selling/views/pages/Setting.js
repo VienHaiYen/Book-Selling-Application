@@ -15,13 +15,9 @@ const Setting = {
     handleStateShowingMyBook() {
       this.isShowingMyBook = !this.isShowingMyBook;
     },
-    async fetchUser() {
-      await axios
-        .get(`/users/${state.user.id}`)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.error(err));
+
+    editInfo() {
+      this.$emit("changeView", "EditProfile");
     },
   },
   mounted() {},
@@ -41,14 +37,14 @@ const Setting = {
             <div v-if="!isShowingMyBook" class="card mb-4">
               <div class="card-body">
                 <div class="d-flex justify-content-end">
-                  <button type="button" class="btn ">Edit <i class="fa-regular fa-pen-to-square"></i></button>
+                  <button type="button" class="btn" @click="this.editInfo">Edit <i class="fa-regular fa-pen-to-square"></i></button>
                 </div>
                 <div class="row">
                   <div class="col-sm-3">
                     <p class="mb-0">Full Name</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{state.user.name}}</p>
+                    <p class="text-muted mb-0">{{state.user.full_name}}</p>
                   </div>
                 </div>
                 <hr>

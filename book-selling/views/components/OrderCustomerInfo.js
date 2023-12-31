@@ -45,7 +45,7 @@ const OrderCustomerInfo = {
 			<p class="mb-0">Customer Name</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">Johnatan Smith</p>
+			<p class="text-muted mb-0">{{state.user.full_name}}</p>
 		</div>
 	</div>
 	<hr>
@@ -54,7 +54,7 @@ const OrderCustomerInfo = {
 			<p class="mb-0">Email</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">example@example.com</p>
+			<p class="text-muted mb-0">{{state.user.email}}</p>
 		</div>
 	</div>
 	<hr>
@@ -63,7 +63,7 @@ const OrderCustomerInfo = {
 			<p class="mb-0">Phone</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">(097) 234-5678</p>
+			<p class="text-muted mb-0">{{state.user.phone}}</p>
 		</div>
 	</div>
 	<hr>
@@ -72,7 +72,7 @@ const OrderCustomerInfo = {
 			<p class="mb-0">Address</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+			<p class="text-muted mb-0">{{state.user.address}}</p>
 		</div>
         </div>
 	</div>
