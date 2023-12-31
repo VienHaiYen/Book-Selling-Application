@@ -20,12 +20,12 @@ async function getAll(req, res, next) {
   }
 }
 
-async function getBookById(req, res, next) {
+async function getById(req, res, next) {
   try {
     const { bookId } = req.params
 
     if (bookId) {
-      const rs = await Book.getBookById(bookId)
+      const rs = await Book.getById(bookId)
       return res.status(200).send(rs)
     } else {
       return res.status(200).send({})
@@ -35,7 +35,7 @@ async function getBookById(req, res, next) {
   }
 }
 
-async function getBookByTitle(req, res, next) {
+async function getByTitle(req, res, next) {
   try {
     const { bookTitle } = req.params
     let { page = "1", pageSize = "10" } = req.query
@@ -45,7 +45,7 @@ async function getBookByTitle(req, res, next) {
     let totalRecord = 0
 
     if (bookTitle && bookTitle.length > 0) {
-      const rs = await Book.getBooksByTitle(bookTitle, page, pageSize)
+      const rs = await Book.getByTitle(bookTitle, page, pageSize)
       if (rs.length > 0) {
         totalRecord = Number(rs[0].count)
         res.send(paginationResponse(totalRecord, page, rs))
@@ -58,8 +58,41 @@ async function getBookByTitle(req, res, next) {
   }
 }
 
+// Remember to use Content-Type: application/json
+async function add(req, res, next) {
+  try {
+    const book = new Book(req.body)
+    const rs = await Book.add(book)
+    if (rs.id) {
+      res.status(200).send("Add Success")
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
+async function update(req, res, next) {
+  try {
+    const { bookId } = req.params
+    const updateData = req.body
+
+    const checkBook = await Book.getById(bookId)
+
+    if (checkBook && checkBook.id) {
+      await Book.update(bookId, updateData)
+      return res.status(200).send("Update Success")
+    } else {
+      return res.status(400).send("Book Not Found")
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   getAll,
-  getBookById,
-  getBookByTitle,
+  getById,
+  getByTitle,
+  add,
+  update,
 }

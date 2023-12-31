@@ -1,6 +1,7 @@
 import { ValidateModel } from "../utils/index.js";
 import state from "../stores/app-state.js";
 const SignIn = {
+  emits: ["changeView"],
   data() {
     return {
       email: "",
@@ -8,8 +9,8 @@ const SignIn = {
     };
   },
   methods: {
-    logIn: async function () {
-      console.log(this.email, this.password);
+    logIn: async function (e) {
+      e.preventDefault();
       if (!ValidateModel.areAllStringsNotEmpty([this.email, this.password])) {
         alert("Please fill in all fields");
         return;

@@ -5,8 +5,8 @@ const { commonErrorResponse } = require("../helpers/errorRes");
 
 async function makeNewOrder(req, res, next) {
   try {
-    user_id = 1;
-    item_list = req.body.data;
+    const user_id = req.user.id;
+    const item_list = req.body.data;
     const new_order_id = await Order.makeNewOrder(user_id, item_list);
     if (!new_order_id || new_order_id === -1) {
       //TODO return available updated item list

@@ -1,0 +1,1 @@
+SELECT addNewItemInCart($1, $2,$3) AS new_item_id;

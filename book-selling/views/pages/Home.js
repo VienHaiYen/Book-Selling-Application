@@ -3,6 +3,7 @@ import { Banner, TextInput, BookItemList } from "../components/index.js";
 import state from "../stores/app-state.js";
 
 const Home = {
+  emits: ["changeView"],
   data() {
     return {};
   },
