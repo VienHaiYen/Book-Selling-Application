@@ -4,7 +4,7 @@ const { commonSuccessfulResponse } = require("../helpers/successfulRes");
 const { commonErrorResponse } = require("../helpers/errorRes");
 async function getAvailableQuantity(req, res, next) {
   try {
-    item_id = req.body.item_id;
+    item_id = req.pagrams.idItem;
     const rs = await Inventory.getAvailableQuantity(item_id);
     res.json(commonSuccessfulResponse(rs));
   } catch (err) {
