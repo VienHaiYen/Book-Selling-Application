@@ -1,8 +1,8 @@
-const { Category } = require("../models")
+const { Author } = require("../models")
 
 async function getAll(_req, res, next) {
   try {
-    const rs = await Category.getAll()
+    const rs = await Author.getAll()
     if (rs === null) {
       throw new Error()
     } else {
@@ -15,25 +15,13 @@ async function getAll(_req, res, next) {
 
 async function getById(req, res, next) {
   try {
-    const { categoryId } = req.params
+    const { authorId } = req.params
 
-    if (categoryId) {
-      const rs = await Category.getById(categoryId)
+    if (authorId) {
+      const rs = await Author.getById(authorId)
       return res.status(200).send(rs)
     } else {
       return res.status(404).send('Not Found')
-    }
-  } catch (err) {
-    next(err)
-  }
-}
-
-async function add(req, res, next) {
-  try {
-    const cate = new Category(req.body)
-    const rs = await Category.add(cate)
-    if (rs.id) {
-      res.status(200).send("Add Success")
     }
   } catch (err) {
     next(err)
@@ -45,7 +33,7 @@ async function getByName(req, res, next) {
     const searchTerm = req.query.q;
 
     if (searchTerm && searchTerm.length > 0) {
-      return await Category.getByName(searchTerm)
+      return await Author.getByName(searchTerm)
     } else {
       return res.status(200).send([])
     }
@@ -54,12 +42,24 @@ async function getByName(req, res, next) {
   }
 }
 
+async function add(req, res, next) {
+  try {
+    const cate = new Author(req.body)
+    const rs = await Author.add(cate)
+    if (rs.id) {
+      res.status(200).send("Add Success")
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
 async function update(req, res, next) {
   try {
-    const { categoryId } = req.params
+    const { authorId } = req.params
     const updateData = req.body
 
-    const rs = await Category.update(categoryId, updateData)
+    const rs = await Author.update(authorId, updateData)
     if (rs.id) {
       res.status(200).send("Update Success")
     }

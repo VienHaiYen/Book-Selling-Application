@@ -37,19 +37,10 @@ async function getById(req, res, next) {
 
 async function getByTitle(req, res, next) {
   try {
-    const { bookTitle } = req.params
-    let { page = "1", pageSize = "10" } = req.query
-    page = parseInt(page)
-    pageSize = parseInt(pageSize)
+    const searchTerm = req.query.q;
 
-    let totalRecord = 0
-
-    if (bookTitle && bookTitle.length > 0) {
-      const rs = await Book.getByTitle(bookTitle, page, pageSize)
-      if (rs.length > 0) {
-        totalRecord = Number(rs[0].count)
-        res.send(paginationResponse(totalRecord, page, rs))
-      }
+    if (searchTerm && searchTerm.length > 0) {
+      return await Book.getByTitle(searchTerm)
     } else {
       return res.status(200).send([])
     }
@@ -58,11 +49,9 @@ async function getByTitle(req, res, next) {
   }
 }
 
-// Remember to use Content-Type: application/json
 async function add(req, res, next) {
   try {
-    const book = new Book(req.body)
-    const rs = await Book.add(book)
+    const rs = await Book.add(req.body).then((book) => new Book(book))
     if (rs.id) {
       res.status(200).send("Add Success")
     }
