@@ -1,11 +1,11 @@
 import state from "../stores/app-state.js";
-import { BookItem } from "./BookItem.js";
+import { BookItemList } from "./BookItemList.js";
 
-const BookItemList = {
+const BookByCategory = {
   props: {
     title: String,
-    isInCart: Boolean,
     isAdmin: Boolean,
+    isInCart: Boolean,
   },
   data() {
     return {
@@ -13,7 +13,7 @@ const BookItemList = {
     };
   },
   components: {
-    BookItem,
+    BookItemList,
   },
   methods: {},
   created() {},
@@ -62,20 +62,11 @@ const BookItemList = {
   created() {},
   mounted() {},
   template: `
-      <div class="mx-2">
-        <div class="m-0 d-flex flex-wrap justify-content-start ">
-          <BookItem v-for="(book,index) in state.bannerList?.data.slice(0,6)" :book="book" :key="index">
-           <div v-if="!isInCart">
-              <button class="btn btn-primary mr-2 my-1" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Add to cart</button>
-              <button class="btn btn-outline-primary my-1" @click="buyNow(book.id)">Buy now</button>
-           </div>
-           <div v-if="isAdmin" class=" mb-2 d-flex justify-content-between">
-              <button class="btn btn-outline-primary mr-2 my-1"><i class="fas fa-edit"></i> Edit</button>
-              <button class="btn btn-danger my-1"> Delete </button>
-           </div>
-          </BookItem>
-        </div>
+      <div class="d-flex justify-content-between mx-3 mt-3">
+        <h2>{{title}}</h2>
+        <button href="#" class="btn btn-outline-primary">See all</button>
       </div>
+      <BookItemList :isInCart="isInCart" title="Top books"/>
   `,
 };
-export { BookItemList };
+export { BookByCategory };

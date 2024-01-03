@@ -17,9 +17,9 @@ const BookItem = {
   },
   mounted() {},
   template: `
-    <div class="m-2 col" style="minWidth:14rem ; maxWidth:18rem">
-      <div class="card">
-        <img :src="book.thumbnail" class="card-img-top" @click='navBookDetail(book.id)'>
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="card m-2">
+        <img :src="book.thumbnail" style="max-height:400px" class="card-img-top" @click='navBookDetail(book.id)'>
         <div class="card-body">
           <h5 class="card-title">{{book.title}}</h5>
           <h6 class="card-subtitle mb-2 text-muted">100.000d</h6>

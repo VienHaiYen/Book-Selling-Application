@@ -1,4 +1,9 @@
-import { Banner, TextInput, BookItemList } from "../components/index.js";
+import {
+  Banner,
+  TextInput,
+  BookItemList,
+  BookByCategory,
+} from "../components/index.js";
 
 import state from "../stores/app-state.js";
 
@@ -11,12 +16,15 @@ const Home = {
     Banner,
     TextInput,
     BookItemList,
+    BookByCategory,
   },
   methods: {},
   mounted() {},
+  // <BookItemList :isInCart=false title="Top books"/>
   template: `
       <Banner />
-      <BookItemList :isInCart=false title="Top books"/>
+      <BookByCategory :isInCart=false title="Popular"/>
+
     `,
 };
 

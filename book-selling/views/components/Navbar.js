@@ -44,7 +44,7 @@ const Navbar = {
       });
   },
   template: `
-    <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary ">
+    <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary bg-white">
       <div class="container-fluid">
         <a class="navbar-brand" @click="this.navigation('home')">MeBook</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">

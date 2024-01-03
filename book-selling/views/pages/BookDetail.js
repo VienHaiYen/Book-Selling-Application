@@ -72,7 +72,7 @@ const BookDetail = {
   },
 
   template: `
-          <div class="p-4 py-xl-5">
+          <div v-if="book.title!=undefined" class="p-4 py-xl-5">
             <div class="bg-white border rounded border-0 border-dark overflow-hidden">
                 <div class="row g-0">
                     <div class="col-md-5 col-lg-4 px-2 px-sm-2 order-first" style="min-width: 250px;">

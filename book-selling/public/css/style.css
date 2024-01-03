@@ -7,8 +7,8 @@ body {
   width: 100%;
   height: 100%;
   margin: 0;
-  background-color: #EEF0E5;
-  font-family: 'Roboto', sans-serif;
+  background-color: #f9f9f9;
+  font-family: "Roboto", sans-serif;
 }
 
 .cascading-right {
@@ -61,4 +61,8 @@ body {
 
 .cart-button-image {
   max-width: 15px;
+}
+
+.banner-control:hover {
+  background-color: rgb(209, 207, 207);
 }
