@@ -8,7 +8,7 @@ import {
   MyCart,
   BookDetail,
   OrderSummary,
-  AdminHome,
+  AdminReport,
   User,
 } from "./pages/index.js";
 
@@ -30,7 +30,7 @@ const App = {
     OrderSummary,
     SidebarAdmin,
     // admin
-    AdminHome,
+    AdminReport,
     User,
   },
   data() {
@@ -62,9 +62,10 @@ const App = {
   // <component :is="state.view"></component>
   template: `
   <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
-    <Navbar v-if="!(state.user == undefined ? false : state.user.role == 'admin')" @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+    <Navbar v-if="!
+    (state.user == undefined ? false : state.user.role == 'admin')" @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
     <SidebarAdmin v-else @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-        <component :is="state.view" @changeView="changeView"></component>
+        <component class=" flex-grow-1" :is="state.view" @changeView="changeView"></component>
   </div>
     <Footer />
   `,

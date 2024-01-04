@@ -1,6 +1,6 @@
 import { AdminSearch, BookItemList } from "../components/index.js";
 
-const AdminBooks = {
+const AdminReport = {
   props: {},
   components: {
     AdminSearch,
@@ -14,12 +14,8 @@ const AdminBooks = {
   methods: {},
   mounted() {},
   template: `
-    <div d-flex>
-      <AdminSearch />
-      <BookItemList :isInCart=true :isAdmin=true title="All books"/>
-
-    </div>
+    <h1>Admin Report</h1>
   `,
 };
 
-export { AdminBooks };
+export { AdminReport };

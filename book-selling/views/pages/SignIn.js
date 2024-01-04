@@ -25,7 +25,7 @@ const SignIn = {
           password: this.password,
         })
         .then((res) => {
-          this.$emit("changeView", "Home");
+          state.view = "Home";
           state.user = res.data;
           console.log(state.user);
         })

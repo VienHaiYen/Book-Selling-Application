@@ -15,7 +15,7 @@ const SidebarAdmin = {
   },
   methods: {
     navigation(screen) {
-      this.$emit("changeView", screen);
+      state.view = screen;
     },
     logOut() {
       axios
@@ -44,13 +44,13 @@ const SidebarAdmin = {
         </a>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li class="nav-item">
-                <a href="#" class="nav-link align-middle px-0">
-                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Report</span>
+                <a @click="this.navigation('Home')" href="#" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Book list</span>
                 </a>
             </li>
             <li>
-                <a @click="this.navigation('AdminBooks')" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Book List</span> </a>
+                <a @click="this.navigation('AdminReport')" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Report</span> </a>
             </li>
             <li>
                 <a @click="this.navigation('User')" data-bs-toggle="collapse" class="nav-link px-0 align-middle">

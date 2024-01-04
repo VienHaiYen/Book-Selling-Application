@@ -4,8 +4,6 @@ import { BookItem } from "./BookItem.js";
 const BookItemList = {
   props: {
     title: String,
-    isInCart: Boolean,
-    isAdmin: Boolean,
   },
   data() {
     return {
@@ -14,6 +12,7 @@ const BookItemList = {
   },
   components: {
     BookItem,
+    state,
   },
   methods: {},
   created() {},
@@ -65,13 +64,13 @@ const BookItemList = {
       <div class="mx-2">
         <div class="m-0 d-flex flex-wrap justify-content-start ">
           <BookItem v-for="(book,index) in state.bannerList?.data.slice(0,6)" :book="book" :key="index">
-           <div v-if="!isInCart">
-              <button class="btn btn-primary mr-2 my-1" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Add to cart</button>
-              <button class="btn btn-outline-primary my-1" @click="buyNow(book.id)">Buy now</button>
+           <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">
+              <button class="btn btn-primary m-1" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+              <button class="btn btn-outline-primary m-1" @click="buyNow(book.id)">Buy now</button>
            </div>
-           <div v-if="isAdmin" class=" mb-2 d-flex justify-content-between">
-              <button class="btn btn-outline-primary mr-2 my-1"><i class="fas fa-edit"></i> Edit</button>
-              <button class="btn btn-danger my-1"> Delete </button>
+           <div v-else class=" mb-2 ">
+              <button class="btn btn-outline-primary mr-2 my-1 w-100"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn btn-danger my-1 w-100"> Delete </button>
            </div>
           </BookItem>
         </div>

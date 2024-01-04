@@ -4,8 +4,6 @@ import { BookItemList } from "./BookItemList.js";
 const BookByCategory = {
   props: {
     title: String,
-    isAdmin: Boolean,
-    isInCart: Boolean,
   },
   data() {
     return {
@@ -66,7 +64,7 @@ const BookByCategory = {
         <h2>{{title}}</h2>
         <button href="#" class="btn btn-outline-primary">See all</button>
       </div>
-      <BookItemList :isInCart="isInCart" title="Top books"/>
+      <BookItemList />
   `,
 };
 export { BookByCategory };
