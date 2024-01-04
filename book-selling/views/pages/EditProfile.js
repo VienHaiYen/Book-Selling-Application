@@ -1,11 +1,17 @@
 import { HorrizontalBookCard } from "../components/index.js";
-
+import state from "../../stores/app-state.js";
 const EditProfile = {
   components: {
     HorrizontalBookCard,
   },
   data() {
-    return {};
+    return {
+      state,
+      full_name: state.user.full_name,
+      email: state.user.email,
+      phone: state.user.phone.trim(),
+      address: state.user.address,
+    };
   },
   methods: {
     mountOnAvatar: (e) => {
@@ -15,6 +21,33 @@ const EditProfile = {
     mountOutAvatar: (e) => {
       e.target.querySelector("img").classList.remove("hover");
       e.target.querySelector(".icon").classList.add("d-none");
+    },
+    async fetchUser() {
+      await axios
+        .get(`/users/${state.user.id}`)
+        .then((res) => {
+          console.log(res);
+          return res.data;
+        })
+        .catch((err) => console.error(err));
+    },
+    async updateProfile(e) {
+      axios
+        .put(`/users/${state.user.id}`, {
+          full_name: this.full_name,
+          phone: this.phone,
+          address: this.address,
+        })
+        .then(async (res) => {
+          alert("Update profile successfully");
+
+          state.user = await this.fetchUser();
+          state.user = res.data;
+          state.view = "Setting";
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
   },
   mounted() {},
@@ -31,8 +64,8 @@ const EditProfile = {
                     class=" rounded-circle img-fluid avartar" style="width: 150px;">
                   <div class="position-absolute icon d-none" style="top:30%; left:50%; transform:translate(-50%, -50%)"><i class="fas fa-camera  fs-1"></i></div>
                 </div>
-                <h5 class="my-3">John Smith</h5>
-                <p class="text-muted mb-4" >Bay Area, San Francisco, CA</p>
+                <h5 class="my-3">{{state.user.full_name}}</h5>
+                <p class="text-muted mb-4" >{{state.user.address}}</p>
               </div>
             </div>
           </div>
@@ -44,7 +77,7 @@ const EditProfile = {
                       <p class="mb-0">Full Name</p>
                     </div>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control mb-0" placeholder="John Smith"/>
+                      <input v-model="full_name" type="text" class="form-control mb-0" placeholder="Enter full name"/>
                     </div>
                   </div>
                   <hr>
@@ -53,7 +86,7 @@ const EditProfile = {
                       <p class="mb-0">Email</p>
                     </div>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control mb-0" placeholder="example@example.com"/>
+                      <input v-model="email" disabled type="text" class="form-control mb-0"/>
                     </div>
                   </div>
                   <hr>
@@ -62,7 +95,7 @@ const EditProfile = {
                       <p class="mb-0">Phone</p>
                     </div>
                     <div class="col-sm-9">
-                      <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  class="form-control mb-0" placeholder="(097) 234-5678"/>
+                      <input v-model="phone" type="tel"  class="form-control mb-0" placeholder="Enter your phone number"/>
                     </div>
                   </div>
                   <hr>
@@ -71,11 +104,11 @@ const EditProfile = {
                       <p class="mb-0">Address</p>
                     </div>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control mb-0" placeholder="Bay Area, San Francisco, CA"/>
+                      <input v-model="address" type="text" class="form-control mb-0" placeholder="Enter your address"/>
                     </div>
                   </div>
                   <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn mt-3 btn-secondary">Done</button>
+                    <button type="submit" class="btn mt-3 btn-secondary" @click="updateProfile">Done</button>
                   </div>
                 </div>
               </form>

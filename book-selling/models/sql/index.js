@@ -4,8 +4,10 @@ module.exports = {
   userSQL: {
     add: sql("user/add.sql"),
     getByEmail: sql("user/getByEmail.sql"),
+    searchByEmail: sql("user/searchByEmail.sql"),
     get: sql("user/get.sql"),
     count: sql("user/count.sql"),
+    countSearchByEmail: sql("user/countSearchByEmail.sql"),
     getById: sql("user/getById.sql"),
     update: sql("user/update.sql"),
     delete: sql("user/delete.sql"),

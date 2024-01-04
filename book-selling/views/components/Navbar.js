@@ -1,6 +1,6 @@
 import { Dropdown } from "./Dropdown.js";
 import { Avatar } from "./Avatar.js";
-
+import state from "../stores/app-state.js";
 const Navbar = {
   props: {
     isLogin: Boolean,
@@ -20,6 +20,18 @@ const Navbar = {
     navigation(screen) {
       this.$emit("changeView", screen);
     },
+    logOut() {
+      axios
+        .post("/logout")
+        .then((res) => {
+          state.user = undefined;
+          this.$emit("changeView", "Home");
+          alert("Log out successfully");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
   },
   mounted() {
     axios
@@ -32,7 +44,7 @@ const Navbar = {
       });
   },
   template: `
-    <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary ">
+    <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary bg-white">
       <div class="container-fluid">
         <a class="navbar-brand" @click="this.navigation('home')">MeBook</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -53,8 +65,8 @@ const Navbar = {
           </form>
           <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
           <Avatar v-if="isLogin" style="margin-left:20px" :source="avatarImg" size="40px" @click="this.navigation('setting')" />
-
           <button v-if="isLogin" class="btn ml-2  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
+          <button v-if="isLogin" class="btn btn-danger" style="margin-left:20px" @click="logOut" ><i class="fas fa-sign-out-alt"></i></button>
           </div>
       </div>
     </nav>

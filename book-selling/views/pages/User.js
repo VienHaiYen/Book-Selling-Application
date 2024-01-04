@@ -1,7 +1,7 @@
-import { UserItem, UserList, AdminSearch } from "../components/index.js";
+import { UserList, AdminSearch } from "../components/index.js";
 
 const User = {
-  components: { UserItem, UserList, AdminSearch },
+  components: { UserList, AdminSearch },
   data() {
     return {};
   },

@@ -6,6 +6,7 @@ const BookDetail = {
   data() {
     return {
       book: {},
+      author: {},
       state,
     };
   },
@@ -14,7 +15,9 @@ const BookDetail = {
       await axios
         .get("/books/" + this.id)
         .then((res) => {
-          this.book = res.data;
+          this.book = res.data.book;
+          this.author = res.data.author;
+          console.log(this.book);
         })
         .catch((err) => {
           console.error(err);
@@ -29,6 +32,7 @@ const BookDetail = {
           quantity: 1,
         },
         success: (data) => {
+          console.log(454, data);
           const new_item_id = data.data.new_item_id;
           if (new_item_id !== -1) alert("Added to cart");
           else alert("Fail to add item to cart");
@@ -66,34 +70,31 @@ const BookDetail = {
   mounted() {
     this.getBookDetail();
   },
+
   template: `
-    <section >
-      <div class="d-flex justify-content-center">
-        <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
-            <div class="card border-0 shadow">
-                <img v-if="book" :src="book.thumbnail" alt="...">
-            </div>
-        </div>
-        <div class=" col-md-5 col-lg-8">
-            <div class="ps-lg-1-6 ps-xl-5">
-                <div class="mb-2 wow fadeIn">
-                    <div class="text-start wow fadeIn">
-                        <h2 v-if="book"  class="h1 mb-0 text-primary">{{book.title}} <span>({{book.published_year}})</span></h2>
-                        <h4 v-if="book"  class="my-2 mb-0 ">{{book.publisher}}</h4>
+          <div v-if="book.title!=undefined" class="p-4 py-xl-5">
+            <div class="bg-white border rounded border-0 border-dark overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-5 col-lg-4 px-2 px-sm-2 order-first" style="min-width: 250px;">
+                      <img class="w-100 fit-cover" :src="book.thumbnail" />
                     </div>
-                    <p v-if="book" >{{book.description}}</p>
+                    <div class="col-md-7 col-lg-8">
+                        <div class=" p-3">
+                            <h2 class="fw-bold text mb-3">{{book.title}} ({{book.published_year}})</h2>
+                            <h5>{{author.name}}</h5>
+                            <p class="card-text"><span><strong>Language: </strong></span>English</p>
+                            <p class="card-text"><span><strong>Publisher: </strong></span><span>William Morrow &amp; Company</span></p>
+                            <p class="card-text"><span><strong>Page number: </strong></span>478</p>
+                            <p class="card-text"><span><strong>Short desscription: </strong></span>{{book.description}}</p>
+                            <div class="my-3">
+                              <a class="btn btn-primary btn-md me-2" @click="buyNow(book.id)" role="button" href="#">Buy Now</a>
+                              <a class="btn btn-outline-secondary btn-md" @click="addToCart(book.id)" role="button" href="#">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-start wow fadeIn">
-                    <h2 class="mb-2">100.000d</h2>
-                </div>
-                <div class="d-flex">
-                  <button class="btn btn-outline-primary" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Add to cart</button>
-                  <button class="btn btn-outline-primary mx-2" @click="buyNow(book.id)"> Buy now</button>
-                </div>
-              </div>
+            </div>
           </div>
-      </div>
-    </section>
   `,
 };
 

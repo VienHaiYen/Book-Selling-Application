@@ -8,13 +8,14 @@ export * from "./ResetPasswordForm.js";
 export * from "./TextInput.js";
 export * from "./HorrizontalBookCard.js";
 export * from "./BookItem.js";
+export * from "./BookItemBanner.js";
 export * from "./BookItemList.js";
 export * from "./Avatar.js";
-
+export * from "./BooksbyCategory.js";
+export * from "./Pagination.js";
 // admin
 export * from "./SidebarAdmin.js";
 export * from "./AdminSearch.js";
-export * from "./UserItem.js";
 export * from "./UserList.js";
 // charts
 export * from "./CartItem.js";
