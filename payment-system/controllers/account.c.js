@@ -9,3 +9,13 @@ module.exports.createAccount = async (req, res, next) => {
         next(err)
     }
 }
+
+module.exports.getAccount = async (req, res, next) => {
+    try {
+        const { accountId } = req.params;
+        const account = await Account.get(accountId);
+        res.status(200).send(account);
+    } catch (err) {
+        next(err)
+    }
+}

@@ -3,6 +3,7 @@ const { join } = require("path");
 module.exports = {
     accountSQL: {
         add: sql("account/add.sql"),
+        get: sql("account/get.sql"),
     },
 //   userSQL: {
 //     add: sql("user/add.sql"),
