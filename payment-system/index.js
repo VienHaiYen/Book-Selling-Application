@@ -16,10 +16,8 @@ app.set("views", "views");
 
 // Routers
 // const options = { root: path.join(__dirname, "../views") };
-// const routers = require("./routers");
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
+const routers = require("./routers");
+app.use("/accounts", routers.accountRouter);
 
 
 app.use((err, req, res, next) => {
