@@ -93,7 +93,6 @@ module.exports = {
                     body: JSON.stringify(googleOption.getGGAuthApiOption(code))
                 }
             )).json()
-            console.log(authData)
             // get client info from google
             const clientInfo = new GoogleUser(await (await fetch(
                 googleOption.ggInfoApiUrl,
@@ -102,7 +101,6 @@ module.exports = {
                     headers: { "Authorization": `Bearer ${authData.access_token}` }
                 }
             )).json())
-            console.log(clientInfo)
             // get or create new user
             let user = await User.getByEmail(clientInfo.email)
             if(!user){
