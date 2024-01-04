@@ -22,8 +22,14 @@ module.exports = class User {
     }
 
     static async getByEmail(email) {
-        return await db.oneOrNone(userSQL.getByEmail, [email])
-            .then(user => user ? new User(user) : null)
+        const user = await db.oneOrNone(userSQL.getByEmail, [email])
+        return  user ? new User(user) : null
+    }
+
+    static async searchByEmail(email, page, pageSize) {
+        const offset = getOffset(page, pageSize)
+        return await db.any(userSQL.searchByEmail, [email, pageSize, offset])
+            .then(userList => userList.map(user => new User(user)))
     }
 
     static async create(user) {
@@ -44,6 +50,10 @@ module.exports = class User {
 
     static async count() {
         return await db.one(userSQL.count).then(data => parseInt(data.count))
+    }
+
+    static async countSearchResult(email) {
+        return await db.one(userSQL.countSearchByEmail, [email]).then(data => parseInt(data.count))
     }
 
     static async getById(id) {

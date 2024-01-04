@@ -4,12 +4,17 @@ const { User } = require("../models")
 
 module.exports.getUserList = async (req, res, next) => {
     try {
+        // pagination
         let { page = "1", pageSize = "10" } = req.query
         page = parseInt(page)
         pageSize = parseInt(pageSize)
 
-        const userList = await User.getAll(page, pageSize)
-        const total = await User.count();
+        // filter email
+        const { email = "" } = req.query
+
+        const userList = await User.searchByEmail(email, page, pageSize)
+
+        const total = await User.countSearchResult(email);
 
         res.send(paginationResponse(total, page, userList))
     } catch (error) {
@@ -64,7 +69,7 @@ module.exports.deleteUser = async (req, res, next) => {
         }
 
         const deletedUser = await (await User.getById(userId)).delete()
-        if(userId == req.user.id){
+        if (userId == req.user.id) {
             res.clearCookie('aToken', cookieOption)
         }
         res.send(deletedUser)
