@@ -42,7 +42,7 @@ module.exports = {
                 throw new Error("User does not exist")
             }
 
-            if(userDb.google_id){
+            if (userDb.google_id) {
                 throw new Error("User is registerd by google")
             }
 
@@ -103,7 +103,7 @@ module.exports = {
             )).json())
             // get or create new user
             let user = await User.getByEmail(clientInfo.email)
-            if(!user){
+            if (!user) {
                 user = new User({
                     email: clientInfo.email,
                     full_name: clientInfo.name,
@@ -119,6 +119,14 @@ module.exports = {
             )
             res.cookie('aToken', accessToken, cookieOption)
             res.redirect("/")
+        } catch (error) {
+            next(error)
+        }
+    },
+    getAuth: async (req, res, next) => {
+        try {
+            const { password_hash, ...user } = req.user
+            res.send(user)
         } catch (error) {
             next(error)
         }
