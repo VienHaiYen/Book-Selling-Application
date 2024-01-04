@@ -1,4 +1,4 @@
-import { AdminHome, AdminBooks, User } from "./pages/index.js";
+import { AdminHome, AdminReport, User } from "./pages/index.js";
 
 import { SidebarAdmin, Footer } from "./components/index.js";
 import state from "../stores/app-state.js";
@@ -6,7 +6,7 @@ import state from "../stores/app-state.js";
 const AdminApp = {
   components: {
     AdminHome,
-    AdminBooks,
+    AdminReport,
     SidebarAdmin,
     Footer,
     User,

@@ -1,6 +1,6 @@
 import state from "../stores/app-state.js";
 
-import { BookItem } from './BookItem.js';
+import { BookItemBanner } from "./BookItemBanner.js";
 
 const Banner = {
   data() {
@@ -10,7 +10,7 @@ const Banner = {
     };
   },
   components: {
-    BookItem,
+    BookItemBanner,
   },
   methods: {
     viewNext() {
@@ -36,13 +36,13 @@ const Banner = {
         })
         .catch((err) => {
           console.error(err);
-        })
+        });
     },
   },
   template: `
     <div id="bannerview" class="d-flex mt-2 mb-2 w-100 justify-content-around">
-      <button class="banner-control d-flex align-items-center" type="button" @click="this.viewPrev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <button class="banner-control px-5 d-flex align-items-center border-0 " type="button" @click="this.viewPrev">
+        <span class="text-dark fs-3" aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
         <span class="visually-hidden">Previous</span>
       </button>
       <div id="carousel-banner" class="carousel" data-bs-ride="carousel">
@@ -51,12 +51,12 @@ const Banner = {
         </div>
         <div class="carousel-inner" v-for="(book,index) in state.bannerList?.data.slice(0,5)" data-bs-interval="10000">
           <div class="carousel-item" :class="index==this.activeBanner?'active':''" @click="selectBook(book.id)" style="cursor:pointer;">
-            <BookItem :book="book" :key="index" />
+            <BookItemBanner :book="book" :key="index" />
           </div>
         </div>
       </div>
-      <button class="banner-control  d-flex align-items-center" type="button" @click="this.viewNext">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <button class="banner-control px-5 d-flex align-items-center border-0 " type="button" @click="this.viewNext">
+        <span class="text-dark fs-3" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>

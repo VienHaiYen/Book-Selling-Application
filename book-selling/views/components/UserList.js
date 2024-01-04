@@ -1,26 +1,69 @@
-import { UserItem } from "./UserItem.js";
+import { Pagination } from "./index.js";
 
 const UserList = {
   props: {},
   components: {
-    UserItem,
+    Pagination,
   },
+  data() {
+    return {
+      userList: [],
+      meta: {},
+      perpage: 5,
+    };
+  },
+  methods: {
+    async getUserList(page = 1) {
+      console.log("/users/?page=" + page + "&pageSize=" + this.perpage);
+      await axios
+        .get("/users/?page=" + page + "&pageSize=" + this.perpage)
+        .then((res) => {
+          this.userList = res.data.data;
+          this.meta = res.data.meta;
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+  },
+  mounted() {
+    this.getUserList();
+  },
+  // <button class="btn btn-outline-primary mr-2"><i class="fas fa-edit"></i> Chỉnh sửa</button>
   template: `
     <div class="mx-2">
-        <h2>Danh sách người dùng</h2>
-        <div class="m-0 d-flex flex-wrap justify-content-start ">
-          <UserItem v-for="(book,index) in 10" :key="index">
-           <div v-if="!isInCart">
-              <button class="btn btn-outline-primary mr-2 mb-2"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-              <button class="btn btn-outline-primary"> Mua ngay</button>
-           </div>
-           <div v-if="isAdmin" class=" mb-2 d-flex justify-content-between">
-              <button class="btn btn-outline-primary mr-2"><i class="fas fa-edit"></i> Chỉnh sửa</button>
-              <button class="btn btn-danger"> Xóa </button>
-           </div>
-          </UserItem>
+      <div class="d-flex justify-content-between">
+        <h2>User list</h2>
+        <div class="d-flex ">
+          <label class="form-label">Perpage: </label>
+          <select v-model="perpage" @change="getUserList(1)" class="form-select" aria-label="Default select example">
+            <option value="2">2</option>
+            <option selected value="5">5</option>
+            <option value="10">10</option>
+          </select>
         </div>
       </div>
+      <table class="table table-success table-striped-columns">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Items Bought</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user,index) in userList">
+            <th scope="row">{{(meta.page-1)*perpage+index+1}}</th>
+            <td>{{user.full_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{1}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <Pagination :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getUserList" />
   `,
 };
 export { UserList };
