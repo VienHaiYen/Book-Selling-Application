@@ -70,8 +70,4 @@ module.exports = class Book {
     sql = sql.slice(0, -1) + ` WHERE id = ${bookId} RETURNING *;`;
     return await db.oneOrNone(sql, params).then((book) => new Book(book))
   }
-
-  static async updateAuthor(bookId, authorId) {
-    
-  }
 };
