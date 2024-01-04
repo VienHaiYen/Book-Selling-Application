@@ -1,7 +1,9 @@
 const { QueryFile } = require("pg-promise");
 const { join } = require("path");
 module.exports = {
-    
+    accountSQL: {
+        add: sql("account/add.sql"),
+    },
 //   userSQL: {
 //     add: sql("user/add.sql"),
 //     getByEmail: sql("user/getByEmail.sql"),
