@@ -4,5 +4,5 @@ module.exports = {
   database: process.env.DATABASE || 'postgres',
   user: process.env.PG_USER || 'postgres',
   password: process.env.PG_PASSWORD || '123',
-  // ssl: true,
+  ssl: true,
 };

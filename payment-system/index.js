@@ -16,12 +16,15 @@ app.set("views", "views");
 
 // Routers
 // const options = { root: path.join(__dirname, "../views") };
-const routers = require("./routers");
+// const routers = require("./routers");
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
 
 
 app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send("Internal Error");
+    console.error(err);
+    res.status(500).send("Internal Error");
 });
 // app.use("/", routers);
-app.listen(PORT, () => console.log(`Server is running at port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`));
