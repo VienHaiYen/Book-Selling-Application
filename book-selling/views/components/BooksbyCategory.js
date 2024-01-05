@@ -64,7 +64,8 @@ const BookByCategory = {
         <h2>{{title}}</h2>
         <button href="#" class="btn btn-outline-primary">See all</button>
       </div>
-      <BookItemList />
+      //TODO: add book list
+      <BookItemList :books="state.bannerList?.data.slice(0,6)"/>
   `,
 };
 export { BookByCategory };

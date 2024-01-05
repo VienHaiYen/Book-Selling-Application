@@ -1,7 +1,6 @@
 import { ValidateModel } from "../utils/index.js";
 import state from "../stores/app-state.js";
 const SignIn = {
-  emits: ["changeView"],
   data() {
     return {
       email: "",
@@ -35,19 +34,8 @@ const SignIn = {
         });
     },
 
-    logInGoogle: async function () {
-      await axios
-        .get("/login/google")
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-
     navigator(screen) {
-      this.$emit("changeView", screen);
+      state.view = screen;
     },
   },
 
@@ -92,8 +80,8 @@ const SignIn = {
 
                     OR
                     <!-- Google SignIn button -->
-                    <button @click="logInGoogle" style="width:400px; color: #545454;background-color: #ffffff;box-shadow: 0 1px 2px 1px #ddd;" class="btn btn-google text-uppercase my-3"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</button>
-                  </div>
+                    </div>
+                  <a href="/login/google"  style="width:400px; color: #545454;background-color: #ffffff;box-shadow: 0 1px 2px 1px #ddd;" class="btn btn-google text-uppercase my-3"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</a>
                   <p>Don't have an account? <a href="#!" class="link-info" @click="navigator('Register')">Register here</a></p>
 
                 </form>

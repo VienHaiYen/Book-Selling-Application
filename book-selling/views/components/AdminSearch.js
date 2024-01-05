@@ -1,3 +1,5 @@
+import state from "../stores/app-state.js";
+
 const AdminSearch = {
   props: {},
   components: {},
@@ -8,7 +10,7 @@ const AdminSearch = {
   },
   methods: {
     navigation(screen) {
-      this.$emit("changeView", screen);
+      state.view = screen;
     },
   },
   mounted() {},

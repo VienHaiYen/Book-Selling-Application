@@ -41,11 +41,7 @@ const App = {
     };
   },
 
-  methods: {
-    changeView(type) {
-      state.view = type;
-    },
-  },
+  methods: {},
   async created() {
     if (localStorage.getItem("user") != undefined) {
       state.user = JSON.parse(localStorage.getItem("user"));
@@ -64,9 +60,9 @@ const App = {
   template: `
   <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
     <Navbar v-if="!
-    (state.user == undefined ? false : state.user.role == 'admin')" @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-    <SidebarAdmin v-else @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-        <component class=" flex-grow-1" :is="state.view" @changeView="changeView"></component>
+    (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+    <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+        <component class=" flex-grow-1" :is="state.view"></component>
   </div>
     <Footer />
   `,

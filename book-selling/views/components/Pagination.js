@@ -51,33 +51,33 @@ const Pagination = {
   },
 
   template: `
-  <ul v-if="totalPages" class="pagination">
-    <li class="pagination-item">
-      <button type="button" @click="onClickFirstPage" :disabled="isInFirstPage">
+  <ul v-if="totalPages" class="pagination d-flex flex-wrap">
+    <li class="page-item">
+      <button class="btn-outline-secondary m-1" type="button" @click="onClickFirstPage" :disabled="isInFirstPage">
         <i class="fas fa-angle-double-left"></i>
       </button>
     </li>
 
-    <li class="pagination-item">
-      <button type="button" @click="onClickPreviousPage" :disabled="isInFirstPage">
+    <li class="page-item">
+      <button class="btn-outline-secondary m-1" type="button" @click="onClickPreviousPage" :disabled="isInFirstPage">
         <i class="fas fa-angle-left"></i>
       </button>
     </li>
 
     <li v-for="page in totalPages" class="pagination-item">
-      <button type="button" @click="onClickPage(page)" :disabled="page.isDisabled" :class="{ active: isPageActive(page) }">
+      <button class="btn-outline-secondary m-1" type="button" @click="onClickPage(page)" :disabled="page.isDisabled" :class="{ active: isPageActive(page) }">
         {{ page }}
       </button>
     </li>
 
-    <li class="pagination-item">
-      <button type="button" @click="onClickNextPage" :disabled="isInLastPage">
+    <li class="page-item">
+      <button class="btn-outline-secondary m-1" type="button" @click="onClickNextPage" :disabled="isInLastPage">
         <i class="fas fa-angle-right"></i>
       </button>
     </li>
 
-    <li class="pagination-item">
-      <button type="button" @click="onClickLastPage" :disabled="isInLastPage">
+    <li class="page-item">
+      <button class="btn-outline-secondary m-1" type="button" @click="onClickLastPage" :disabled="isInLastPage">
         <i class="fas fa-angle-double-right"></i>
       </button>
     </li>
