@@ -24,4 +24,13 @@ module.exports = class Order {
       return null;
     }
   }
+  static async getOrderByUserId(user_id) {
+    try {
+      let result = await db.manyOrNone(orderSQL.getOrderByUserId, [user_id]);
+      return result;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
 };

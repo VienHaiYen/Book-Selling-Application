@@ -4,6 +4,7 @@ import { OrderedItem } from "./OrderedItem.js";
 const OrderedItemList = {
   props: {
     title: String,
+    displayList: Array,
   },
   data() {
     return {
@@ -14,15 +15,7 @@ const OrderedItemList = {
   components: {
     OrderedItem,
   },
-  computed: {
-    calculatedSelectedItems() {
-      const selectedIds = this.state.inCartSelected.map(Number);
-      if (state.inCart) {
-        return state.inCart.filter((item) => selectedIds.includes(item.id));
-      }
-      return [];
-    },
-  },
+  computed: {},
   methods: {
     fetchCartItems() {
       fetch("/myCart")
@@ -39,12 +32,14 @@ const OrderedItemList = {
     this.fetchCartItems();
   },
   mounted() {
-    const selectedIds = this.state.inCartSelected.map(Number);
+    if (this.state.inCart) {
+      const selectedIds = this.state.inCartSelected.map(Number);
 
-    // Filter the items in inCart that match the selected IDs
-    this.selectedItems = this.state.inCart.filter((item) =>
-      selectedIds.includes(item.id)
-    );
+      // Filter the items in inCart that match the selected IDs
+      this.selectedItems = this.state.inCart.filter((item) =>
+        selectedIds.includes(item.id)
+      );
+    }
   },
   template: `
 <div class="shopping-order">
@@ -66,7 +61,7 @@ const OrderedItemList = {
 
     </div>
 
-    <OrderedItem v-for="(item,index) in calculatedSelectedItems" :item="item" :key="item.id">
+    <OrderedItem v-for="(item,index) in displayList" :item="item" :key="item.id">
 
     </OrderedItem>
     </fieldset>
