@@ -23,17 +23,31 @@ app.set("views", "views");
 // const options = { root: path.join(__dirname, "../views") };
 
 const routers = require("./routers");
+const { bookController, authorController, categoryController } = require("./controllers");
 app.use("/users", routers.userRouter);
 app.use("/", routers.authRouter);
 app.get("/", function (req, res) {
   res.sendFile("./views/index.html", options);
 });
 
-app.use("/", routers.bookRouter);
-app.use("/", routers.categoryRouter);
+app.use("/books", routers.bookRouter);
+app.use("/categories", routers.categoryRouter);
 app.use("/", routers.cartRouter);
 app.use("/", routers.inventoryRouter);
 app.use("/", routers.orderRouter);
+
+app.get("/search", async (req, res) => {
+  try {
+    const books = await bookController.getByTitle(req, res)
+    const authors = await authorController.getByName(req, res)
+    const categories = await categoryController.getByName(req, res)
+
+    res.send({ books, authors, categories })
+  } catch (err) {
+    console.error('Error: ', err)
+    res.status(500).send('Unknown Error')
+  }
+})
 
 app.use((err, req, res, next) => {
   console.error(err);

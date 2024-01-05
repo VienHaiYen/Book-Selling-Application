@@ -1,4 +1,3 @@
-SELECT *, COUNT(*) OVER()
+SELECT *
 FROM public."books"
-WHERE title LIKE $1
-LIMIT $2 OFFSET $3
+WHERE title ILIKE $1

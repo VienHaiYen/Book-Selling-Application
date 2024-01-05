@@ -1,5 +1,5 @@
 const { db } = require("../configs/postgres.js");
-const { bookSQL } = require("./sql");
+const { bookSQL, authorSQL } = require("./sql");
 
 module.exports = class Book {
   constructor({ id, title, language, description, thumbnail, publisher, published_year, page_count, created_at, updated_at, count }) {
@@ -34,19 +34,25 @@ module.exports = class Book {
     }
   }
 
-  static async getByTitle(title, page, pageSize) {
+  static async getByTitle(title) {
     try {
-      return await db.manyOrNone(bookSQL.getByTitle, [`%${title}%`, pageSize, pageSize * (page - 1)]).then((books) => books.map((book) => new Book(book)))
+      return await db.manyOrNone(bookSQL.getByTitle, [`%${title}%`]).then((books) => books.map((book) => new Book(book)))
     } catch (err) {
       return null;
     }
   }
 
-  static async add(book) {
-    const newBook = new Book(book)
-    return await db.one(bookSQL.add,
+  static async add(data) {
+    const newBook = new Book(data)
+    const author = await db.one(authorSQL.add, data.author_name)
+    const book = await db.one(bookSQL.add,
       [newBook.title, newBook.language, newBook.description, newBook.thumbnail, newBook.publisher, newBook.published_year, newBook.page_count]
-    ).then((book) => new Book(book))
+    )
+
+    await db.none(bookSQL.addBookAuthor, [book.id, author.id])
+    await db.none(bookSQL.addBookCategory, [book.id, data.category_id])
+
+    return book
   }
 
   static async update(bookId, updateData) {
@@ -64,5 +70,4 @@ module.exports = class Book {
     sql = sql.slice(0, -1) + ` WHERE id = ${bookId} RETURNING *;`;
     return await db.oneOrNone(sql, params).then((book) => new Book(book))
   }
-
 };
