@@ -5,15 +5,14 @@ const Navbar = {
   props: {
     isLogin: Boolean,
     avatarImg: String,
+    categories: Array,
   },
   components: {
     Dropdown,
     Avatar,
   },
   data() {
-    return {
-      categories: [],
-    };
+    return {};
   },
   methods: {
     navigation(screen) {
@@ -24,7 +23,6 @@ const Navbar = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
-          localStorage.removeItem("user");
           state.view = "Home";
           alert("Log out successfully");
         })
@@ -33,16 +31,7 @@ const Navbar = {
         });
     },
   },
-  mounted() {
-    axios
-      .get("/categories")
-      .then((res) => {
-        this.categories = res.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  },
+  mounted() {},
   template: `
     <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary bg-white">
       <div class="container-fluid">

@@ -26,7 +26,6 @@ const SignIn = {
         .then((res) => {
           state.view = "Home";
           state.user = res.data;
-          localStorage.setItem("user", JSON.stringify(res.data));
           console.log(state.user);
         })
         .catch((err) => {

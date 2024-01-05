@@ -80,7 +80,7 @@ const UserList = {
         </tbody>
       </table>
     </div>
-    <Pagination :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getUserList" />
+    <Pagination v-if="meta.total" :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getUserList" />
   `,
 };
 export { UserList };

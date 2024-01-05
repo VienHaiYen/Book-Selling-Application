@@ -38,14 +38,31 @@ const App = {
       avatarImg:
         "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
       state,
+      categories: [],
     };
   },
 
   methods: {},
   async created() {
-    if (localStorage.getItem("user") != undefined) {
-      state.user = JSON.parse(localStorage.getItem("user"));
-    }
+    axios
+      .get("/categories")
+      .then((res) => {
+        this.categories = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    axios
+      .get("/auth")
+      .then((res) => {
+        console.log(res.data);
+        state.user = res.data;
+      })
+      .catch((err) => {
+        // console.log(err);
+        console.log("Not in session");
+      });
     await axios
       .get("/books")
       .then((res) => {
@@ -60,7 +77,7 @@ const App = {
   template: `
   <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
     <Navbar v-if="!
-    (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+    (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
     <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
         <component class=" flex-grow-1" :is="state.view"></component>
   </div>

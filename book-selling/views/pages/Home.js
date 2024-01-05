@@ -17,6 +17,7 @@ const Home = {
       bookList: Array,
       meta: {},
       perpage: 60,
+      readMode: true,
     };
   },
   components: {
@@ -43,13 +44,14 @@ const Home = {
         });
     },
   },
-  mounted() {
-    if (state.user != undefined) {
-      if (state.user.role == "admin") {
+  async mounted() {
+    axios.get("/auth").then((res) => {
+      if (res.data.role == "admin") {
         this.getBookList();
       }
-    }
+    });
   },
+
   template: `
       <div>
         <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">
@@ -59,16 +61,25 @@ const Home = {
         <div v-else>
           <AdminSearch />
           <div class="d-flex justify-content-end">
-            <div class="d-flex align-items-center"><span>Perpage: </span></div>
-            <select style="width:100px" v-model="perpage" @change="this.getBookList(1)" class="form-select" aria-label="Default select example">
-              <option value="30">30</option>
-              <option selected value="60">60</option>
-              <option value="120">120</option>
-            </select>
+            <div class=d-flex>
+                <div class="d-flex align-items-center mx-2"><span>Read By: </span></div>
+                <select style="width:150px" v-model="readMode" @change="this.getBookList(1)" class="form-select mr-3" aria-label="Default select example">
+                  <option value="true">All Books</option>
+                  <option value="false">By Category</option>
+                </select>
+            </div>
+            <div class="d-flex">
+              <div class="d-flex align-items-center mx-2"><span>Perpage: </span></div>
+              <select style="width:100px" v-model="perpage" @change="this.getBookList(1)" class="form-select" aria-label="Default select example">
+                <option value="30">30</option>
+                <option selected value="60">60</option>
+                <option value="120">120</option>
+              </select>
+            </div>
           </div>
           <Spinner v-if="!bookList.length" />
           <BookItemList :books="bookList"/>
-          <Pagination :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getBookList" />
+          <Pagination v-if="meta.total" :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getBookList" />
         </div>
       </div>
     `,
