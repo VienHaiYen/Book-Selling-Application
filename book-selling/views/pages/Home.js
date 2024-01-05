@@ -5,6 +5,7 @@ import {
   BookByCategory,
   AdminSearch,
   Pagination,
+  Spinner,
 } from "../components/index.js";
 
 import state from "../stores/app-state.js";
@@ -25,9 +26,11 @@ const Home = {
     BookByCategory,
     AdminSearch,
     Pagination,
+    Spinner,
   },
   methods: {
     async getBookList(page = 1) {
+      this.bookList = [];
       $("html, body").animate({ scrollTop: 0 }, "slow");
       await axios
         .get("/books/?page=" + page + "&pageSize=" + this.perpage)
@@ -63,6 +66,7 @@ const Home = {
               <option value="120">120</option>
             </select>
           </div>
+          <Spinner v-if="!bookList.length" />
           <BookItemList :books="bookList"/>
           <Pagination :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getBookList" />
         </div>

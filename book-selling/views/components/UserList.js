@@ -1,9 +1,10 @@
-import { Pagination } from "./index.js";
+import { Pagination, Spinner } from "./index.js";
 
 const UserList = {
   props: {},
   components: {
     Pagination,
+    Spinner,
   },
   data() {
     return {
@@ -14,7 +15,7 @@ const UserList = {
   },
   methods: {
     async getUserList(page = 1) {
-      console.log("/users/?page=" + page + "&pageSize=" + this.perpage);
+      this.userList = [];
       await axios
         .get("/users/?page=" + page + "&pageSize=" + this.perpage)
         .then((res) => {
@@ -43,6 +44,7 @@ const UserList = {
   },
   // <button class="btn btn-outline-primary mr-2"><i class="fas fa-edit"></i> Chỉnh sửa</button>
   template: `
+    <Spinner v-if="!userList.length" />
     <div class="mx-2">
       <div class="d-flex justify-content-between">
         <h2>User list</h2>

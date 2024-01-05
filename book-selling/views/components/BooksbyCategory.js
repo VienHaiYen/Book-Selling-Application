@@ -13,6 +13,11 @@ const BookByCategory = {
   components: {
     BookItemList,
   },
+  computed: {
+    books() {
+      return state.bannerList?.data.slice(0, 6);
+    },
+  },
   methods: {},
   created() {},
   mounted() {},
@@ -65,7 +70,7 @@ const BookByCategory = {
         <button href="#" class="btn btn-outline-primary">See all</button>
       </div>
       //TODO: add book list
-      <BookItemList :books="state.bannerList?.data.slice(0,6)"/>
+      <BookItemList :books="books"/>
   `,
 };
 export { BookByCategory };
