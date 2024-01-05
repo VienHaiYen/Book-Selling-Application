@@ -4,6 +4,7 @@ import { BookItem } from "./BookItem.js";
 const BookItemList = {
   props: {
     title: String,
+    books: Array,
   },
   data() {
     return {
@@ -63,7 +64,7 @@ const BookItemList = {
   template: `
       <div class="mx-2">
         <div class="m-0 d-flex flex-wrap justify-content-start ">
-          <BookItem v-for="(book,index) in state.bannerList?.data.slice(0,6)" :book="book" :key="index">
+          <BookItem v-for="(book,index) in books" :book="book" :key="index">
            <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">
               <button class="btn btn-primary m-1" @click="addToCart(book.id)"><i class="fas fa-shopping-cart"></i> Add to cart</button>
               <button class="btn btn-outline-primary m-1" @click="buyNow(book.id)">Buy now</button>

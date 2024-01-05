@@ -41,12 +41,11 @@ const App = {
     };
   },
 
-  methods: {
-    changeView(type) {
-      state.view = type;
-    },
-  },
+  methods: {},
   async created() {
+    if (localStorage.getItem("user") != undefined) {
+      state.user = JSON.parse(localStorage.getItem("user"));
+    }
     await axios
       .get("/books")
       .then((res) => {
@@ -58,14 +57,12 @@ const App = {
   },
   // / <BookDetail id="10"/>
   mounted() {},
-  // <component :is="view" @changeView="changeView"></component>
-  // <component :is="state.view"></component>
   template: `
   <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
     <Navbar v-if="!
-    (state.user == undefined ? false : state.user.role == 'admin')" @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-    <SidebarAdmin v-else @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-        <component class=" flex-grow-1" :is="state.view" @changeView="changeView"></component>
+    (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+    <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+        <component class=" flex-grow-1" :is="state.view"></component>
   </div>
     <Footer />
   `,

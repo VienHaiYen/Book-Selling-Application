@@ -10,7 +10,6 @@ const Navbar = {
     Dropdown,
     Avatar,
   },
-  emits: ["changeView"],
   data() {
     return {
       categories: [],
@@ -18,14 +17,15 @@ const Navbar = {
   },
   methods: {
     navigation(screen) {
-      this.$emit("changeView", screen);
+      state.view = screen;
     },
     logOut() {
       axios
         .post("/logout")
         .then((res) => {
           state.user = undefined;
-          this.$emit("changeView", "Home");
+          localStorage.removeItem("user");
+          state.view = "Home";
           alert("Log out successfully");
         })
         .catch((err) => {

@@ -14,8 +14,21 @@ const BookItem = {
       state.bookId = book_id;
       state.view = "BookDetail";
     },
+    async getInventory() {
+      // await axios
+      //   .get(`/inventory/availableQuantity/${this.book.id}`)
+      //   .then((res) => {
+      //     // this.data = res.data;
+      //     console.log(res.data);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   });
+    },
   },
-  mounted() {},
+  mounted() {
+    this.getInventory();
+  },
   template: `
     <div class="col-6 col-md-3 col-lg-2">
       <div class="card m-2">
