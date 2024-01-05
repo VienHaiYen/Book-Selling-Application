@@ -47,6 +47,9 @@ const App = {
     },
   },
   async created() {
+    if (localStorage.getItem("user") != undefined) {
+      state.user = JSON.parse(localStorage.getItem("user"));
+    }
     await axios
       .get("/books")
       .then((res) => {
@@ -58,8 +61,6 @@ const App = {
   },
   // / <BookDetail id="10"/>
   mounted() {},
-  // <component :is="view" @changeView="changeView"></component>
-  // <component :is="state.view"></component>
   template: `
   <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
     <Navbar v-if="!

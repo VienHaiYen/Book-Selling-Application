@@ -25,6 +25,7 @@ const Navbar = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
+          localStorage.removeItem("user");
           this.$emit("changeView", "Home");
           alert("Log out successfully");
         })
