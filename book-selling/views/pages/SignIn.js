@@ -35,6 +35,17 @@ const SignIn = {
         });
     },
 
+    logInGoogle: async function () {
+      await axios
+        .get("/login/google")
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+
     navigator(screen) {
       this.$emit("changeView", screen);
     },
@@ -68,16 +79,21 @@ const SignIn = {
                       <input
                       current-password
                         v-model="password"
-                        required type="password" id="password" class="form-control border border-secondary w-75" />
+                        required type="password" id="password" class="form-control border border-secondary w-75 mb-1" />
                         <span class="small"><a  href="#!">Forgot password?</a></span>
                       </div>
                   </div>
 
-                  <!-- Submit button -->
-                  <button type="submit" @click="this.logIn" class="btn btn-primary btn-block mb-4">
-                    SIGN IN
-                  </button>
+                  <div class="d-flex flex-column align-items-center">
+                    <!-- Submit button -->
+                    <button type="submit" @click="this.logIn" style="width:400px" class="btn btn-primary btn-block mb-3">
+                      SIGN IN
+                    </button>
 
+                    OR
+                    <!-- Google SignIn button -->
+                    <button @click="logInGoogle" style="width:400px; color: #545454;background-color: #ffffff;box-shadow: 0 1px 2px 1px #ddd;" class="btn btn-google text-uppercase my-3"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</button>
+                  </div>
                   <p>Don't have an account? <a href="#!" class="link-info" @click="navigator('Register')">Register here</a></p>
 
                 </form>
