@@ -62,6 +62,7 @@ const BookItemList = {
   created() {},
   mounted() {},
   template: `
+
       <div class="mx-2">
         <div class="m-0 d-flex flex-wrap justify-content-start ">
           <BookItem v-for="(book,index) in books" :book="book" :key="index">
@@ -71,7 +72,7 @@ const BookItemList = {
            </div>
            <div v-else class=" mb-2 ">
               <button class="btn btn-outline-primary mr-2 my-1 w-100"><i class="fas fa-edit"></i> Edit</button>
-              <button class="btn btn-danger my-1 w-100"> Delete </button>
+              <button @click="state.bookIdDeleteSelected=book.id" class="btn btn-danger my-1 w-100" data-bs-toggle="modal" data-bs-target="#deleteBook"> Delete </button>
            </div>
           </BookItem>
         </div>

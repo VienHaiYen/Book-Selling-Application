@@ -7,5 +7,6 @@ export default reactive({
   bannerList: undefined,
   inCart: [],
   inCartSelected: [1, 2, 3],
+  bookIdDeleteSelected: undefined,
   user: undefined,
 });

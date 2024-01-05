@@ -14,17 +14,7 @@ const BookItem = {
       state.bookId = book_id;
       state.view = "BookDetail";
     },
-    async getInventory() {
-      // await axios
-      //   .get(`/inventory/availableQuantity/${this.book.id}`)
-      //   .then((res) => {
-      //     // this.data = res.data;
-      //     console.log(res.data);
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //   });
-    },
+    async getInventory() {},
   },
   mounted() {
     this.getInventory();
