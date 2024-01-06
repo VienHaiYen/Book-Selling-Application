@@ -17,7 +17,7 @@ const Setting = {
     },
 
     editInfo() {
-      this.$emit("changeView", "EditProfile");
+      state.view = "EditProfile";
     },
   },
   mounted() {},

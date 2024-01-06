@@ -30,6 +30,14 @@ module.exports = class Category {
     }
   }
 
+  static async getByName(name) {
+    try {
+      return await db.manyOrNone(categorySQL.getByName, [`%${name}%`]).then((cates) => cates.map((cate) => new Category(cate)))
+    } catch (err) {
+      return null;
+    }
+  }
+
   static async add(cat) {
     const newCat = new Category(cat)
     return await db.one(categorySQL.add, [newCat.name]).then((cate) => new Category(cate))

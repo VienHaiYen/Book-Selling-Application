@@ -22,7 +22,7 @@ const SidebarAdmin = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
-          this.$emit("changeView", "Home");
+          state.view = "Home";
           console.log(state);
           alert("Log out successfully");
         })

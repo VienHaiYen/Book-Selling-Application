@@ -13,7 +13,12 @@ export * from "./BookItemList.js";
 export * from "./Avatar.js";
 export * from "./BooksbyCategory.js";
 export * from "./Pagination.js";
+
 export * from "./UserNav.js";
+
+export * from "./Spinner.js";
+export * from "./Modal.js";
+
 // admin
 export * from "./SidebarAdmin.js";
 export * from "./AdminSearch.js";

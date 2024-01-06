@@ -12,8 +12,18 @@ module.exports = {
     update: sql("user/update.sql"),
     delete: sql("user/delete.sql"),
   },
+  authorSQL: {
+    add: sql("author/add.sql"),
+    getAll: sql("author/getAll.sql"),
+    getBooks: sql("author/getBooks.sql"),
+    getById: sql("author/getById.sql"),
+    getByName: sql("author/getByName.sql"),
+    update: sql("author/update.sql"),
+  },
   bookSQL: {
     add: sql("book/add.sql"),
+    addBookAuthor: sql("book/addBookAuthor.sql"),
+    addBookCategory: sql("book/addBookCategory.sql"),
     getAll: sql("book/getAll.sql"),
     getAuthor: sql("book/getAuthor.sql"),
     getById: sql("book/getById.sql"),
@@ -22,8 +32,9 @@ module.exports = {
   categorySQL: {
     add: sql("category/add.sql"),
     getAll: sql("category/getAll.sql"),
-    getById: sql("category/getById.sql"),
     getBooks: sql("category/getBooks.sql"),
+    getById: sql("category/getById.sql"),
+    getByName: sql("category/getByName.sql"),
     update: sql("category/update.sql"),
   },
   cartSQL: {

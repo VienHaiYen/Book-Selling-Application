@@ -6,32 +6,34 @@ const Navbar = {
   props: {
     isLogin: Boolean,
     avatarImg: String,
+    categories: Array,
   },
   components: {
     Dropdown,
     UserNav,
   },
-  emits: ["changeView"],
   data() {
-    return {
-      categories: [],
-    };
+    return {};
   },
   methods: {
     navigation(screen) {
-      this.$emit("changeView", screen);
+      state.view = screen;
+    },
+
+    logOut() {
+      axios
+        .post("/logout")
+        .then((res) => {
+          state.user = undefined;
+          state.view = "Home";
+          alert("Log out successfully");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
   },
-  mounted() {
-    axios
-      .get("/categories")
-      .then((res) => {
-        this.categories = res.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  },
+  mounted() {},
   template: `
     <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary bg-white">
       <div class="container-fluid">
