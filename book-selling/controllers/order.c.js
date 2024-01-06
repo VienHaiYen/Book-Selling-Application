@@ -6,7 +6,12 @@ const { commonErrorResponse } = require("../helpers/errorRes");
 async function makeNewOrder(req, res, next) {
   try {
     const user_id = req.user.id;
-    const item_list = req.body.data;
+    const item_list = req.body.item_list; // list of item_id in cart_item
+    if (!user_id || !item_list || item_list.length < 1) {
+      return res
+        .status(400)
+        .json(commonErrorResponse("fail to create new order"));
+    }
     const new_order_id = await Order.makeNewOrder(user_id, item_list);
     if (!new_order_id || new_order_id === -1) {
       //TODO return available updated item list
@@ -38,7 +43,23 @@ async function getOrderById(req, res, next) {
     next(err);
   }
 }
+async function getOrderByUserId(req, res, next) {
+  try {
+    const { id } = req.params;
+    // TODO authz
+    // const user_id = req.user.id;
+    // if (!id || !user_id || id != user_id) {
+    //   return res.status(401).json(commonErrorResponse("Unauthorized"));
+    // }
+
+    const rs = await Order.getOrderByUserId(id);
+    return res.json(commonSuccessfulResponse(rs));
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = {
   makeNewOrder,
   getOrderById,
+  getOrderByUserId,
 };

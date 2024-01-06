@@ -8,7 +8,7 @@ module.exports = class Inventory {
       const result = await db.oneOrNone(inventorySQL.getAvailableQuantity, [
         item_id,
       ]);
-      if (result) return result.available_quantity;
+      if (result) return result;
       else return 0;
     } catch (err) {
       console.error(err);
