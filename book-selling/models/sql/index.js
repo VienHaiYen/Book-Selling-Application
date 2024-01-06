@@ -50,6 +50,7 @@ module.exports = {
   orderSQL: {
     makeNewOrder: sql("order/makeNewOrder.sql"),
     getOrderById: sql("order/getOrderById.sql"),
+    getOrderByUserId: sql("order/getOrderByUserId.sql"),
   },
   // movieSQL: {
   //     add: sql("movie/add.sql"),

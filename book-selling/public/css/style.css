@@ -11,6 +11,16 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container {
+  width: 1200px;
+}
+
 .cascading-right {
   margin-right: -50px;
 }

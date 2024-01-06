@@ -1,1 +1,1 @@
-select available_quantity from book_inventory as bi where book_id = $1
+select available_quantity,unit_price from book_inventory as bi where book_id = $1

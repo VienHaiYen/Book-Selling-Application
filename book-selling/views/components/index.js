@@ -13,12 +13,17 @@ export * from "./BookItemList.js";
 export * from "./Avatar.js";
 export * from "./BooksbyCategory.js";
 export * from "./Pagination.js";
+
+export * from "./UserNav.js";
+
 export * from "./Spinner.js";
 export * from "./Modal.js";
+
 // admin
 export * from "./SidebarAdmin.js";
 export * from "./AdminSearch.js";
 export * from "./UserList.js";
+
 // charts
 export * from "./CartItem.js";
 export * from "./CartItemList.js";
@@ -26,3 +31,4 @@ export * from "./OrderedItem.js";
 export * from "./OrderedItemList.js";
 export * from "./OrderCustomerInfo.js";
 export * from "./OrderPaymentMethod.js";
+export * from "./OrderHistoryItemList.js";

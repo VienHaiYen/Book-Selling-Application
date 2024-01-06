@@ -1,5 +1,6 @@
 import { Dropdown } from "./Dropdown.js";
-import { Avatar } from "./Avatar.js";
+
+import { UserNav } from "./UserNav.js";
 import state from "../stores/app-state.js";
 const Navbar = {
   props: {
@@ -9,7 +10,7 @@ const Navbar = {
   },
   components: {
     Dropdown,
-    Avatar,
+    UserNav,
   },
   data() {
     return {};
@@ -18,6 +19,7 @@ const Navbar = {
     navigation(screen) {
       state.view = screen;
     },
+
     logOut() {
       axios
         .post("/logout")
@@ -53,9 +55,11 @@ const Navbar = {
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
           <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
-          <Avatar v-if="isLogin" style="margin-left:20px" :source="avatarImg" size="40px" @click="this.navigation('setting')" />
-          <button v-if="isLogin" class="btn ml-2  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
-          <button v-if="isLogin" class="btn btn-danger" style="margin-left:20px" @click="logOut" ><i class="fas fa-sign-out-alt"></i></button>
+           <button v-if="isLogin" class="btn mx-3  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
+          <UserNav :avatarImg="this.avatarImg"   v-if="isLogin" />
+         
+         
+         
           </div>
       </div>
     </nav>

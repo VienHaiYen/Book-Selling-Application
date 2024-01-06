@@ -4,8 +4,11 @@ const { commonSuccessfulResponse } = require("../helpers/successfulRes");
 const { commonErrorResponse } = require("../helpers/errorRes");
 async function getAvailableQuantity(req, res, next) {
   try {
-    item_id = req.pagrams.idItem;
-    const rs = await Inventory.getAvailableQuantity(item_id);
+    const { itemId } = req.params;
+    if (!itemId) {
+      res.json(commonErrorResponse("Invalid item"));
+    }
+    const rs = await Inventory.getAvailableQuantity(itemId);
     res.json(commonSuccessfulResponse(rs));
   } catch (err) {
     next(err);
@@ -13,8 +16,13 @@ async function getAvailableQuantity(req, res, next) {
 }
 async function checkAvailableList(req, res, next) {
   try {
-    item_list = req.body.data;
-    user_id = 1;
+    const user_id = req.user.id;
+    const item_list = req.body.item_list; // list of item_id in cart_item
+    if (!user_id || !item_list || item_list.length < 1) {
+      return res
+        .status(400)
+        .json(commonErrorResponse("fail to create new order"));
+    }
     const rs = await Inventory.checkAvailableList(user_id, item_list);
     if (!rs) {
       //TODO return available updated item list
@@ -22,7 +30,7 @@ async function checkAvailableList(req, res, next) {
         .status(400)
         .json(
           commonErrorResponse(
-            (msg = "invalid quantity"),
+            (msg = "Make new order fail"),
             (detail = "Some items are out-of-stock or 0")
           )
         );

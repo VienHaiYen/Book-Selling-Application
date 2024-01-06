@@ -12,7 +12,23 @@ const OrderSummary = {
       state,
     };
   },
-  method: {},
+  methods: {
+    makeOrder() {
+      $.ajax({
+        url: "/orders",
+        type: "POST",
+        data: { item_list: state.inCartSelected },
+        success: function (data) {
+          alert("Order successful");
+          state.orderId = data.data.new_order_id;
+          state.view = "OrderDetail";
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    },
+  },
   mounted() {},
   computed: {
     // Calculate the total dynamically based on the items in the cart
@@ -32,6 +48,13 @@ const OrderSummary = {
       }
       return 0;
     },
+    calculatedSelectedItems() {
+      const selectedIds = this.state.inCartSelected.map(Number);
+      if (state.inCart) {
+        return state.inCart.filter((item) => selectedIds.includes(item.id));
+      }
+      return [];
+    },
   },
   template: `
   <div class="flex-container">
@@ -40,7 +63,7 @@ const OrderSummary = {
 		ORDER SUMMARY
 	</div>
    <link rel="stylesheet" href="./css/cart.css" />
-    <OrderedItemList  title="My cart" />
+    <OrderedItemList :displayList="calculatedSelectedItems"  title="My cart" />
     <OrderCustomerInfo/>
     <OrderPaymentMethod/>
     <div class="total-checkout">
@@ -48,10 +71,10 @@ const OrderSummary = {
     <div></div>
     <div></div>
  
-    <div class='text-bold'>Total: <i class="fa-solid fa-dollar-sign"></i>{{calculatedTotal}}</div>
+    <div class='text-bold'>Total order: <i class="fa-solid fa-dollar-sign"></i>{{calculatedTotal}}</div>
 
    
-  <button class="btn btn-success text-bold" >Purchase</button>
+  <button class="btn btn-success text-bold" @click="makeOrder()" >Purchase</button>
 </div>
     </div>
   

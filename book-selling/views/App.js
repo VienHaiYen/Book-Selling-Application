@@ -8,6 +8,8 @@ import {
   MyCart,
   BookDetail,
   OrderSummary,
+  OrderHistory,
+  OrderDetail,
   AdminReport,
   User,
 } from "./pages/index.js";
@@ -28,6 +30,8 @@ const App = {
     MyCart,
     BookDetail,
     OrderSummary,
+    OrderHistory,
+    OrderDetail,
     SidebarAdmin,
     // admin
     AdminReport,
@@ -75,6 +79,7 @@ const App = {
   // / <BookDetail id="10"/>
   mounted() {},
   template: `
+  <div class="main-container">
   <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
     <Navbar v-if="!
     (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
@@ -82,6 +87,7 @@ const App = {
         <component class=" flex-grow-1" :is="state.view"></component>
   </div>
     <Footer />
+    </div>
   `,
 };
 
