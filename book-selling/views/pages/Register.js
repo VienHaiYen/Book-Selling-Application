@@ -14,7 +14,8 @@ const Register = {
   },
 
   methods: {
-    register: async function () {
+    register: async function (e) {
+      e.preventDefault();
       if (
         !ValidateModel.areAllStringsNotEmpty([
           this.full_name,
@@ -83,7 +84,7 @@ const Register = {
             <h2 class="fw-bold mb-5">REGISTER</h2>
             <form>
               <div class="form-outline mb-4 d-flex">
-                <label class="form-label text-start w-25" for="name">User name</label>
+                <label class="form-label text-start w-25" for="name">Full name</label>
                 <div class="w-75 text-start">
                   <input required v-model="full_name" type="text" id="name" class="form-control border border-secondary w-75" />
                   </div>
