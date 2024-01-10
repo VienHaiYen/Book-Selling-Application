@@ -1,7 +1,7 @@
 const routers = require("express").Router();
 const { verifyUser } = require("../middlewares/verifyUser");
 const { bookController } = require("../controllers");
-const { User } = require('../models')
+const { User } = require("../models");
 
 routers.get("/", bookController.getAll);
 

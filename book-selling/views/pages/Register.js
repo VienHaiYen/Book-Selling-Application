@@ -43,11 +43,11 @@ const Register = {
       }
       axios
         .post("/signin", {
-          full_name: this.full_name,
-          address: this.address,
-          phone: this.phone,
-          email: this.email,
-          password: this.password,
+          full_name: this.full_name.trim(),
+          address: this.address.trim(),
+          phone: this.phone.trim(),
+          email: this.email.trim(),
+          password: this.password.trim(),
           role: "client",
         })
         .then((res) => {
@@ -59,6 +59,7 @@ const Register = {
           }
         })
         .catch((err) => {
+          alert("Fail to register: Email already in use");
           console.error(err);
         });
     },

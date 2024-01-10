@@ -29,10 +29,9 @@ module.exports = class Book {
   }
   static async getAll(page, pageSize) {
     try {
-      return await db.manyOrNone(bookSQL.getAll, [
-        pageSize,
-        pageSize * (page - 1),
-      ]);
+      return await db
+        .manyOrNone(bookSQL.getAll, [pageSize, pageSize * (page - 1)])
+        .then((books) => books.map((book) => new Book(book)));
     } catch (err) {
       return null;
     }

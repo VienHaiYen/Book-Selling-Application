@@ -51,6 +51,7 @@ const Pagination = {
   },
 
   template: `
+  123
   <ul v-if="totalPages" class="pagination d-flex flex-wrap">
     <li class="page-item">
       <button class="btn-outline-secondary m-1" type="button" @click="onClickFirstPage" :disabled="isInFirstPage">
