@@ -1,4 +1,5 @@
 const cookieOption = require("../configs/cookieOption")
+const { commonErrorResponse } = require("../helpers/errorRes")
 const { paginationResponse } = require("../helpers/pagination")
 const { User } = require("../models")
 
@@ -47,7 +48,7 @@ module.exports.updateUser = async (req, res, next) => {
     try {
         const { userId } = req.params
         if (req.user.role !== User.roles.admin && userId != req.user.id) {
-            throw new Error('Forbidden')
+            return res.status(403).send(commonErrorResponse("Forbidden"))
         }
         const { address, full_name, phone } = req.body
         const updateUser = new User({
@@ -65,7 +66,7 @@ module.exports.deleteUser = async (req, res, next) => {
     try {
         const { userId } = req.params
         if (req.user.role !== User.roles.admin && userId != req.user.id) {
-            throw new Error("Forbidden")
+            return res.status(403).send(commonErrorResponse("Forbidden"))
         }
 
         const deletedUser = await (await User.getById(userId)).delete()
