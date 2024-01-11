@@ -11,6 +11,6 @@ routers.post("/", verifyUser(User.roles.admin), categoryController.add);
 
 routers.put("/:categoryId", verifyUser(User.roles.admin), categoryController.update);
 
-// DELETE /categories/{id}: Xóa một danh mục sách theo ID.
+routers.delete("/:categoryId", verifyUser(User.roles.admin), categoryController.remove);
 
 module.exports = routers;
