@@ -97,7 +97,7 @@ const AddBook = {
         .then((res) => {
           if (res.status == 200) {
             alert(res.data);
-            state.view = "Home";
+            // state.view = "Home";
           } else {
             alert("Add book failed");
           }

@@ -40,7 +40,7 @@ const Home = {
         .then((res) => {
           this.bookList = res.data.data;
           this.meta = res.data.meta;
-          console.log(this.meta);
+          // console.log(this.meta);
         })
         .catch((err) => {
           console.error(err);

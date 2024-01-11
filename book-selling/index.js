@@ -68,8 +68,7 @@ app.use((err, req, res, next) => {
 // app.use("/", routers);
 app.listen(PORT, () => console.log(`Server is running at port ${PORT}`));
 
-//////////////////////////////////////////////
-
+//// Google Drive API
 const KEYFILEPATH = path.join(__dirname, "cred.json");
 const SCOPES = ["https://www.googleapis.com/auth/drive"];
 
@@ -81,8 +80,8 @@ const auth = new google.auth.GoogleAuth({
 app.post("/upload", upload.any(), async (req, res) => {
   console.log("uploading");
   try {
-    console.log(req.body);
-    console.log(req.files);
+    // console.log(req.body);
+    // console.log(req.files);
     const { body, files } = req;
 
     let data = await uploadFile(files[0]);
