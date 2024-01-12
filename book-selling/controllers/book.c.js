@@ -79,13 +79,13 @@ async function update(req, res, next) {
 }
 async function getMyBooks(req, res, next) {
   try {
-    const { userId } = req.params;
+    const userId = req.user.id;
 
     if (userId) {
       const rs = await Book.getMyBooks(userId);
       return res.json(commonSuccessfulResponse(rs));
     } else {
-      return res.status(400).json(commonErrorResponse());
+      return res.status(403).json(commonErrorResponse("Unauthorized"));
     }
   } catch (err) {
     next(err);
