@@ -1,37 +1,37 @@
-const { Book } = require('../models');
-const { paginationResponse } = require("../helpers/pagination")
-
+const { Book } = require("../models");
+const { paginationResponse } = require("../helpers/pagination");
+const { commonSuccessfulResponse } = require("../helpers/successfulRes");
+const { commonErrorResponse } = require("../helpers/errorRes");
 async function getAll(req, res, next) {
   try {
-    let { page = "1", pageSize = "10" } = req.query
-    page = parseInt(page)
-    pageSize = parseInt(pageSize)
+    let { page = "1", pageSize = "10" } = req.query;
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
 
-    let totalRecord = 0
+    let totalRecord = 0;
 
-    const rs = await Book.getAll(page, pageSize)
+    const rs = await Book.getAll(page, pageSize);
     if (rs.length > 0) {
-      totalRecord = Number(rs[0].count)
-      res.send(paginationResponse(totalRecord, page, rs))
+      totalRecord = Number(rs[0].count);
+      res.send(paginationResponse(totalRecord, page, rs));
     }
-
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
 async function getById(req, res, next) {
   try {
-    const { bookId } = req.params
+    const { bookId } = req.params;
 
     if (bookId) {
-      const rs = await Book.getById(bookId)
-      return res.status(200).send(rs)
+      const rs = await Book.getById(bookId);
+      return res.status(200).send(rs);
     } else {
-      return res.status(200).send({})
+      return res.status(200).send({});
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
@@ -40,41 +40,55 @@ async function getByTitle(req, res, next) {
     const searchTerm = req.query.q;
 
     if (searchTerm && searchTerm.length > 0) {
-      return await Book.getByTitle(searchTerm)
+      return await Book.getByTitle(searchTerm);
     } else {
-      return res.status(200).send([])
+      return res.status(200).send([]);
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
 async function add(req, res, next) {
   try {
-    const rs = await Book.add(req.body).then((book) => new Book(book))
+    const rs = await Book.add(req.body).then((book) => new Book(book));
     if (rs.id) {
-      res.status(200).send("Add Success")
+      res.status(200).send("Add Success");
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
 async function update(req, res, next) {
   try {
-    const { bookId } = req.params
-    const updateData = req.body
+    const { bookId } = req.params;
+    const updateData = req.body;
 
-    const checkBook = await Book.getById(bookId)
+    const checkBook = await Book.getById(bookId);
 
     if (checkBook && checkBook.id) {
-      await Book.update(bookId, updateData)
-      return res.status(200).send("Update Success")
+      await Book.update(bookId, updateData);
+      return res.status(200).send("Update Success");
     } else {
-      return res.status(400).send("Book Not Found")
+      return res.status(400).send("Book Not Found");
     }
   } catch (err) {
-    next(err)
+    next(err);
+  }
+}
+async function getMyBooks(req, res, next) {
+  try {
+    const { userId } = req.params;
+
+    if (userId) {
+      const rs = await Book.getMyBooks(userId);
+      return res.json(commonSuccessfulResponse(rs));
+    } else {
+      return res.status(400).json(commonErrorResponse());
+    }
+  } catch (err) {
+    next(err);
   }
 }
 
@@ -82,6 +96,7 @@ module.exports = {
   getAll,
   getById,
   getByTitle,
+  getMyBooks,
   add,
   update,
-}
+};

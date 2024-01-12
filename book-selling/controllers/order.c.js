@@ -43,17 +43,33 @@ async function getOrderById(req, res, next) {
     next(err);
   }
 }
-async function getOrderByUserId(req, res, next) {
+async function listOrdersByUserId(req, res, next) {
   try {
     const { id } = req.params;
-    // TODO authz
-    // const user_id = req.user.id;
-    // if (!id || !user_id || id != user_id) {
-    //   return res.status(401).json(commonErrorResponse("Unauthorized"));
-    // }
-
-    const rs = await Order.getOrderByUserId(id);
-    return res.json(commonSuccessfulResponse(rs));
+    let { page = "1", pageSize = "5" } = req.query;
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
+    let totalRecord = 0;
+    const rs = await Order.listOrdersByUserId(id, page, pageSize);
+    if (rs.length > 0) {
+      totalRecord = Number(rs[0].total);
+    }
+    res.send(paginationResponse(totalRecord, page, rs, pageSize));
+  } catch (err) {
+    next(err);
+  }
+}
+async function listOrders(req, res, next) {
+  try {
+    let { page = "1", pageSize = "5" } = req.query;
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
+    let totalRecord = 0;
+    const rs = await Order.listOrders(page, pageSize);
+    if (rs.length > 0) {
+      totalRecord = Number(rs[0].total);
+    }
+    res.send(paginationResponse(totalRecord, page, rs, pageSize));
   } catch (err) {
     next(err);
   }
@@ -61,5 +77,6 @@ async function getOrderByUserId(req, res, next) {
 module.exports = {
   makeNewOrder,
   getOrderById,
-  getOrderByUserId,
+  listOrdersByUserId,
+  listOrders,
 };

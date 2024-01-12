@@ -13,7 +13,7 @@ const BookDetail = {
   methods: {
     async getBookDetail() {
       await axios
-        .get("/books/" + this.id)
+        .get(`/books/detail/${this.id}`)
         .then((res) => {
           this.book = res.data.book;
           this.author = res.data.author;

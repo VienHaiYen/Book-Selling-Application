@@ -8,7 +8,7 @@ SELECT
             'thumbnail', b.thumbnail,
 			'unit_price',oi.unit_price
         )
-    ) AS order_items
+    ) AS order_items, COUNT(*) OVER() as total
 FROM
     orders AS o
 JOIN
@@ -20,5 +20,5 @@ WHERE
     o.user_id = $1
 GROUP BY
     o.id
-ORDER BY o.created_at DESC;
-	
+ORDER BY o.created_at DESC
+LIMIT $2 OFFSET $3;

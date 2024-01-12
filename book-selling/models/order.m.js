@@ -24,9 +24,25 @@ module.exports = class Order {
       return null;
     }
   }
-  static async getOrderByUserId(user_id) {
+  static async listOrdersByUserId(user_id, page, pageSize) {
     try {
-      let result = await db.manyOrNone(orderSQL.getOrderByUserId, [user_id]);
+      let result = await db.manyOrNone(orderSQL.getOrderByUserId, [
+        user_id,
+        pageSize,
+        pageSize * (page - 1),
+      ]);
+      return result;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+  static async listOrders(page, pageSize) {
+    try {
+      let result = await db.manyOrNone(orderSQL.getOrders, [
+        pageSize,
+        pageSize * (page - 1),
+      ]);
       return result;
     } catch (err) {
       console.error(err);

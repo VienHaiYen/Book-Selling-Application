@@ -28,6 +28,7 @@ module.exports = {
     getAuthor: sql("book/getAuthor.sql"),
     getById: sql("book/getById.sql"),
     getByTitle: sql("book/getByTitle.sql"),
+    getMyBooks: sql("book/getMyBooks.sql"),
   },
   categorySQL: {
     add: sql("category/add.sql"),
@@ -51,6 +52,7 @@ module.exports = {
     makeNewOrder: sql("order/makeNewOrder.sql"),
     getOrderById: sql("order/getOrderById.sql"),
     getOrderByUserId: sql("order/getOrderByUserId.sql"),
+    getOrders: sql("order/getAll.sql"),
   },
   // movieSQL: {
   //     add: sql("movie/add.sql"),
