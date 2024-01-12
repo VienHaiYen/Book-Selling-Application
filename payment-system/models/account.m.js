@@ -9,7 +9,7 @@ module.exports = class Account {
 
     static async create({ id }) {
         const account = new Account({ id });
-        return db.one(accountSQL.add, [account.id]). then(account => new Account(account));
+        return db.one(accountSQL.add, [account.id]).then(account => new Account(account));
     }
 
     static async get(id) {

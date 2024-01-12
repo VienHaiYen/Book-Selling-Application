@@ -4,16 +4,11 @@ module.exports = {
     accountSQL: {
         add: sql("account/add.sql"),
         get: sql("account/get.sql"),
+        updateBalance: sql("account/updateBalance.sql"),
     },
-//   userSQL: {
-//     add: sql("user/add.sql"),
-//     getByEmail: sql("user/getByEmail.sql"),
-//     get: sql("user/get.sql"),
-//     count: sql("user/count.sql"),
-//     getById: sql("user/getById.sql"),
-//     update: sql("user/update.sql"),
-//     delete: sql("user/delete.sql"),
-//   },
+    transactionSQL: {
+        add: sql("transaction/add.sql"),
+    },
 };
 
 function sql(file) {
