@@ -50,7 +50,7 @@ const EditProfile = {
           full_name: this.full_name,
           phone: this.phone,
           address: this.address,
-          // avartar: "https://drive.google.com/file/d/" + imgInfo.id,
+          // avartar: imgInfo.id?"https://drive.google.com/file/d/" + imgInfo.id:state.user.avatar,
         })
         .then(async (res) => {
           alert("Update profile successfully");
@@ -66,7 +66,7 @@ const EditProfile = {
     async uploadImg() {
       const formElem = document.querySelector("form#form");
       if (!(fileInput.files && fileInput.files.length > 0)) {
-        alert("Please choose a file");
+        // alert("Please choose a file");
         return;
       } else {
         if (
