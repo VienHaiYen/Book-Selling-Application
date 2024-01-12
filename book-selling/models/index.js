@@ -5,6 +5,7 @@ const Category = require("./category.m.js");
 const Cart = require("./cart.m.js");
 const Inventory = require("./inventory.m.js");
 const Order = require("./order.m.js");
+const Dashboard = require("./dashboard.m.js");
 
 module.exports = {
   User,
@@ -14,4 +15,5 @@ module.exports = {
   Cart,
   Inventory,
   Order,
+  Dashboard,
 };

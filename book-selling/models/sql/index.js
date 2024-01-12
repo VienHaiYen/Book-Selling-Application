@@ -54,6 +54,13 @@ module.exports = {
     getOrderByUserId: sql("order/getOrderByUserId.sql"),
     getOrders: sql("order/getAll.sql"),
   },
+  dashboardSQL: {
+    getTodayOverallReport: sql("dashboard/getTodayOverallReport.sql"),
+    getThisWeekOverallReport: sql("dashboard/getThisWeekOverallReport.sql"),
+    getThisMonthOverallReport: sql("dashboard/getThisMonthOverallReport.sql"),
+    getThisYearOverallReport: sql("dashboard/getThisYearOverallReport.sql"),
+    getThisWeekDetailReport: sql("dashboard/getThisWeekDetailReport.sql"),
+  },
   // movieSQL: {
   //     add: sql("movie/add.sql"),
   //     add_Movie_Cast: sql("movie/add_movie_cast.sql"),
