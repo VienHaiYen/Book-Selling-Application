@@ -71,17 +71,7 @@ const AddBook = {
         alert("Upload image failed");
         return;
       }
-      // await console.log({
-      //   title: this.title,
-      //   language: this.language,
-      //   publisher: this.publisher,
-      //   page_count: this.page_count,
-      //   description: this.description,
-      //   published_year: this.published_year,
-      //   author_name: this.author_name,
-      //   category_id: this.category_id,
-      //   thumbnail: "https://drive.google.com/file/d/" + imgInfo.id,
-      // });
+      
       await axios
         .post("/books", {
           title: this.title,
@@ -126,19 +116,16 @@ const AddBook = {
     }
   },
   template: `
-    <div>
+    <div class="m-5">
       <h1>Add Book</h1>
       <form id="add-book-form" class="m-3">
-        <div>
-            <h2>Select Files to Upload To Google Drive</h2>
-            <form id="form">
-                <div class="custom-file-input">
-                  <img id="blah" width="400px" src="#" />
-                  <input id="fileInput" accept=".jpg, .png, .jpeg" type="file" name="Files" required />
-                </div>
-            </form>
-        </div>
-
+        <form id="form">
+            <div class="custom-file-input">
+              <label for="fileInput" class="form-label">Thumnail</label><br/>
+              <img id="blah" width="400px" src="#" /><br/>
+              <input id="fileInput" class="form-control" accept=".jpg, .png, .jpeg" type="file" name="Files" required />
+            </div>
+        </form>
         <div class="form-row d-flex">
           <div class="form-group col-md-6 m-1">
             <label>Book Title</label>
