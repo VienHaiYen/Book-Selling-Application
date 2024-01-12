@@ -1,14 +1,15 @@
 const routers = require("express").Router();
+const { verifyUser } = require("../middlewares/verifyUser");
 const { bookController } = require("../controllers");
+const { User } = require("../models");
 
-routers.get("/books", bookController.getAll);
+routers.get("/", bookController.getAll);
 
-routers.get("/books/:bookId", bookController.getById);
+routers.get("/detail/:bookId", bookController.getById);
+routers.get("/myBooks", verifyUser(), bookController.getMyBooks);
 
-routers.get("/books/:bookTitle", bookController.getByTitle);
+routers.post("/", verifyUser(User.roles.admin), bookController.add);
 
-routers.post("/books", bookController.add);
-
-routers.put("/books/:bookId", bookController.update);
+routers.put("/:bookId", verifyUser(User.roles.admin), bookController.update);
 
 module.exports = routers;

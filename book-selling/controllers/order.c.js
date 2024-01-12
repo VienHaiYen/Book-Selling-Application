@@ -6,7 +6,12 @@ const { commonErrorResponse } = require("../helpers/errorRes");
 async function makeNewOrder(req, res, next) {
   try {
     const user_id = req.user.id;
-    const item_list = req.body.data;
+    const item_list = req.body.item_list; // list of item_id in cart_item
+    if (!user_id || !item_list || item_list.length < 1) {
+      return res
+        .status(400)
+        .json(commonErrorResponse("fail to create new order"));
+    }
     const new_order_id = await Order.makeNewOrder(user_id, item_list);
     if (!new_order_id || new_order_id === -1) {
       //TODO return available updated item list
@@ -38,7 +43,40 @@ async function getOrderById(req, res, next) {
     next(err);
   }
 }
+async function listOrdersByUserId(req, res, next) {
+  try {
+    const { id } = req.params;
+    let { page = "1", pageSize = "5" } = req.query;
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
+    let totalRecord = 0;
+    const rs = await Order.listOrdersByUserId(id, page, pageSize);
+    if (rs.length > 0) {
+      totalRecord = Number(rs[0].total);
+    }
+    res.send(paginationResponse(totalRecord, page, rs, pageSize));
+  } catch (err) {
+    next(err);
+  }
+}
+async function listOrders(req, res, next) {
+  try {
+    let { page = "1", pageSize = "5" } = req.query;
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
+    let totalRecord = 0;
+    const rs = await Order.listOrders(page, pageSize);
+    if (rs.length > 0) {
+      totalRecord = Number(rs[0].total);
+    }
+    res.send(paginationResponse(totalRecord, page, rs, pageSize));
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = {
   makeNewOrder,
   getOrderById,
+  listOrdersByUserId,
+  listOrders,
 };

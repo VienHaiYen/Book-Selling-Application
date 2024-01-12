@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const tokenOption = require("../configs/tokenOption")
 const cookieOption = require("../configs/cookieOption")
 const googleOption = require("../configs/googleOption")
+const { commonErrorResponse } = require("../helpers/errorRes")
 
 class GoogleUser {
     constructor({ id, email, verified_email, name, given_name, family_name, picture, locale, }) {
@@ -25,7 +26,7 @@ module.exports = {
             const { email, password, role, address, full_name, phone } = req.body
             const user = new User({ email, password_hash: password, role, address, full_name, phone })
             if (await User.getByEmail(user.email)) {
-                throw new Error("Email already in use")
+                return res.status(400).send(commonErrorResponse("Email already exists"))
             }
             const savedUser = await User.create(user)
             res.status(200).send(savedUser)
@@ -39,16 +40,16 @@ module.exports = {
             const { email, password } = req.body
             const userDb = await User.getByEmail(email);
             if (!userDb) {
-                throw new Error("User does not exist")
+                return res.status(404).send(commonErrorResponse("Account not found"))
             }
 
-            if(userDb.google_id){
-                throw new Error("User is registerd by google")
+            if (userDb.google_id) {
+                return res.status(400).send(commonErrorResponse("User is registerd by google"))
             }
 
             const checkResult = await bcrypt.compare(password, userDb.password_hash)
             if (!checkResult) {
-                throw new Error("Password incorrect")
+                return res.status(400).send(commonErrorResponse("Password incorrect"))
             }
 
             const accessToken = jwt.sign(
@@ -93,7 +94,6 @@ module.exports = {
                     body: JSON.stringify(googleOption.getGGAuthApiOption(code))
                 }
             )).json()
-            console.log(authData)
             // get client info from google
             const clientInfo = new GoogleUser(await (await fetch(
                 googleOption.ggInfoApiUrl,
@@ -102,10 +102,9 @@ module.exports = {
                     headers: { "Authorization": `Bearer ${authData.access_token}` }
                 }
             )).json())
-            console.log(clientInfo)
             // get or create new user
             let user = await User.getByEmail(clientInfo.email)
-            if(!user){
+            if (!user) {
                 user = new User({
                     email: clientInfo.email,
                     full_name: clientInfo.name,
@@ -121,6 +120,14 @@ module.exports = {
             )
             res.cookie('aToken', accessToken, cookieOption)
             res.redirect("/")
+        } catch (error) {
+            next(error)
+        }
+    },
+    getAuth: async (req, res, next) => {
+        try {
+            const { password_hash, ...user } = req.user
+            res.send(user)
         } catch (error) {
             next(error)
         }

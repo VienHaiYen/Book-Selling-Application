@@ -1,13 +1,15 @@
 const routers = require("express").Router();
 const { categoryController } = require("../controllers");
+const { verifyUser } = require("../middlewares/verifyUser");
+const { User } = require("../models");
 
-routers.get("/categories", categoryController.getAll);
+routers.get("/", categoryController.getAll);
 
-routers.get("/categories/:categoryId", categoryController.getById);
+routers.get("/:categoryId", categoryController.getById);
 
-routers.post("/categories", categoryController.add);
+routers.post("/", verifyUser(User.roles.admin), categoryController.add);
 
-routers.put("/categories/:categoryId", categoryController.update);
+routers.put("/:categoryId", verifyUser(User.roles.admin), categoryController.update);
 
 // DELETE /categories/{id}: Xóa một danh mục sách theo ID.
 

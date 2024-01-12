@@ -1,15 +1,21 @@
 const cookieOption = require("../configs/cookieOption")
+const { commonErrorResponse } = require("../helpers/errorRes")
 const { paginationResponse } = require("../helpers/pagination")
 const { User } = require("../models")
 
 module.exports.getUserList = async (req, res, next) => {
     try {
+        // pagination
         let { page = "1", pageSize = "10" } = req.query
         page = parseInt(page)
         pageSize = parseInt(pageSize)
 
-        const userList = await User.getAll(page, pageSize)
-        const total = await User.count();
+        // filter email
+        const { email = "" } = req.query
+
+        const userList = await User.searchByEmail(email, page, pageSize)
+
+        const total = await User.countSearchResult(email);
 
         res.send(paginationResponse(total, page, userList))
     } catch (error) {
@@ -42,7 +48,7 @@ module.exports.updateUser = async (req, res, next) => {
     try {
         const { userId } = req.params
         if (req.user.role !== User.roles.admin && userId != req.user.id) {
-            throw new Error('Forbidden')
+            return res.status(403).send(commonErrorResponse("Forbidden"))
         }
         const { address, full_name, phone } = req.body
         const updateUser = new User({
@@ -60,11 +66,11 @@ module.exports.deleteUser = async (req, res, next) => {
     try {
         const { userId } = req.params
         if (req.user.role !== User.roles.admin && userId != req.user.id) {
-            throw new Error("Forbidden")
+            return res.status(403).send(commonErrorResponse("Forbidden"))
         }
 
         const deletedUser = await (await User.getById(userId)).delete()
-        if(userId == req.user.id){
+        if (userId == req.user.id) {
             res.clearCookie('aToken', cookieOption)
         }
         res.send(deletedUser)

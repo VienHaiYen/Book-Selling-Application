@@ -14,8 +14,11 @@ const BookItem = {
       state.bookId = book_id;
       state.view = "BookDetail";
     },
+    async getInventory() {},
   },
-  mounted() {},
+  mounted() {
+    this.getInventory();
+  },
   template: `
     <div class="col-6 col-md-3 col-lg-2">
       <div class="card m-2">

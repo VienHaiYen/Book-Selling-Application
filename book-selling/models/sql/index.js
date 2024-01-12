@@ -4,24 +4,38 @@ module.exports = {
   userSQL: {
     add: sql("user/add.sql"),
     getByEmail: sql("user/getByEmail.sql"),
+    searchByEmail: sql("user/searchByEmail.sql"),
     get: sql("user/get.sql"),
     count: sql("user/count.sql"),
+    countSearchByEmail: sql("user/countSearchByEmail.sql"),
     getById: sql("user/getById.sql"),
     update: sql("user/update.sql"),
     delete: sql("user/delete.sql"),
   },
+  authorSQL: {
+    add: sql("author/add.sql"),
+    getAll: sql("author/getAll.sql"),
+    getBooks: sql("author/getBooks.sql"),
+    getById: sql("author/getById.sql"),
+    getByName: sql("author/getByName.sql"),
+    update: sql("author/update.sql"),
+  },
   bookSQL: {
     add: sql("book/add.sql"),
+    addBookAuthor: sql("book/addBookAuthor.sql"),
+    addBookCategory: sql("book/addBookCategory.sql"),
     getAll: sql("book/getAll.sql"),
     getAuthor: sql("book/getAuthor.sql"),
     getById: sql("book/getById.sql"),
     getByTitle: sql("book/getByTitle.sql"),
+    getMyBooks: sql("book/getMyBooks.sql"),
   },
   categorySQL: {
     add: sql("category/add.sql"),
     getAll: sql("category/getAll.sql"),
-    getById: sql("category/getById.sql"),
     getBooks: sql("category/getBooks.sql"),
+    getById: sql("category/getById.sql"),
+    getByName: sql("category/getByName.sql"),
     update: sql("category/update.sql"),
   },
   cartSQL: {
@@ -37,6 +51,8 @@ module.exports = {
   orderSQL: {
     makeNewOrder: sql("order/makeNewOrder.sql"),
     getOrderById: sql("order/getOrderById.sql"),
+    getOrderByUserId: sql("order/getOrderByUserId.sql"),
+    getOrders: sql("order/getAll.sql"),
   },
   // movieSQL: {
   //     add: sql("movie/add.sql"),

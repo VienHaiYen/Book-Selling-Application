@@ -2,30 +2,47 @@ const HorrizontalBookCard = {
   data() {
     return {};
   },
-  methods: {},
+  props: {
+    books: Array,
+  },
+  methods: {
+    formatDate(input_date) {
+      const date = new Date(input_date);
+
+      const options = {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "numeric",
+        minute: "numeric",
+      };
+
+      const formattedDate = date.toLocaleString("en-US", options);
+      return formattedDate;
+    },
+  },
   mounted() {},
   template: `
-                <div class="card mb-3" style="">
-                  <div class="row g-0">
+                <div class="" style="">
+                  <div v-for="(book,index) in books" :book="book" :key="index" class="row g-0 mb-3 bg-white">
                     <div class="col-lg-3 col-md-4" style="max-height:240px; overflow: hidden">
                       <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIVGu-67MoVDQnvYJitX8DWDmSzDaIXh1DAQ&usqp=CAU"
+                        :src="book.thumbnail"
                         alt="Trendy Pants and Shoes"
                         class="img-fluid rounded-start  w-100"
                       />
                     </div>
                     <div class="col-lg-9 col-md-8">
-                      <div class="card-body d-flex flex-column justify-content-between h-100">
+                      <div   class="card-body d-flex flex-column justify-content-between h-100">
                         <div>
-                          <h3 class="card-title">Harry Potter</h3>
+                          <h3 class="card-title">{{book.title}}</h3>
                           <p class="card-text mt-auto">
-                            This is a wider card with supporting text below as a natural lead-in to
-                            additional content. This content is a little bit longer.
+                            {{book.description}}
                           </p>
                         </div>
-                        <h3><small class="text fs-5 fw-light text-decoration-line-through">$120</small>$100</h3>
+                        <h3 class="text fs-5 fw-light"><i class="fa-solid fa-dollar-sign"/>{{book.price}}</h3>
                         <p class="card-text">
-                          <small class="text-muted">Đã mua vào lúc 12:00 11 Dec 2023</small>
+                          <small class="text-muted">Bought at {{formatDate(book.bought_at)}}</small>
                         </p>
                       </div>
                     </div>

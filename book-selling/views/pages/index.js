@@ -12,8 +12,9 @@ export * from "./Setting.js";
 export * from "./EditProfile.js";
 export * from "./MyCart.js";
 
-export * from "./AdminHome.js";
 export * from "./AdminReport.js";
 export * from "./User.js";
 
 export * from "./OrderSummary.js";
+export * from "./OrderHistory.js";
+export * from "./OrderDetail.js";

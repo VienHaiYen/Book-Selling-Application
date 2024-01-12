@@ -1,4 +1,5 @@
 import { ValidateModel } from "../utils/index.js";
+import state from "../stores/app-state.js";
 const Register = {
   data() {
     return {
@@ -51,7 +52,7 @@ const Register = {
         .then((res) => {
           if (res.status == 200) {
             alert("Register successfully");
-            this.$emit("changeView", "SignIn");
+            state.view = "SignIn";
           } else {
             alert("Wrong email or password");
           }
@@ -61,7 +62,7 @@ const Register = {
         });
     },
     navigator(screen) {
-      this.$emit("changeView", screen);
+      state.view = screen;
     },
   },
 

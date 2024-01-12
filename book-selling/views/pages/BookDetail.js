@@ -13,7 +13,7 @@ const BookDetail = {
   methods: {
     async getBookDetail() {
       await axios
-        .get("/books/" + this.id)
+        .get(`/books/detail/${this.id}`)
         .then((res) => {
           this.book = res.data.book;
           this.author = res.data.author;
@@ -86,9 +86,13 @@ const BookDetail = {
                             <p class="card-text"><span><strong>Publisher: </strong></span><span>William Morrow &amp; Company</span></p>
                             <p class="card-text"><span><strong>Page number: </strong></span>478</p>
                             <p class="card-text"><span><strong>Short desscription: </strong></span>{{book.description}}</p>
-                            <div class="my-3">
+                            <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')" class="my-3">
                               <a class="btn btn-primary btn-md me-2" @click="buyNow(book.id)" role="button" href="#">Buy Now</a>
                               <a class="btn btn-outline-secondary btn-md" @click="addToCart(book.id)" role="button" href="#">Add to Cart</a>
+                            </div>
+                            <div v-else class="my-3">
+                              <a class="btn btn-primary btn-md me-2" role="button" href="#">Edit</a>
+                              <a class="btn btn-outline-secondary btn-md" role="button" href="#">Delete</a>
                             </div>
                         </div>
                     </div>

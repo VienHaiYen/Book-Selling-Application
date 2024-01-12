@@ -6,6 +6,9 @@ export default reactive({
   darkMode: false,
   bannerList: undefined,
   inCart: [],
-  inCartSelected: [1, 2, 3],
+  inCartSelected: [],
+  bookIdDeleteSelected: undefined,
   user: undefined,
+  orderId: undefined,
+  tempVal: undefined,
 });

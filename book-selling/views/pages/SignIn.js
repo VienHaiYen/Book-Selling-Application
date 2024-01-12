@@ -1,7 +1,6 @@
 import { ValidateModel } from "../utils/index.js";
 import state from "../stores/app-state.js";
 const SignIn = {
-  emits: ["changeView"],
   data() {
     return {
       email: "",
@@ -35,7 +34,7 @@ const SignIn = {
     },
 
     navigator(screen) {
-      this.$emit("changeView", screen);
+      state.view = screen;
     },
   },
 
@@ -67,16 +66,21 @@ const SignIn = {
                       <input
                       current-password
                         v-model="password"
-                        required type="password" id="password" class="form-control border border-secondary w-75" />
+                        required type="password" id="password" class="form-control border border-secondary w-75 mb-1" />
                         <span class="small"><a  href="#!">Forgot password?</a></span>
                       </div>
                   </div>
 
-                  <!-- Submit button -->
-                  <button type="submit" @click="this.logIn" class="btn btn-primary btn-block mb-4">
-                    SIGN IN
-                  </button>
+                  <div class="d-flex flex-column align-items-center">
+                    <!-- Submit button -->
+                    <button type="submit" @click="this.logIn" style="width:400px" class="btn btn-primary btn-block mb-3">
+                      SIGN IN
+                    </button>
 
+                    OR
+                    <!-- Google SignIn button -->
+                    </div>
+                  <a href="/login/google"  style="width:400px; color: #545454;background-color: #ffffff;box-shadow: 0 1px 2px 1px #ddd;" class="btn btn-google text-uppercase my-3"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</a>
                   <p>Don't have an account? <a href="#!" class="link-info" @click="navigator('Register')">Register here</a></p>
 
                 </form>

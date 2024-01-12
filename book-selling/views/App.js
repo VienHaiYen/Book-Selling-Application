@@ -8,6 +8,8 @@ import {
   MyCart,
   BookDetail,
   OrderSummary,
+  OrderHistory,
+  OrderDetail,
   AdminReport,
   User,
 } from "./pages/index.js";
@@ -28,6 +30,8 @@ const App = {
     MyCart,
     BookDetail,
     OrderSummary,
+    OrderHistory,
+    OrderDetail,
     SidebarAdmin,
     // admin
     AdminReport,
@@ -38,15 +42,31 @@ const App = {
       avatarImg:
         "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
       state,
+      categories: [],
     };
   },
 
-  methods: {
-    changeView(type) {
-      state.view = type;
-    },
-  },
+  methods: {},
   async created() {
+    axios
+      .get("/categories")
+      .then((res) => {
+        this.categories = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    axios
+      .get("/auth")
+      .then((res) => {
+        console.log(res.data);
+        state.user = res.data;
+      })
+      .catch((err) => {
+        // console.log(err);
+        console.log("Not in session");
+      });
     await axios
       .get("/books")
       .then((res) => {
@@ -58,16 +78,16 @@ const App = {
   },
   // / <BookDetail id="10"/>
   mounted() {},
-  // <component :is="view" @changeView="changeView"></component>
-  // <component :is="state.view"></component>
   template: `
+  <div class="main-container">
   <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
     <Navbar v-if="!
-    (state.user == undefined ? false : state.user.role == 'admin')" @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-    <SidebarAdmin v-else @changeView="changeView" :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-        <component class=" flex-grow-1" :is="state.view" @changeView="changeView"></component>
+    (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
+    <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+        <component class=" flex-grow-1" :is="state.view"></component>
   </div>
     <Footer />
+    </div>
   `,
 };
 

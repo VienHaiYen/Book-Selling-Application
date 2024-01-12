@@ -12,15 +12,32 @@ const Setting = {
     };
   },
   methods: {
+    navigate: (screen) => {
+      state.view = screen;
+    },
     handleStateShowingMyBook() {
       this.isShowingMyBook = !this.isShowingMyBook;
     },
 
     editInfo() {
-      this.$emit("changeView", "EditProfile");
+      state.view = "EditProfile";
+    },
+    async fetchMyBooks() {
+      await $.ajax({
+        url: `/books/myBooks`,
+        type: "GET",
+        success: function (data) {
+          state.tempVal = data.data;
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
     },
   },
-  mounted() {},
+  async mounted() {
+    await this.fetchMyBooks();
+  },
   template: `
     <section >
       <div class="container py-5">
@@ -78,10 +95,10 @@ const Setting = {
             </div>
               <div class="d-flex justify-content-between mb-3">
                 <h3 class="pb-2 mb-0">My book</h3>
-                <button type="button" class="btn btn-dark" @click="handleStateShowingMyBook">{{isShowingMyBook?"Back to my Profile":"See more"}} </button>
+                <button type="button" class="btn btn-dark" @click="navigate('OrderHistory')">{{isShowingMyBook?"Back to my Profile":"See more"}} </button>
               </div>
               <div class="col">
-                <HorrizontalBookCard />
+                <HorrizontalBookCard :books= "state.tempVal" />
               </div>
             </div>
         </div>

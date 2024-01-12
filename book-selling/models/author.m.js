@@ -30,6 +30,14 @@ module.exports = class Author {
     }
   }
 
+  static async getByName(name) {
+    try {
+      return await db.manyOrNone(authorSQL.getByName, [`%${name}%`]).then((authors) => authors.map((author) => new Author(author)))
+    } catch (err) {
+      return null;
+    }
+  }
+
   static async add(newAuthor) {
     return await db.one(authorSQL.add, [newAuthor.name]).then((author) => new Author(author))
   }
