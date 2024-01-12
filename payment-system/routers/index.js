@@ -5,6 +5,6 @@ const Router = require('express').Router;
 const router = Router();
 
 router.use("/accounts", accountRouter);
-router.use("/transitions", transitionRouter);
+router.use("/transactions", transitionRouter);
 
 module.exports = router;

@@ -13,6 +13,6 @@ module.exports = class Account {
     }
 
     static async get(id) {
-        return db.one(accountSQL.get, [id]).then(account => new Account(account));
+        return db.oneOrNone(accountSQL.get, [id]).then(account => account ? new Account(account) : null);
     }
 }
