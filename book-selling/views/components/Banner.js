@@ -30,7 +30,7 @@ const Banner = {
     },
     async selectBook(id) {
       await axios
-        .get(`/books/${id}`)
+        .get(`/books/detail/${id}`)
         .then((res) => {
           console.log(res);
         })

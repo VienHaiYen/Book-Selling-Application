@@ -16,6 +16,7 @@ module.exports = class Book {
     count,
     available_quantity,
     unit_price,
+
   }) {
     this.id = id;
     this.title = title;
@@ -97,5 +98,14 @@ module.exports = class Book {
 
     sql = sql.slice(0, -1) + ` WHERE id = ${bookId} RETURNING *;`;
     return await db.oneOrNone(sql, params).then((book) => new Book(book));
+  }
+  static async getMyBooks(userId) {
+    try {
+      let result = await db.manyOrNone(bookSQL.getMyBooks, [userId]);
+      return result;
+    } catch (err) {
+      return null;
+    }
+
   }
 };

@@ -1,5 +1,5 @@
 const commonErrorResponse = (
-  msg,
+  msg = "Bad Request",
   detail = null,
   payload = null,
   status = "error"

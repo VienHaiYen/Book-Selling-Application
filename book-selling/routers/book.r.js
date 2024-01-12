@@ -5,7 +5,8 @@ const { User } = require("../models");
 
 routers.get("/", bookController.getAll);
 
-routers.get("/:bookId", bookController.getById);
+routers.get("/detail/:bookId", bookController.getById);
+routers.get("/myBooks", verifyUser(), bookController.getMyBooks);
 
 routers.post("/", verifyUser(User.roles.admin), bookController.add);
 
