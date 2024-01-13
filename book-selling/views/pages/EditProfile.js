@@ -1,3 +1,4 @@
+import { ValidateModel } from "../utils/index.js";
 import { HorrizontalBookCard } from "../components/index.js";
 import state from "../../stores/app-state.js";
 const EditProfile = {
@@ -7,6 +8,7 @@ const EditProfile = {
   data() {
     return {
       state,
+      img_file: File,
       full_name: state.user.full_name,
       email: state.user.email,
       phone: state.user.phone.trim(),
@@ -22,6 +24,9 @@ const EditProfile = {
       e.target.querySelector("img").classList.remove("hover");
       e.target.querySelector(".icon").classList.add("d-none");
     },
+    changeAvatar(e) {
+      $("#fileInput").click();
+    },
     async fetchUser() {
       await axios
         .get(`/users/${state.user.id}`)
@@ -32,11 +37,20 @@ const EditProfile = {
         .catch((err) => console.error(err));
     },
     async updateProfile(e) {
+      e.preventDefault();
+      let imgInfo = await this.uploadImg();
+      console.log(imgInfo);
+      if (!imgInfo) {
+        alert("Upload image failed");
+        return;
+      }
+      // thực hiện trả về
       axios
         .put(`/users/${state.user.id}`, {
           full_name: this.full_name,
           phone: this.phone,
           address: this.address,
+          // avartar: imgInfo.id?"https://drive.google.com/file/d/" + imgInfo.id:state.user.avatar,
         })
         .then(async (res) => {
           alert("Update profile successfully");
@@ -49,8 +63,68 @@ const EditProfile = {
           console.error(err);
         });
     },
+    async uploadImg() {
+      const formElem = document.querySelector("form#form");
+      if (!(fileInput.files && fileInput.files.length > 0)) {
+        // alert("Please choose a file");
+        return;
+      } else {
+        if (
+          !ValidateModel.areAllStringsNotEmpty([
+            this.title,
+            this.language,
+            this.publisher,
+            this.page_count,
+            this.description,
+            this.published_year,
+            this.author_name,
+            this.category_id,
+          ])
+        ) {
+          alert("Please fill in all fields");
+          return;
+        }
+        console.log("image submitting");
+        let data = await fetch("/upload", {
+          method: "POST",
+          body: new FormData(formElem),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            return data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        return data;
+      }
+    },
   },
-  mounted() {},
+  mounted() {
+    var fileInput = document.getElementById("fileInput");
+
+    fileInput.addEventListener("change", function () {
+      readURL(this);
+    });
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("#blah").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    if (state.user.avatar) {
+      $("#blah").attr("src", state.user.avatar);
+    } else {
+      $("#blah").attr(
+        "src",
+        "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+      );
+    }
+  },
   template: `
     <section >
       <div class="container py-5">
@@ -60,10 +134,15 @@ const EditProfile = {
             <div class="card mb-4">
               <div class="card-body text-center position-relative">
                 <div style="width:fit-content; margin:0 auto" @mouseenter="mountOnAvatar" @mouseleave="mountOutAvatar">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                    class=" rounded-circle img-fluid avartar" style="width: 150px;">
-                  <div class="position-absolute icon d-none" style="top:30%; left:50%; transform:translate(-50%, -50%)"><i class="fas fa-camera  fs-1"></i></div>
+                  <img id="blah" alt="avatar"
+                    class=" rounded-circle img-fluid avartar" style="width: 150px;height: 150px;">
+                  <div @click="this.changeAvatar" class="position-absolute icon d-none" style="top:30%; left:50%; transform:translate(-50%, -50%)"><i class="fas fa-camera  fs-1"></i></div>
                 </div>
+                <form id="form">
+                    <div class="custom-file-input">
+                      <input id="fileInput" class="form-control invisible" accept=".jpg, .png, .jpeg" type="file" name="Files" required />
+                    </div>
+                </form>
                 <h5 class="my-3">{{state.user.full_name}}</h5>
                 <p class="text-muted mb-4" >{{state.user.address}}</p>
               </div>

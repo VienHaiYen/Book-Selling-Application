@@ -12,6 +12,7 @@ import {
   OrderDetail,
   AdminReport,
   User,
+  AddBook,
 } from "./pages/index.js";
 
 import { Footer, Navbar, SidebarAdmin } from "./components/index.js";
@@ -36,6 +37,7 @@ const App = {
     // admin
     AdminReport,
     User,
+    AddBook,
   },
   data() {
     return {

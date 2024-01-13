@@ -1,17 +1,16 @@
-const { Book } = require('../models');
+const { Book } = require("../models");
 const { paginationResponse } = require("../helpers/pagination");
-const { commonErrorResponse } = require('../helpers/errorRes');
-const { commonSuccessfulResponse } = require('../helpers/successfulRes');
-
+const { commonSuccessfulResponse } = require("../helpers/successfulRes");
+const { commonErrorResponse } = require("../helpers/errorRes");
 async function getAll(req, res, next) {
   try {
-    let { page = "1", pageSize = "10" } = req.query
-    page = parseInt(page)
-    pageSize = parseInt(pageSize)
+    let { page = "1", pageSize = "10" } = req.query;
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
 
-    let totalRecord = 0
+    let totalRecord = 0;
 
-    const rs = await Book.getAll(page, pageSize)
+    const rs = await Book.getAll(page, pageSize);
     if (rs.length > 0) {
       totalRecord = Number(rs[0].count)
       return res.status(200).send(paginationResponse(totalRecord, page, rs))
@@ -19,13 +18,13 @@ async function getAll(req, res, next) {
       return res.status(200).send([])
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
 async function getById(req, res, next) {
   try {
-    const { bookId } = req.params
+    const { bookId } = req.params;
 
     if (bookId) {
       const rs = await Book.getById(bookId)
@@ -36,7 +35,7 @@ async function getById(req, res, next) {
       return res.status(400).json(commonErrorResponse("Invalid query"));
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
@@ -45,12 +44,12 @@ async function getByTitle(req, res, next) {
     const searchTerm = req.query.q;
 
     if (searchTerm && searchTerm.length > 0) {
-      return await Book.getByTitle(searchTerm)
+      return await Book.getByTitle(searchTerm);
     } else {
-      return res.status(200).send([])
+      return res.status(200).send([]);
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
@@ -61,7 +60,7 @@ async function add(req, res, next) {
       ? res.status(200).json(commonSuccessfulResponse("Add Success"))
       : res.status(400).json(commonErrorResponse("Fail fo create new book"))
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
@@ -90,7 +89,21 @@ async function remove(req, res, next) {
       ? res.status(200).json(commonSuccessfulResponse("Remove Success"))
       : res.status(400).json(commonErrorResponse("Invalid query"))
   } catch (err) {
-    next(err)
+    next(err);
+  }
+}
+async function getMyBooks(req, res, next) {
+  try {
+    const userId = req.user.id;
+
+    if (userId) {
+      const rs = await Book.getMyBooks(userId);
+      return res.json(commonSuccessfulResponse(rs));
+    } else {
+      return res.status(403).json(commonErrorResponse("Unauthorized"));
+    }
+  } catch (err) {
+    next(err);
   }
 }
 
@@ -98,6 +111,7 @@ module.exports = {
   getAll,
   getById,
   getByTitle,
+  getMyBooks,
   add,
   update,
   remove,

@@ -13,12 +13,14 @@ const OrderHistory = {
     navigate: (screen) => {
       state.view = screen;
     },
-    fetchData: async () => {
+    fetchData: async (page = 1, pageSize = 5) => {
       await $.ajax({
-        url: `/orders/user/${state.user.id}`,
+        url: `/orders/user/${state.user.id}?page=${page}&pageSize=${pageSize}`,
         type: "GET",
         success: function (res) {
-          state.tempVal = res.data || [];
+          state.tempArray = res.data || [];
+          state.currentPage = res.meta.page;
+          state.totalPage = res.meta.totalPages;
         },
         error: function (error) {
           console.error(error);
@@ -43,12 +45,22 @@ const OrderHistory = {
       state.orderId = order_id;
       state.view = "OrderDetail";
     },
+    goToNextPage() {
+      if (state.currentPage < state.totalPage) {
+        state.currentPage++;
+        this.fetchData(state.currentPage);
+      }
+    },
+    goToPreviousPage() {
+      if (state.currentPage > 1) {
+        state.currentPage--;
+        this.fetchData(state.currentPage);
+      }
+    },
   },
   async created() {},
   async mounted() {
     await this.fetchData();
-    this.orders = state.tempVal;
-    console.log(this.orders);
   },
   computed: {},
 
@@ -58,10 +70,25 @@ const OrderHistory = {
    <div class="shopping-history-container">
 
     <div class="shopping-cart-title">
-      ORDER HSITORY
+      ORDER HISTORY
     </div>
+    <div class="d-flex justify-content-end align-items-center gap-3">
+    <span><span style="color:#ee4d2d;">{{state.currentPage}}</span>/{{state.totalPage}}</span>
+  <ul class="pagination m-0">
+    <li class="page-item">
+      <button @click="goToPreviousPage()" class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </button>
+    </li>
+    <li class="page-item">
+      <button @click="goToNextPage()" class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </button>
+    </li>
+  </ul>
+</div>
     <div v-if="this.orders.length > 0">
-   <div class="shopping-history-order" v-for="(order, index) in this.orders" :key="order.id">
+   <div class="shopping-history-order" v-for="(order, index) in state.tempArray" :key="order.id">
 
  
    <div class="order-history-brief-info-bar">
@@ -83,6 +110,7 @@ const OrderHistory = {
      <div v-else>
     <div class="p-5">No item</div>
     </div>
+    
     </div>
    
     </div>

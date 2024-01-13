@@ -29,6 +29,7 @@ module.exports = {
     getById: sql("book/getById.sql"),
     getByTitle: sql("book/getByTitle.sql"),
     getCategory: sql("book/getCategory.sql"),
+    getMyBooks: sql("book/getMyBooks.sql"),
   },
   categorySQL: {
     add: sql("category/add.sql"),
@@ -51,6 +52,14 @@ module.exports = {
     makeNewOrder: sql("order/makeNewOrder.sql"),
     getOrderById: sql("order/getOrderById.sql"),
     getOrderByUserId: sql("order/getOrderByUserId.sql"),
+    getOrders: sql("order/getAll.sql"),
+  },
+  dashboardSQL: {
+    getTodayOverallReport: sql("dashboard/getTodayOverallReport.sql"),
+    getThisWeekOverallReport: sql("dashboard/getThisWeekOverallReport.sql"),
+    getThisMonthOverallReport: sql("dashboard/getThisMonthOverallReport.sql"),
+    getThisYearOverallReport: sql("dashboard/getThisYearOverallReport.sql"),
+    getThisWeekDetailReport: sql("dashboard/getThisWeekDetailReport.sql"),
   },
   // movieSQL: {
   //     add: sql("movie/add.sql"),

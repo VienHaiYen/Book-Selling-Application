@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  margin: 0;
 }
 
 html,
@@ -85,4 +86,8 @@ body {
 
 .banner-control:hover {
   background-color: rgb(209, 207, 207);
+}
+
+.book-card:hover {
+  background-color: rgb(242, 242, 242);
 }

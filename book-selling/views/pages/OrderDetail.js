@@ -20,7 +20,7 @@ const OrderDetail = {
         return;
       }
       $.ajax({
-        url: `/orders/${state.orderId}`,
+        url: `/orders/detail/${state.orderId}`,
         type: "get",
         success: (data) => {
           this.orderDetail = data.data;
