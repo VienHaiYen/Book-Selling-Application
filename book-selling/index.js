@@ -44,9 +44,10 @@ app.get("/", function (req, res) {
 
 app.use("/books", routers.bookRouter);
 app.use("/categories", routers.categoryRouter);
-app.use("/", routers.cartRouter);
-app.use("/", routers.inventoryRouter);
-app.use("/", routers.orderRouter);
+app.use("/myCart", routers.cartRouter);
+app.use("/inventory", routers.inventoryRouter);
+app.use("/orders", routers.orderRouter);
+app.use("/dashboard", routers.dashboardRouter);
 
 app.get("/search", async (req, res) => {
   try {

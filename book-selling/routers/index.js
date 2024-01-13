@@ -5,6 +5,7 @@ const userRouter = require("./user.r");
 const cartRouter = require("./cart.r");
 const inventoryRouter = require("./inventory.r");
 const orderRouter = require("./order.r");
+const dashboardRouter = require("./dashboard.r");
 
 module.exports = {
   authRouter,
@@ -14,4 +15,5 @@ module.exports = {
   cartRouter,
   inventoryRouter,
   orderRouter,
+  dashboardRouter,
 };
