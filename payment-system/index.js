@@ -15,6 +15,7 @@ app.set("view engine", "html");
 app.set("views", "views");
 
 // Routers
+const _ = require("./configs/app");
 const router = require("./routers");
 app.use("/", router);
 
