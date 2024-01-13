@@ -1,4 +1,7 @@
 const { db } = require("../configs/postgres.js");
+
+const Author = require("./author.m.js");
+const Category = require("./category.m.js");
 const { bookSQL, authorSQL } = require("./sql");
 
 module.exports = class Book {
@@ -47,9 +50,10 @@ module.exports = class Book {
       const bookData = await db
         .oneOrNone(bookSQL.getById, [id])
         .then((book) => new Book(book));
-      const authorData = await db.oneOrNone(bookSQL.getAuthor, [id]);
+      const authorData = await db.oneOrNone(bookSQL.getAuthor, [id])
+      const categoryData = await db.oneOrNone(bookSQL.getCategory, [id])
 
-      return { book: bookData, author: authorData };
+      return { book: bookData, author: authorData, category: categoryData }
     } catch (err) {
       return null;
     }

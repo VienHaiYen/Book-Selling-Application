@@ -28,6 +28,7 @@ module.exports = {
     getAuthor: sql("book/getAuthor.sql"),
     getById: sql("book/getById.sql"),
     getByTitle: sql("book/getByTitle.sql"),
+    getCategory: sql("book/getCategory.sql"),
     getMyBooks: sql("book/getMyBooks.sql"),
   },
   categorySQL: {
@@ -36,7 +37,6 @@ module.exports = {
     getBooks: sql("category/getBooks.sql"),
     getById: sql("category/getById.sql"),
     getByName: sql("category/getByName.sql"),
-    update: sql("category/update.sql"),
   },
   cartSQL: {
     getByUserId: sql("cart/getByUserId.sql"),

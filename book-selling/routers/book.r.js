@@ -12,4 +12,6 @@ routers.post("/", verifyUser(User.roles.admin), bookController.add);
 
 routers.put("/:bookId", verifyUser(User.roles.admin), bookController.update);
 
+routers.delete("/:bookId", verifyUser(User.roles.admin), bookController.remove);
+
 module.exports = routers;
