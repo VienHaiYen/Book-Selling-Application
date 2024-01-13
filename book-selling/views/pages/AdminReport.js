@@ -1,9 +1,8 @@
-import { AdminSearch, BookItemList } from "../components/index.js";
+import { BookItemList } from "../components/index.js";
 
 const AdminReport = {
   props: {},
   components: {
-    AdminSearch,
     BookItemList,
   },
   data() {

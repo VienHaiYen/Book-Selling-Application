@@ -15,6 +15,7 @@ export * from "./BooksbyCategory.js";
 export * from "./Pagination.js";
 export * from "./AuthorItem.js";
 export * from "./AuthorItemList.js";
+export * from "./BookSearchBar.js";
 
 export * from "./UserNav.js";
 
@@ -23,8 +24,8 @@ export * from "./Modal.js";
 
 // admin
 export * from "./SidebarAdmin.js";
-export * from "./AdminSearch.js";
 export * from "./UserList.js";
+export * from "./AdminSearch.js";
 
 // charts
 export * from "./CartItem.js";

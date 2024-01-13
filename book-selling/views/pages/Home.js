@@ -3,10 +3,10 @@ import {
   TextInput,
   BookItemList,
   BookByCategory,
-  AdminSearch,
   Pagination,
   Spinner,
   Modal,
+  BookSearchBar,
 } from "../components/index.js";
 
 import state from "../stores/app-state.js";
@@ -26,10 +26,10 @@ const Home = {
     TextInput,
     BookItemList,
     BookByCategory,
-    AdminSearch,
     Pagination,
     Spinner,
     Modal,
+    BookSearchBar,
   },
   methods: {
     async getBookList(page = 1) {
@@ -84,8 +84,8 @@ const Home = {
           <BookByCategory title="Popular"/>
         </div>
         <div v-else>
-          <AdminSearch />
-          <div class="d-flex justify-content-between">
+          <BookSearchBar />
+          <div class="d-flex justify-content-between mt-2">
             <!-- Button  -->
             <button type="button" class="btn btn-primary m-2" @click="this.navigate('AddBook')">
               Add book

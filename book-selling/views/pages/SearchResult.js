@@ -20,11 +20,12 @@ const SearchResult = {
   },
   mounted() {},
   template: `
-
-    <h2 class="text-center my-5">Author Result</h2>
-    <AuthorItemList :authors="state.searchResult.authors"/>
-    <h2 class="text-center my-5">Books Result</h2>
-    <BookItemList :books="state.searchResult.books"/>
+    <div>
+      <h2 class="text-center my-5">Author Result</h2>
+      <AuthorItemList :authors="state.searchResult.authors"/>
+      <h2 class="text-center my-5">Books Result</h2>
+      <BookItemList :books="state.searchResult.books"/>
+    </div>
   `,
 };
 

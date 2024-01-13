@@ -1,6 +1,7 @@
 import { Dropdown } from "./Dropdown.js";
 
 import { UserNav } from "./UserNav.js";
+import { BookSearchBar } from "./BookSearchBar.js";
 import state from "../stores/app-state.js";
 const Navbar = {
   props: {
@@ -11,11 +12,10 @@ const Navbar = {
   components: {
     Dropdown,
     UserNav,
+    BookSearchBar,
   },
   data() {
-    return {
-      searchInput: "",
-    };
+    return {};
   },
   methods: {
     navigation(screen) {
@@ -29,19 +29,6 @@ const Navbar = {
           state.user = undefined;
           state.view = "SignIn";
           alert("Log out successfully");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    async search(e) {
-      e.preventDefault();
-      await axios
-        .get(`/search?q=${this.searchInput}`)
-        .then((res) => {
-          console.log(res.data);
-          state.view = "SearchResult";
-          state.searchResult = res.data;
         })
         .catch((err) => {
           console.error(err);
@@ -65,14 +52,10 @@ const Navbar = {
               <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" />
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input v-model="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" @click="this.search" type="submit">Search</button>
-          </form>
+          <BookSearchBar />
           <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
            <button v-if="isLogin" class="btn mx-3  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
           <UserNav :avatarImg="this.avatarImg"   v-if="isLogin" />
-
           </div>
       </div>
     </nav>

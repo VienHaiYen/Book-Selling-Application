@@ -14,15 +14,14 @@ const BookDetail = {
   },
   methods: {
     async getBookDetail() {
-
       this.onLoading = true;
       await $.ajax({
         url: `/books/detail/${this.id}`,
         type: "GET",
         success: (res) => {
-          this.book = res.data.data.book;
-          this.author = res.data.data.author;
-          this.category = res.data.data.category;
+          this.book = res.data.book;
+          this.author = res.data.author;
+          this.category = res.data.category;
         },
         error: function (error) {
           console.error(error);
