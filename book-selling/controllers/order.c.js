@@ -11,7 +11,7 @@ async function makeNewOrder(req, res, next) {
     if (!user_id || !item_list || item_list.length < 1) {
       return res
         .status(400)
-        .json(commonErrorResponse("fail to create new order"));
+        .json(commonErrorResponse("Failed to create new order"));
     }
 
     let new_order_id;
@@ -20,14 +20,16 @@ async function makeNewOrder(req, res, next) {
     } else if (payment_method === "cash") {
       new_order_id = await Order.makeNewOrder(user_id, item_list);
     } else {
-      return res.status(400).json(commonErrorResponse("Invalid payment method"));
+      return res
+        .status(400)
+        .json(commonErrorResponse("Invalid payment method"));
     }
 
     if (!new_order_id || new_order_id === -1) {
       //TODO return available updated item list
       return res
         .status(400)
-        .json(commonErrorResponse("fail to create new order"));
+        .json(commonErrorResponse("Failed to create new order"));
     } else {
       //TODO return new order id
       return res.json(

@@ -38,11 +38,11 @@ const BookDetail = {
         success: (data) => {
           const new_item_id = data.data.new_item_id;
           if (new_item_id !== -1) alert("Added to cart");
-          else alert("Fail to add item to cart");
+          else alert("Failed to add item to cart");
         },
         error: function (error) {
           console.error(error);
-          alert("Fail to add this item to cart");
+          alert("Failed to add this item to cart");
         },
       });
     },
@@ -59,7 +59,7 @@ const BookDetail = {
           if (new_item_id !== -1) {
             state.inCartSelected = [new_item_id];
             state.view = "OrderSummary";
-          } else alert("Fail to buy item");
+          } else alert("Failed to buy item");
         },
         error: function (error) {
           console.error(error);

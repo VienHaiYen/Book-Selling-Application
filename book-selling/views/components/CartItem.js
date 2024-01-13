@@ -26,7 +26,7 @@ const CartItem = {
             }
           },
           error: function (error) {
-            alert("Action fail");
+            alert("Action failed");
             console.error(error);
           },
         });
