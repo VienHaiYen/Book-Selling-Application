@@ -1,14 +1,16 @@
-import { HorrizontalBookCard, Avatar } from "../components/index.js";
+import { HorrizontalBookCard, Avatar, Spinner } from "../components/index.js";
 import state from "../../stores/app-state.js";
 const Setting = {
   components: {
     HorrizontalBookCard,
     Avatar,
+    Spinner,
   },
   data() {
     return {
       state,
       isShowingMyBook: false,
+      onLoading: true,
     };
   },
   methods: {
@@ -33,13 +35,15 @@ const Setting = {
           console.error(error);
         },
       });
+      this.onLoading = false;
     },
   },
   async mounted() {
     await this.fetchMyBooks();
   },
   template: `
-    <section >
+   <Spinner v-if="this.onLoading" />
+    <section v-else >
       <div class="container py-5">
         <div class="row">
           <div class="col-lg-4">

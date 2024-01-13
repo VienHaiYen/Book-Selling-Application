@@ -1,7 +1,7 @@
-import { OrderHistoryItemList } from "../components/index.js";
+import { OrderHistoryItemList, Spinner } from "../components/index.js";
 import state from "../stores/app-state.js";
 const OrderHistory = {
-  components: { OrderHistoryItemList },
+  components: { OrderHistoryItemList, Spinner },
   data: function () {
     return {
       total: Number,
@@ -13,7 +13,8 @@ const OrderHistory = {
     navigate: (screen) => {
       state.view = screen;
     },
-    fetchData: async (page = 1, pageSize = 5) => {
+    async fetchData(page = 1, pageSize = 5) {
+      state.onLoading = true;
       await $.ajax({
         url: `/orders/user/${state.user.id}?page=${page}&pageSize=${pageSize}`,
         type: "GET",
@@ -26,6 +27,7 @@ const OrderHistory = {
           console.error(error);
         },
       });
+      state.onLoading = false;
     },
     formatDate(input_date) {
       const date = new Date(input_date);
@@ -65,6 +67,7 @@ const OrderHistory = {
   computed: {},
 
   template: `
+  
    <div>
    <link rel="stylesheet" href="./css/cart.css" />
    <div class="shopping-history-container">
@@ -72,7 +75,8 @@ const OrderHistory = {
     <div class="shopping-cart-title">
       ORDER HISTORY
     </div>
-    <div class="d-flex justify-content-end align-items-center gap-3">
+    <Spinner v-if="state.onLoading" />
+    <div  v-else class="d-flex justify-content-end align-items-center gap-3">
     <span><span style="color:#ee4d2d;">{{state.currentPage}}</span>/{{state.totalPage}}</span>
   <ul class="pagination m-0">
     <li class="page-item">

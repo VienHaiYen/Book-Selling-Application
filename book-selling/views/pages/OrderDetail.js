@@ -2,10 +2,16 @@ import {
   OrderedItemList,
   OrderCustomerInfo,
   OrderPaymentMethod,
+  Spinner,
 } from "../components/index.js";
 import state from "../stores/app-state.js";
 const OrderDetail = {
-  components: { OrderedItemList, OrderCustomerInfo, OrderPaymentMethod },
+  components: {
+    OrderedItemList,
+    OrderCustomerInfo,
+    OrderPaymentMethod,
+    Spinner,
+  },
   data: function () {
     return {
       items: [],
@@ -15,6 +21,7 @@ const OrderDetail = {
   },
   methods: {
     fetchData() {
+      state.onLoading = true;
       if (!state.orderId) {
         alert("Invalid action");
         return;
@@ -41,6 +48,7 @@ const OrderDetail = {
           console.error(error);
         },
       });
+      state.onLoading = false;
     },
   },
   mounted() {
@@ -53,7 +61,8 @@ const OrderDetail = {
         <div class="shopping-cart-title">
             ORDER DETAIL
         </div>
-        <div class="mt-2 d-flex justify-content-center">
+        <Spinner v-if="state.onLoading" />
+        <div e-else class="mt-2 d-flex justify-content-center">
             <div style="width:100%;">
 
                 <div class="order-detail-brief-info-bar">

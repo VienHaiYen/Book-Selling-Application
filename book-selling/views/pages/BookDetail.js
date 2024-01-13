@@ -1,27 +1,31 @@
 import state from "../stores/app-state.js";
-
+import { Spinner } from "../components/index.js";
 const BookDetail = {
   props: {},
-  components: {},
+  components: { Spinner },
   data() {
     return {
       book: {},
       author: {},
       state,
+      onLoading: true,
     };
   },
   methods: {
     async getBookDetail() {
-      await axios
-        .get(`/books/detail/${this.id}`)
-        .then((res) => {
+      this.onLoading = true;
+      await $.ajax({
+        url: `/books/detail/${this.id}`,
+        type: "GET",
+        success: (res) => {
           this.book = res.data.book;
           this.author = res.data.author;
-          console.log(this.book);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+      this.onLoading = false;
     },
     addToCart(item_id) {
       $.ajax({
@@ -32,7 +36,6 @@ const BookDetail = {
           quantity: 1,
         },
         success: (data) => {
-          console.log(454, data);
           const new_item_id = data.data.new_item_id;
           if (new_item_id !== -1) alert("Added to cart");
           else alert("Fail to add item to cart");
@@ -66,13 +69,15 @@ const BookDetail = {
   },
   created() {
     this.id = state.bookId;
+    this.onLoading = true;
   },
-  mounted() {
-    this.getBookDetail();
+  async mounted() {
+    await this.getBookDetail();
   },
 
   template: `
-          <div v-if="book.title!=undefined" class="p-4 py-xl-5">
+      <Spinner v-if="this.onLoading" />
+          <div v-else v-if="book.title!=undefined" class="p-4 py-xl-5">
             <div class="bg-white border rounded border-0 border-dark overflow-hidden">
                 <div class="row g-0">
                     <div class="col-md-5 col-lg-4 px-2 px-sm-2 order-first" style="min-width: 250px;">
