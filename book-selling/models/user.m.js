@@ -5,7 +5,7 @@ const { getOffset } = require('../helpers/pagination');
 const saltRounds = 10;
 
 module.exports = class User {
-    constructor({ id, email, password_hash = "", role = User.roles.client, google_id, address, full_name, phone }) {
+    constructor({ id, email, password_hash = "", role = User.roles.client, google_id, address, full_name, phone, avatar}) {
         this.id = id;
         this.email = email;
         this.password_hash = password_hash;
@@ -14,6 +14,7 @@ module.exports = class User {
         this.address = address;
         this.full_name = full_name;
         this.phone = phone;
+        this.avatar = avatar;
     }
 
     static roles = {
@@ -37,7 +38,7 @@ module.exports = class User {
         const hashedPassword = await bcrypt.hash(password, saltRounds)
         const newUser = new User({ ...user, password_hash: hashedPassword })
         return await db.one(userSQL.add,
-            [newUser.email, newUser.password_hash, newUser.role, newUser.address, newUser.full_name, newUser.phone, newUser.google_id]
+            [newUser.email, newUser.password_hash, newUser.role, newUser.address, newUser.full_name, newUser.phone, newUser.google_id, newUser.avatar]
         ).then(user => new User(user))
 
     }
@@ -61,7 +62,7 @@ module.exports = class User {
     }
 
     async save() {
-        return await db.one(userSQL.update, [this.id, this.address, this.full_name, this.phone]).then(user => new User(user))
+        return await db.one(userSQL.update, [this.id, this.address, this.full_name, this.phone, this.avatar]).then(user => new User(user))
     }
 
     async delete() {
