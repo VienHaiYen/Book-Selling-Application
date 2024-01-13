@@ -50,10 +50,10 @@ module.exports.updateUser = async (req, res, next) => {
         if (req.user.role !== User.roles.admin && userId != req.user.id) {
             return res.status(403).send(commonErrorResponse("Forbidden"))
         }
-        const { address, full_name, phone } = req.body
+        const { address, full_name, phone, avatar } = req.body
         const updateUser = new User({
             ...(await User.getById(userId)),
-            address, full_name, phone
+            address, full_name, phone, avatar
         })
         const updatedUser = await updateUser.save()
         res.send(updatedUser)
