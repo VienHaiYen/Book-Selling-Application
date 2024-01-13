@@ -21,7 +21,7 @@ const UserNav = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
-          navigation("Home");
+          state.view = "SignIn";
           alert("Log out successfully");
         })
         .catch((err) => {

@@ -5,6 +5,7 @@ const EditBook = {
     return {
       book: {},
       author: {},
+      category: {},
       categories: [],
       img_file: File,
       title: "",
@@ -116,9 +117,10 @@ const EditBook = {
       await axios
         .get("/books/detail/" + state.activeId)
         .then((res) => {
-          console.log(res.data.author);
-          this.book = res.data.book;
-          this.author = res.data.author;
+          console.log(res.data.data);
+          this.book = res.data.data.book;
+          this.author = res.data.data.author;
+          this.category = res.data.data.category;
 
           this.title = this.book.title;
           this.language = this.book.language;
@@ -126,8 +128,9 @@ const EditBook = {
           this.page_count = this.book.page_count;
           this.description = this.book.description;
           this.published_year = this.book.published_year;
+          // TODO: đang gặp bug, vì chưa có get được author id
           this.author_name = this.author.name;
-          this.category_id = this.book.category_id;
+          this.category_id = this.category.category_id;
           this.thumbnail = this.book.thumbnail;
           $("#blah").attr("src", this.thumbnail);
         })

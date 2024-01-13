@@ -69,8 +69,8 @@ async function update(req, res, next) {
     const { bookId } = req.params
     const updateData = req.body
     const checkBook = await Book.getById(bookId)
-
-    const rs = checkBook && checkBook.id && await Book.update(bookId, updateData)
+    const rs =
+      checkBook && checkBook.book.id && (await Book.update(bookId, updateData));
     return (rs && rs.id)
       ? res.status(200).json(commonSuccessfulResponse("Update Success"))
       : res.status(400).json(commonErrorResponse("Invalid query"))

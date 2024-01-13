@@ -20,6 +20,11 @@ const BookItemList = {
   mounted() {},
   methods: {
     addToCart(item_id) {
+      if (state.user == undefined) {
+        alert("Please sign in to add item to cart")
+        state.view = "SignIn";
+        return
+      }
       $.ajax({
         url: "/myCart/item",
         type: "POST",
@@ -39,6 +44,11 @@ const BookItemList = {
       });
     },
     buyNow(item_id) {
+      if (state.user == undefined) {
+        alert("Please sign in to add item to cart");
+        state.view = "SignIn";
+        return;
+      }
       $.ajax({
         url: "/myCart/item",
         type: "POST",

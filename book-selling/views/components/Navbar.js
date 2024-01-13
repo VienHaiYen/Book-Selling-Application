@@ -25,7 +25,7 @@ const Navbar = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
-          state.view = "Home";
+          state.view = "SignIn";
           alert("Log out successfully");
         })
         .catch((err) => {

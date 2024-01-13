@@ -40,17 +40,19 @@ const EditProfile = {
       e.preventDefault();
       let imgInfo = await this.uploadImg();
       console.log(imgInfo);
-      if (!imgInfo) {
-        alert("Upload image failed");
-        return;
-      }
+      // if (!imgInfo) {
+      //   alert("Upload image failed");
+      //   // return;
+      //   imgInfo = "";
+        
+      // }
       // thực hiện trả về
       axios
         .put(`/users/${state.user.id}`, {
           full_name: this.full_name,
           phone: this.phone,
           address: this.address,
-          // avartar: imgInfo.id?"https://drive.google.com/file/d/" + imgInfo.id:state.user.avatar,
+          // avartar: imgInfo?"https://drive.google.com/file/d/" + imgInfo.id:state.user.avatar,
         })
         .then(async (res) => {
           alert("Update profile successfully");
