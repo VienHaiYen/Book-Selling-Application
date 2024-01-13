@@ -47,10 +47,11 @@ const Setting = {
       <div class="container py-5">
         <div class="row">
           <div class="col-lg-4">
-            <div class="card mb-4">
-              <div class="card-body text-center">
-                <Avatar source="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" size="150px" />
-                <h5 class="my-3">{{state.user.full_name}}</h5>
+            <div class="card mb-4 p-4">
+              <div style="width:fit-content; margin:0 auto" @mouseenter="mountOnAvatar" @mouseleave="mountOutAvatar">
+                  <img alt="avatar"
+                    :src="state.user.avatar?state.user.avatar:state.defaultAvatar"
+                    class="my-2 rounded-circle img-fluid avartar" style="width: 150px;height: 150px;">
               </div>
             </div>
           </div>

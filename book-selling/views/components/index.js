@@ -13,6 +13,8 @@ export * from "./BookItemList.js";
 export * from "./Avatar.js";
 export * from "./BooksbyCategory.js";
 export * from "./Pagination.js";
+export * from "./AuthorItem.js";
+export * from "./AuthorItemList.js";
 
 export * from "./UserNav.js";
 

@@ -13,7 +13,9 @@ const Navbar = {
     UserNav,
   },
   data() {
-    return {};
+    return {
+      searchInput: "",
+    };
   },
   methods: {
     navigation(screen) {
@@ -25,8 +27,21 @@ const Navbar = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
-          state.view = "Home";
+          state.view = "SignIn";
           alert("Log out successfully");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    async search(e) {
+      e.preventDefault();
+      await axios
+        .get(`/search?q=${this.searchInput}`)
+        .then((res) => {
+          console.log(res.data);
+          state.view = "SearchResult";
+          state.searchResult = res.data;
         })
         .catch((err) => {
           console.error(err);
@@ -51,8 +66,8 @@ const Navbar = {
             </li>
           </ul>
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input v-model="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" @click="this.search" type="submit">Search</button>
           </form>
           <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
            <button v-if="isLogin" class="btn mx-3  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
