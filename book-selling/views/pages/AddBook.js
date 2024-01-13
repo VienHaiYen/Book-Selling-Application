@@ -84,7 +84,7 @@ const AddBook = {
           published_year: this.published_year,
           author_name: this.author_name,
           category_id: this.category_id,
-          thumbnail: "https://drive.google.com/file/d/" + imgInfo.id,
+          thumbnail: "https://drive.google.com/thumbnail?id=" + imgInfo.id,
         })
         .then((res) => {
           if (res.status == 200) {

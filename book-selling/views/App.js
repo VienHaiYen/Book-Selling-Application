@@ -14,6 +14,7 @@ import {
   User,
   AddBook,
   EditBook,
+  SearchResult,
 } from "./pages/index.js";
 
 import { Footer, Navbar, SidebarAdmin } from "./components/index.js";
@@ -29,6 +30,7 @@ const App = {
     EditProfile,
     Footer,
     Navbar,
+    SearchResult,
     MyCart,
     BookDetail,
     OrderSummary,

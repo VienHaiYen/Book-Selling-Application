@@ -6,6 +6,7 @@ export * from "./ForgotPassword.js";
 // No Authen Screens
 export * from "./Home.js";
 export * from "./BookDetail.js";
+export * from "./SearchResult.js";
 
 // Needed Authen Screen
 export * from "./Setting.js";
