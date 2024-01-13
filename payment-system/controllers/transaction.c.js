@@ -4,8 +4,11 @@ module.exports.purchaseOrder = async (req, res, next) => {
     try {
         const bookstoreId = req.user.id;
 
-        const { amount, orderId } = req.body;
-
+        let { amount, orderId } = req.body;
+        amount = Number(amount);
+        if (!amount || amount <= 0) {
+            return res.status(400).send("Invalid amount");
+        }
         // check enough balance
         const paymentAccount = new Account(req.paymentAccount);
         if (paymentAccount.balance < amount) {
