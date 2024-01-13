@@ -21,7 +21,7 @@ async function checkAvailableList(req, res, next) {
     if (!user_id || !item_list || item_list.length < 1) {
       return res
         .status(400)
-        .json(commonErrorResponse("fail to create new order"));
+        .json(commonErrorResponse("Failed to create new order"));
     }
     const rs = await Inventory.checkAvailableList(user_id, item_list);
     if (!rs) {
@@ -30,7 +30,7 @@ async function checkAvailableList(req, res, next) {
         .status(400)
         .json(
           commonErrorResponse(
-            (msg = "Make new order fail"),
+            (msg = "Make new order failed"),
             (detail = "Some items are out-of-stock or 0")
           )
         );
@@ -41,7 +41,20 @@ async function checkAvailableList(req, res, next) {
     next(err);
   }
 }
+async function updateById(req, res, next) {
+  try {
+    const { itemId } = req.params;
+    if (!itemId) {
+      res.json(commonErrorResponse("Invalid item"));
+    }
+    const rs = await Inventory.getAvailableQuantity(itemId);
+    res.json(commonSuccessfulResponse(rs));
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = {
   getAvailableQuantity,
   checkAvailableList,
+  updateById,
 };

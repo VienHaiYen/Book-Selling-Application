@@ -35,6 +35,7 @@ const Home = {
     async getBookList(page = 1) {
       this.bookList = [];
       $("html, body").animate({ scrollTop: 0 }, "slow");
+      state.onLoading = true;
       await axios
         .get("/books/?page=" + page + "&pageSize=" + this.perpage)
         .then((res) => {
@@ -45,6 +46,7 @@ const Home = {
         .catch((err) => {
           console.error(err);
         });
+      state.onLoading = false;
     },
     async deleteBook() {
       await axios
@@ -63,15 +65,18 @@ const Home = {
     },
   },
   async mounted() {
-    axios.get("/auth").then((res) => {
-      if (res.data.role == "admin") {
-        this.getBookList();
-      }
-    });
+    // await axios.get("/auth").then((res) => {
+    //   if (res.data.role == "admin") {
+    //     this.getBookList();
+    //   }
+    // });
+    await this.getBookList();
   },
 
   template: `
-      <div>
+      <Spinner v-if="state.onLoading" />
+
+      <div v-else>
       <Modal id="deleteBook" title="Delete Book" description="Do you want remove this book ?" :callback="deleteBook"/>
 
         <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">

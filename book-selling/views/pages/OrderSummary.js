@@ -17,7 +17,7 @@ const OrderSummary = {
       $.ajax({
         url: "/orders",
         type: "POST",
-        data: { item_list: state.inCartSelected },
+        data: { item_list: state.inCartSelected, payment_method: state.paymentMethod },
         success: function (data) {
           alert("Order successful");
           state.orderId = data.data.new_order_id;

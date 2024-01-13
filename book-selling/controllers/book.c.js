@@ -12,10 +12,10 @@ async function getAll(req, res, next) {
 
     const rs = await Book.getAll(page, pageSize);
     if (rs.length > 0) {
-      totalRecord = Number(rs[0].count)
-      return res.status(200).send(paginationResponse(totalRecord, page, rs))
+      totalRecord = Number(rs[0].count);
+      return res.status(200).send(paginationResponse(totalRecord, page, rs));
     } else {
-      return res.status(200).send([])
+      return res.status(200).send([]);
     }
   } catch (err) {
     next(err);
@@ -27,10 +27,10 @@ async function getById(req, res, next) {
     const { bookId } = req.params;
 
     if (bookId) {
-      const rs = await Book.getById(bookId)
+      const rs = await Book.getById(bookId);
       return rs && rs.book.id
         ? res.status(200).json(commonSuccessfulResponse(rs))
-        : res.status(404).json(commonErrorResponse("Not found"))
+        : res.status(404).json(commonErrorResponse("Not found"));
     } else {
       return res.status(400).json(commonErrorResponse("Invalid query"));
     }
@@ -55,10 +55,10 @@ async function getByTitle(req, res, next) {
 
 async function add(req, res, next) {
   try {
-    const rs = await Book.add(req.body).then((book) => new Book(book))
+    const rs = await Book.add(req.body).then((book) => new Book(book));
     return rs && rs.id
       ? res.status(200).json(commonSuccessfulResponse("Add Success"))
-      : res.status(400).json(commonErrorResponse("Fail fo create new book"))
+      : res.status(400).json(commonErrorResponse("Failed fo create new book"));
   } catch (err) {
     next(err);
   }
@@ -72,22 +72,26 @@ async function update(req, res, next) {
     const rs =
       checkBook && checkBook.book.id && (await Book.update(bookId, updateData));
     return (rs && rs.id)
+
       ? res.status(200).json(commonSuccessfulResponse("Update Success"))
-      : res.status(400).json(commonErrorResponse("Invalid query"))
+      : res.status(400).json(commonErrorResponse("Invalid query"));
   } catch (err) {
-    next(err)
+    next(err);
   }
 }
 
 async function remove(req, res, next) {
   try {
-    const { bookId } = req.params
-    const checkBook = await Book.getById(bookId)
+    const { bookId } = req.params;
+    const checkBook = await Book.getById(bookId);
 
-    const rs = checkBook && checkBook.id && await Book.update(bookId, { "status": false })
-    return (rs && rs.id)
+    const rs =
+      checkBook &&
+      checkBook.id &&
+      (await Book.update(bookId, { status: false }));
+    return rs && rs.id
       ? res.status(200).json(commonSuccessfulResponse("Remove Success"))
-      : res.status(400).json(commonErrorResponse("Invalid query"))
+      : res.status(400).json(commonErrorResponse("Invalid query"));
   } catch (err) {
     next(err);
   }
@@ -115,4 +119,4 @@ module.exports = {
   add,
   update,
   remove,
-}
+};

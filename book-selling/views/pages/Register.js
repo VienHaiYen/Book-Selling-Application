@@ -59,7 +59,7 @@ const Register = {
           }
         })
         .catch((err) => {
-          alert("Fail to register: Email already in use");
+          alert("Failed to register: Email already in use");
           console.error(err);
         });
     },

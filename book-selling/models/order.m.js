@@ -1,8 +1,36 @@
 const { db } = require("../configs/postgres.js");
 const { orderSQL } = require("./sql");
+const paymentConfig = require("../configs/payment");
 
 module.exports = class Order {
-  constructor() {}
+  constructor() { }
+  static async makeNewOrderByMePay(user_id, item_list) {
+    try {
+      return await db.tx(async (t) => {
+        const { new_order_id } = await t
+          .one(orderSQL.makeNewOrder, [user_id, item_list]);
+        const newOrder = await t.one(orderSQL.getOrderById, [new_order_id]);
+        const { id: payment_id } = await fetch(
+          `${paymentConfig.url}/transactions/purchase-order/${user_id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: paymentConfig.apikey,
+            },
+            body: JSON.stringify({
+              amount: newOrder.total,
+              orderId: new_order_id,
+            }),
+          }
+        ).then((res) => res.json());
+        return new_order_id;
+      });
+    } catch (error) {
+      console.error(error);
+      return -1;
+    }
+  }
   static async makeNewOrder(user_id, item_list) {
     try {
       let result = await db.oneOrNone(orderSQL.makeNewOrder, [

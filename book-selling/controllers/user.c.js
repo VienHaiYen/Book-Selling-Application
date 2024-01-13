@@ -2,6 +2,7 @@ const cookieOption = require("../configs/cookieOption")
 const { commonErrorResponse } = require("../helpers/errorRes")
 const { paginationResponse } = require("../helpers/pagination")
 const { User } = require("../models")
+const paymentConfig = require("../configs/payment")
 
 module.exports.getUserList = async (req, res, next) => {
     try {
@@ -74,6 +75,18 @@ module.exports.deleteUser = async (req, res, next) => {
             res.clearCookie('aToken', cookieOption)
         }
         res.send(deletedUser)
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports.getBalance = async (req, res, next) => {
+    try {
+        const { id } = req.user
+        const {balance} = await fetch(
+            `${paymentConfig.url}/accounts/${id}`,
+        ).then(res => res.json())
+        res.send({ balance })
     } catch (error) {
         next(error)
     }
