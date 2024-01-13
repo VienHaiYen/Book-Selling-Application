@@ -15,6 +15,7 @@ export * from "./MyCart.js";
 export * from "./AdminReport.js";
 export * from "./User.js";
 export * from "./AddBook.js";
+export * from "./EditBook.js";
 
 export * from "./OrderSummary.js";
 export * from "./OrderHistory.js";

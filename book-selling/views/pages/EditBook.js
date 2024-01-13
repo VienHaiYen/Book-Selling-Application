@@ -1,8 +1,10 @@
 import { ValidateModel } from "../utils/index.js";
 import state from "../stores/app-state.js";
-const AddBook = {
+const EditBook = {
   data() {
     return {
+      book: {},
+      author: {},
       categories: [],
       img_file: File,
       title: "",
@@ -13,6 +15,7 @@ const AddBook = {
       published_year: "",
       author_name: "",
       category_id: "",
+      thumbnail: "",
     };
   },
   created() {
@@ -26,14 +29,11 @@ const AddBook = {
       });
   },
   methods: {
-    cancel() {
-      state.view = "Home";
-    },
     async uploadImg() {
       const formElem = document.querySelector("form#form");
       if (!(fileInput.files && fileInput.files.length > 0)) {
-        alert("Please choose a file");
-        return;
+        // alert("Please choose a file");
+        return this.book.thumbnail;
       } else {
         if (
           !ValidateModel.areAllStringsNotEmpty([
@@ -62,20 +62,34 @@ const AddBook = {
           .catch((error) => {
             console.error(error);
           });
-        return data;
+        return "https://drive.google.com/file/d/" + data.id;
       }
     },
-    async addBook(e) {
+    cancel() {
+      state.view = "Home";
+    },
+    async editBook(e) {
       e.preventDefault();
       let imgInfo = await this.uploadImg();
       console.log(imgInfo);
       if (!imgInfo) {
-        alert("Upload image failed");
+        // alert("Upload image failed");
         return;
       }
 
+      console.log(
+        this.title,
+        this.language,
+        this.publisher,
+        this.page_count,
+        this.description,
+        this.published_year,
+        this.author_name,
+        this.category_id,
+        imgInfo
+      );
       await axios
-        .post("/books", {
+        .put(`/books/${this.book.id}`, {
           title: this.title,
           language: this.language,
           publisher: this.publisher,
@@ -84,7 +98,7 @@ const AddBook = {
           published_year: this.published_year,
           author_name: this.author_name,
           category_id: this.category_id,
-          thumbnail: "https://drive.google.com/file/d/" + imgInfo.id,
+          thumbnail: imgInfo,
         })
         .then((res) => {
           if (res.status == 200) {
@@ -98,15 +112,32 @@ const AddBook = {
           console.log(err);
         });
     },
+    async getBookInfo() {
+      await axios
+        .get("/books/detail/" + state.activeId)
+        .then((res) => {
+          console.log(res.data.author);
+          this.book = res.data.book;
+          this.author = res.data.author;
+
+          this.title = this.book.title;
+          this.language = this.book.language;
+          this.publisher = this.book.publisher;
+          this.page_count = this.book.page_count;
+          this.description = this.book.description;
+          this.published_year = this.book.published_year;
+          this.author_name = this.author.name;
+          this.category_id = this.book.category_id;
+          this.thumbnail = this.book.thumbnail;
+          $("#blah").attr("src", this.thumbnail);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
-    var fileInput = document.getElementById("fileInput");
-    var fileInputLabel = document.getElementById("fileInputLabel");
-
-    fileInput.addEventListener("change", function () {
-      readURL(this);
-    });
-
+    // xử lí upload ảnh
     function readURL(input) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -116,10 +147,17 @@ const AddBook = {
         reader.readAsDataURL(input.files[0]);
       }
     }
+    var fileInput = document.getElementById("fileInput");
+    fileInput.addEventListener("change", function () {
+      readURL(this);
+    });
+
+    // xử lí load thông tin sách
+    this.getBookInfo();
   },
   template: `
     <div class="m-5">
-      <h1>Add Book</h1>
+      <h1>Edit Book</h1>
       <form id="add-book-form" class="m-3">
         <form id="form">
             <div class="custom-file-input">
@@ -170,10 +208,10 @@ const AddBook = {
             <input v-model="published_year" type="number" class="form-control" />
           </div>
         </div>
-        <button type="submit" class="btn btn-primary m-2" @click="this.addBook">Add book</button>
+        <button type="submit" class="btn m-2 btn-primary" @click="this.editBook">Add book</button>
         <button type="submit" class="btn m-2 btn-outline-primary" @click="this.cancel">Cancel</button>
       </form>
     </div>
   `,
 };
-export { AddBook };
+export { EditBook };
