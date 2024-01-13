@@ -109,6 +109,7 @@ module.exports = {
                     email: clientInfo.email,
                     full_name: clientInfo.name,
                     google_id: clientInfo.id,
+                    avatar: clientInfo.picture,
                 })
                 user = await User.create(user)
             }

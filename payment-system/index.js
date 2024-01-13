@@ -15,11 +15,9 @@ app.set("view engine", "html");
 app.set("views", "views");
 
 // Routers
-// const options = { root: path.join(__dirname, "../views") };
-// const routers = require("./routers");
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
+const _ = require("./configs/app");
+const router = require("./routers");
+app.use("/", router);
 
 
 app.use((err, req, res, next) => {
