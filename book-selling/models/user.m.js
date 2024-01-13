@@ -3,6 +3,7 @@ const { db } = require('../configs/postgres');
 const { userSQL } = require('./sql');
 const { getOffset } = require('../helpers/pagination');
 const saltRounds = 10;
+const paymentConfig = require("../configs/payment")
 
 module.exports = class User {
     constructor({ id, email, password_hash = "", role = User.roles.client, google_id, address, full_name, phone }) {
@@ -23,7 +24,7 @@ module.exports = class User {
 
     static async getByEmail(email) {
         const user = await db.oneOrNone(userSQL.getByEmail, [email])
-        return  user ? new User(user) : null
+        return user ? new User(user) : null
     }
 
     static async searchByEmail(email, page, pageSize) {
@@ -36,10 +37,23 @@ module.exports = class User {
         const password = user.password_hash
         const hashedPassword = await bcrypt.hash(password, saltRounds)
         const newUser = new User({ ...user, password_hash: hashedPassword })
-        return await db.one(userSQL.add,
-            [newUser.email, newUser.password_hash, newUser.role, newUser.address, newUser.full_name, newUser.phone, newUser.google_id]
-        ).then(user => new User(user))
-
+        return await db.tx(async t => {
+            const user = await t.one(userSQL.add,
+                [newUser.email, newUser.password_hash, newUser.role, newUser.address, newUser.full_name, newUser.phone, newUser.google_id]
+            ).then(user => new User(user))
+            const paymentAccount = await (await fetch(
+                `${paymentConfig.url}/accounts`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": paymentConfig.apikey
+                    },
+                    body: JSON.stringify({ accountId: user.id })
+                }
+            )).json()
+            return user;
+        });
     }
 
     static async getAll(page, pageSize) {
