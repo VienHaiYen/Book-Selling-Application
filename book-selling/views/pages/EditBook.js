@@ -63,7 +63,7 @@ const EditBook = {
           .catch((error) => {
             console.error(error);
           });
-        return "https://drive.google.com/file/d/" + data.id;
+        return "https://drive.google.com/thumbnail?id=" + data.id;
       }
     },
     cancel() {
