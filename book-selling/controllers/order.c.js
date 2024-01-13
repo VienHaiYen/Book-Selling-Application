@@ -7,12 +7,22 @@ async function makeNewOrder(req, res, next) {
   try {
     const user_id = req.user.id;
     const item_list = req.body.item_list; // list of item_id in cart_item
+    const payment_method = req.body.payment_method;
     if (!user_id || !item_list || item_list.length < 1) {
       return res
         .status(400)
         .json(commonErrorResponse("fail to create new order"));
     }
-    const new_order_id = await Order.makeNewOrder(user_id, item_list);
+
+    let new_order_id;
+    if (payment_method === "mepay") {
+      new_order_id = await Order.makeNewOrderByMePay(user_id, item_list);
+    } else if (payment_method === "cash") {
+      new_order_id = await Order.makeNewOrder(user_id, item_list);
+    } else {
+      return res.status(400).json(commonErrorResponse("Invalid payment method"));
+    }
+
     if (!new_order_id || new_order_id === -1) {
       //TODO return available updated item list
       return res

@@ -8,6 +8,8 @@ router.post("/",
     verifyApiKey,
     accountController.createAccount
 );
-router.get("/:accountId", accountController.getAccount);
+router.get("/:accountId", 
+    accountController.getAccount
+);
 
 module.exports = router;
