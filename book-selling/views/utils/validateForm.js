@@ -1,6 +1,5 @@
 const ValidateModel = {
   areAllStringsNotEmpty: function ([...obj]) {
-    // console.log(123, obj);
     for (let item of obj) {
       if (item === "") {
         return false;

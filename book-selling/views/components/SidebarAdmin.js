@@ -53,6 +53,10 @@ const SidebarAdmin = {
                     <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Report</span> </a>
             </li>
             <li>
+                <a @click="this.navigation('Setting')" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">My accoount</span> </a>
+            </li>
+            <li>
                 <a @click="this.navigation('User')" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">User List</span> </a>
                 <button class="btn btn-danger" style="margin-left:20px" @click="logOut" ><i class="fas fa-sign-out-alt"></i></button>

@@ -40,6 +40,7 @@ const Home = {
         .then((res) => {
           this.bookList = res.data.data;
           this.meta = res.data.meta;
+          // console.log(this.meta);
         })
         .catch((err) => {
           console.error(err);
@@ -56,6 +57,9 @@ const Home = {
           alert("Delete book failed!");
           console.error(err);
         });
+    },
+    navigate(screen) {
+      state.view = screen;
     },
   },
   async mounted() {
@@ -78,7 +82,7 @@ const Home = {
           <AdminSearch />
           <div class="d-flex justify-content-between">
             <!-- Button  -->
-            <button type="button" class="btn btn-primary m-2">
+            <button type="button" class="btn btn-primary m-2" @click="this.navigate('AddBook')">
               Add book
             </button>
             <div class=d-flex>

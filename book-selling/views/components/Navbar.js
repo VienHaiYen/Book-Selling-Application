@@ -57,9 +57,7 @@ const Navbar = {
           <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
            <button v-if="isLogin" class="btn mx-3  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
           <UserNav :avatarImg="this.avatarImg"   v-if="isLogin" />
-         
-         
-         
+
           </div>
       </div>
     </nav>

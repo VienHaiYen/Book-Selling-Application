@@ -14,7 +14,8 @@ const Register = {
   },
 
   methods: {
-    register: async function () {
+    register: async function (e) {
+      e.preventDefault();
       if (
         !ValidateModel.areAllStringsNotEmpty([
           this.full_name,
@@ -42,11 +43,11 @@ const Register = {
       }
       axios
         .post("/signin", {
-          full_name: this.full_name,
-          address: this.address,
-          phone: this.phone,
-          email: this.email,
-          password: this.password,
+          full_name: this.full_name.trim(),
+          address: this.address.trim(),
+          phone: this.phone.trim(),
+          email: this.email.trim(),
+          password: this.password.trim(),
           role: "client",
         })
         .then((res) => {
@@ -58,6 +59,7 @@ const Register = {
           }
         })
         .catch((err) => {
+          alert("Fail to register: Email already in use");
           console.error(err);
         });
     },
@@ -83,7 +85,7 @@ const Register = {
             <h2 class="fw-bold mb-5">REGISTER</h2>
             <form>
               <div class="form-outline mb-4 d-flex">
-                <label class="form-label text-start w-25" for="name">User name</label>
+                <label class="form-label text-start w-25" for="name">Full name</label>
                 <div class="w-75 text-start">
                   <input required v-model="full_name" type="text" id="name" class="form-control border border-secondary w-75" />
                   </div>

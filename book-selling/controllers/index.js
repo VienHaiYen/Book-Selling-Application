@@ -6,6 +6,7 @@ const userController = require("./user.c.js");
 const cartController = require("./cart.c.js");
 const inventoryController = require("./inventory.c.js");
 const orderController = require("./order.c.js");
+const dashboardController = require("./dashboard.c.js");
 
 module.exports = {
   authController,
@@ -16,4 +17,5 @@ module.exports = {
   cartController,
   inventoryController,
   orderController,
+  dashboardController,
 };

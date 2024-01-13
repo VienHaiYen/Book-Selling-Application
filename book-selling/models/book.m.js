@@ -1,4 +1,7 @@
 const { db } = require("../configs/postgres.js");
+
+const Author = require("./author.m.js");
+const Category = require("./category.m.js");
 const { bookSQL, authorSQL } = require("./sql");
 
 module.exports = class Book {
@@ -14,6 +17,9 @@ module.exports = class Book {
     created_at,
     updated_at,
     count,
+    available_quantity,
+    unit_price,
+
   }) {
     this.id = id;
     this.title = title;
@@ -26,6 +32,8 @@ module.exports = class Book {
     this.created_at = created_at;
     this.updated_at = updated_at;
     this.count = count;
+    this.available_quantity = available_quantity;
+    this.unit_price = unit_price;
   }
   static async getAll(page, pageSize) {
     try {
@@ -42,9 +50,10 @@ module.exports = class Book {
       const bookData = await db
         .oneOrNone(bookSQL.getById, [id])
         .then((book) => new Book(book));
-      const authorData = await db.oneOrNone(bookSQL.getAuthor, [id]);
+      const authorData = await db.oneOrNone(bookSQL.getAuthor, [id])
+      const categoryData = await db.oneOrNone(bookSQL.getCategory, [id])
 
-      return { book: bookData, author: authorData };
+      return { book: bookData, author: authorData, category: categoryData }
     } catch (err) {
       return null;
     }
@@ -101,5 +110,6 @@ module.exports = class Book {
     } catch (err) {
       return null;
     }
+
   }
 };

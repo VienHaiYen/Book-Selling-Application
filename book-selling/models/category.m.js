@@ -44,8 +44,18 @@ module.exports = class Category {
   }
 
   static async update(id, updateData) {
+    let sql = 'UPDATE public."categories" SET ';
+
     const params = [];
-    Object.values(updateData).map((value) => params.push(value))
-    return await db.oneOrNone(categorySQL.update, [id, ...params])
+
+    Object.entries(updateData).map(([key, value]) => {
+      if (value !== undefined) {
+        sql += `${key} = $${params.length + 1},`;
+        params.push(value);
+      }
+    })
+
+    sql = sql.slice(0, -1) + ` WHERE id = ${id} RETURNING *;`;
+    return await db.oneOrNone(sql, params).then((cate) => new Category(cate))
   }
 };
