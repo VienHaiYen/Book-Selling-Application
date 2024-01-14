@@ -2,9 +2,10 @@ const { db } = require("../configs/postgres.js");
 const { categorySQL } = require("./sql");
 
 module.exports = class Category {
-  constructor({ id, name, created_at, updated_at, count }) {
+  constructor({ id, name, status, created_at, updated_at, count }) {
     this.id = id;
     this.name = name;
+    this.status = status;
     this.created_at = created_at;
     this.updated_at = updated_at;
     this.count = count;
