@@ -1,7 +1,6 @@
 const Avatar = {
   props: {
     source: String, // required
-    size: String, // optional
   },
   data() {
     return {};

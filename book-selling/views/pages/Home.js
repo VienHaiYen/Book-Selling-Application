@@ -39,9 +39,8 @@ const Home = {
       await axios
         .get("/books/?page=" + page + "&pageSize=" + this.perpage)
         .then((res) => {
-          this.bookList = res.data.data;
+          this.bookList = res.data.data.filter((book) => book.status == true);
           this.meta = res.data.meta;
-          // console.log(this.meta);
         })
         .catch((err) => {
           console.error(err);

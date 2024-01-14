@@ -9,7 +9,6 @@ const Category = {
       categories: [],
       activeId: "",
       categoryName: "",
-      isActiveCate: true,
     };
   },
   methods: {
@@ -17,8 +16,7 @@ const Category = {
       await axios
         .get("/categories")
         .then((res) => {
-          this.categories = res.data;
-          console.log(this.categories);
+          this.categories = res.data.filter((cate) => cate.status == true);
         })
         .catch((err) => console.log(err));
     },
@@ -82,10 +80,7 @@ const Category = {
                 <h2>Manage <b>Category</b></h2>
               </div>
               <div class="col-sm-6">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" v-model="isActiveCate" role="switch" id="flexSwitchCheckDefault">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Active Category</label>
-                </div>
+               
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCate"><span>Add New Category</span></button>
               </div>
             </div>
@@ -98,7 +93,7 @@ const Category = {
               </tr>
             </thead>
             <tbody v-for="(cate, index) in categories" :key="index" >
-              <tr v-if="isActiveCate==cate.status">
+              <tr>
                 <td>{{cate.name}}</td>
                 <td >
                   <button v-if="cate.status==true" type="button" class="btn m-1" @click="activeId=cate.id; categoryName=cate.name" data-bs-toggle="modal" data-bs-target="#editCate"><i class="fa-regular fa-pen-to-square"></i></button>
