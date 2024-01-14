@@ -49,8 +49,8 @@ async function getByName(req, res, next) {
 
 async function add(req, res, next) {
   try {
-    const cate = new Author(req.body)
-    const rs = await Author.add(cate)
+    const author = new Author(req.body)
+    const rs = await Author.add(author)
     return rs && rs.id
     ? res.status(200).json(commonSuccessfulResponse("Add Success"))
     : res

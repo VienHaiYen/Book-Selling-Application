@@ -1,4 +1,4 @@
-const { Book } = require("../models");
+const { Book, Category, Author } = require("../models");
 const { paginationResponse } = require("../helpers/pagination");
 const { commonSuccessfulResponse } = require("../helpers/successfulRes");
 const { commonErrorResponse } = require("../helpers/errorRes");
@@ -73,7 +73,7 @@ async function update(req, res, next) {
       checkBook && checkBook.book.id && (await Book.update(bookId, updateData));
     return rs && rs.id
       ? res.status(200).json(commonSuccessfulResponse("Update Success"))
-      : res.status(400).json(commonErrorResponse("Invalid query"));
+      : res.status(400).json(commonErrorResponse("Failed to update"));
   } catch (err) {
     next(err);
   }
@@ -90,7 +90,7 @@ async function remove(req, res, next) {
       (await Book.update(bookId, { status: false }));
     return rs && rs.id
       ? res.status(200).json(commonSuccessfulResponse("Remove Success"))
-      : res.status(400).json(commonErrorResponse("Invalid query"));
+      : res.status(400).json(commonErrorResponse("Failed to update"));
   } catch (err) {
     next(err);
   }
@@ -110,6 +110,47 @@ async function getMyBooks(req, res, next) {
   }
 }
 
+async function updateCategory(req, res, next) {
+  try {
+    const { bookId } = req.params;
+    const updateData = req.body;
+    const checkBook = await Book.getById(bookId);
+    const checkCate = await Category.getById(updateData.categoryId)
+    if (checkCate && checkCate.category.id && checkBook && checkBook.book.id) {
+      const rs = await Book.updateCategory(bookId, checkCate.category.id);
+      return rs
+        ? res.status(200).json(commonSuccessfulResponse("Update Success"))
+        : res.status(400).json(commonErrorResponse("Failed to update"));
+    } else {
+      return res.status(400).json(commonErrorResponse("Invalid query"));
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function updateAuthor(req, res, next) {
+  try {
+    const { bookId } = req.params;
+    const updateData = req.body;
+    const checkBook = await Book.getById(bookId);
+    const checkAuthor = await Author.getByName(updateData.authorName)
+    if (checkBook && checkBook.book.id) {
+      const authorId = checkAuthor?.length && checkAuthor[0].id
+        ? checkAuthor[0].id
+        : (await Author.add({ name: updateData.authorName })).id
+      const rs = await Book.updateAuthor(bookId, authorId);
+      return rs
+        ? res.status(200).json(commonSuccessfulResponse("Update Success"))
+        : res.status(400).json(commonErrorResponse("Failed to update"));
+    } else {
+      return res.status(400).json(commonErrorResponse("Invalid query"));
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getAll,
   getById,
@@ -118,4 +159,6 @@ module.exports = {
   add,
   update,
   remove,
+  updateCategory,
+  updateAuthor,
 };
