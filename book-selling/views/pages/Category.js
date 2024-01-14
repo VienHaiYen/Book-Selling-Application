@@ -83,10 +83,10 @@ const Category = {
               </div>
               <div class="col-sm-6">
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" value="isActiveCate" role="switch" id="flexSwitchCheckDefault">
+                  <input class="form-check-input" type="checkbox" v-model="isActiveCate" role="switch" id="flexSwitchCheckDefault">
                   <label class="form-check-label" for="flexSwitchCheckDefault">Active Category</label>
                 </div>
-                <button data-bs-toggle="modal" data-bs-target="#addCate"><span>Add New Category</span></button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCate"><span>Add New Category</span></button>
               </div>
             </div>
           </div>
@@ -97,12 +97,12 @@ const Category = {
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(cate, index) in categories" :key="index">
+            <tbody v-for="(cate, index) in categories" :key="index" >
+              <tr v-if="isActiveCate==cate.status">
                 <td>{{cate.name}}</td>
-                <td>
-                  <button type="button" class="btn m-1" @click="activeId=cate.id; categoryName=cate.name" data-bs-toggle="modal" data-bs-target="#editCate"><i class="fa-regular fa-pen-to-square"></i></button>
-                  <button type="button" class="btn m-1" @click="activeId=cate.id" data-bs-toggle="modal" data-bs-target="#deleteCate"><i class="fa-solid fa-trash"></i></button>
+                <td >
+                  <button v-if="cate.status==true" type="button" class="btn m-1" @click="activeId=cate.id; categoryName=cate.name" data-bs-toggle="modal" data-bs-target="#editCate"><i class="fa-regular fa-pen-to-square"></i></button>
+                  <button v-if="cate.status==true" type="button" class="btn m-1" @click="activeId=cate.id" data-bs-toggle="modal" data-bs-target="#deleteCate"><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
             </tbody>
