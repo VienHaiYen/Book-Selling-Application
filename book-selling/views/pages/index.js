@@ -12,6 +12,7 @@ export * from "./SearchResult.js";
 export * from "./Setting.js";
 export * from "./EditProfile.js";
 export * from "./MyCart.js";
+export * from "./Category.js";
 
 export * from "./AdminReport.js";
 export * from "./User.js";

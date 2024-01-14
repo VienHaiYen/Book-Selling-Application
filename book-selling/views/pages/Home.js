@@ -52,6 +52,7 @@ const Home = {
       await axios
         .delete("/books/" + state.bookIdDeleteSelected)
         .then((res) => {
+          console.log(res.data);
           alert("Delete book successfully!");
           this.getBookList();
         })
@@ -59,17 +60,16 @@ const Home = {
           alert("Delete book failed!");
           console.error(err);
         });
+      $("#deleteBook").modal("hide");
+      $(".modal-backdrop").hide();
+      $("body").removeClass("modal-open");
+      $("body").css("overflow", "auto");
     },
     navigate(screen) {
       state.view = screen;
     },
   },
   async mounted() {
-    // await axios.get("/auth").then((res) => {
-    //   if (res.data.role == "admin") {
-    //     this.getBookList();
-    //   }
-    // });
     await this.getBookList();
   },
 

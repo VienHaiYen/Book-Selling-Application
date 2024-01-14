@@ -21,6 +21,7 @@ export * from "./UserNav.js";
 
 export * from "./Spinner.js";
 export * from "./Modal.js";
+export * from "./ModalInput.js";
 
 // admin
 export * from "./SidebarAdmin.js";

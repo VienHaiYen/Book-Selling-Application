@@ -15,6 +15,7 @@ import {
   AddBook,
   EditBook,
   SearchResult,
+  Category,
 } from "./pages/index.js";
 
 import { Footer, Navbar, SidebarAdmin } from "./components/index.js";
@@ -36,12 +37,13 @@ const App = {
     OrderSummary,
     OrderHistory,
     OrderDetail,
-    SidebarAdmin,
     // admin
+    SidebarAdmin,
     AdminReport,
     User,
     AddBook,
     EditBook,
+    Category,
   },
   data() {
     return {
