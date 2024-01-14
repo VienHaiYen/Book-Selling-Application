@@ -15,15 +15,13 @@ const BookItemList = {
     BookItem,
     state,
   },
-  methods: {},
-  created() {},
-  mounted() {},
+
   methods: {
     addToCart(item_id) {
       if (state.user == undefined) {
-        alert("Please sign in to add item to cart")
+        alert("Please sign in to add item to cart");
         state.view = "SignIn";
-        return
+        return;
       }
       $.ajax({
         url: "/myCart/item",
@@ -71,10 +69,9 @@ const BookItemList = {
     editBook(book_id) {
       state.activeId = book_id;
       state.view = "EditBook";
-    }
+    },
   },
-  created() {},
-  mounted() {},
+
   template: `
 
       <div class="mx-2">

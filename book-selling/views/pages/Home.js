@@ -3,10 +3,10 @@ import {
   TextInput,
   BookItemList,
   BookByCategory,
-  AdminSearch,
   Pagination,
   Spinner,
   Modal,
+  BookSearchBar,
 } from "../components/index.js";
 
 import state from "../stores/app-state.js";
@@ -26,10 +26,10 @@ const Home = {
     TextInput,
     BookItemList,
     BookByCategory,
-    AdminSearch,
     Pagination,
     Spinner,
     Modal,
+    BookSearchBar,
   },
   methods: {
     async getBookList(page = 1) {
@@ -52,6 +52,7 @@ const Home = {
       await axios
         .delete("/books/" + state.bookIdDeleteSelected)
         .then((res) => {
+          console.log(res.data);
           alert("Delete book successfully!");
           this.getBookList();
         })
@@ -59,17 +60,16 @@ const Home = {
           alert("Delete book failed!");
           console.error(err);
         });
+      $("#deleteBook").modal("hide");
+      $(".modal-backdrop").hide();
+      $("body").removeClass("modal-open");
+      $("body").css("overflow", "auto");
     },
     navigate(screen) {
       state.view = screen;
     },
   },
   async mounted() {
-    // await axios.get("/auth").then((res) => {
-    //   if (res.data.role == "admin") {
-    //     this.getBookList();
-    //   }
-    // });
     await this.getBookList();
   },
 
@@ -84,8 +84,8 @@ const Home = {
           <BookByCategory title="Popular"/>
         </div>
         <div v-else>
-          <AdminSearch />
-          <div class="d-flex justify-content-between">
+          <BookSearchBar />
+          <div class="d-flex justify-content-between mt-2">
             <!-- Button  -->
             <button type="button" class="btn btn-primary m-2" @click="this.navigate('AddBook')">
               Add book
