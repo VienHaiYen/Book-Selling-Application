@@ -16,6 +16,7 @@ import {
   EditBook,
   SearchResult,
   Category,
+  BookPageByCate,
 } from "./pages/index.js";
 
 import { Footer, Navbar, SidebarAdmin } from "./components/index.js";
@@ -24,6 +25,7 @@ import state from "../stores/app-state.js";
 const App = {
   components: {
     Home,
+    BookPageByCate,
     SignIn,
     Register,
     ForgotPassword,
@@ -59,7 +61,7 @@ const App = {
     axios
       .get("/categories")
       .then((res) => {
-        this.categories = res.data;
+        this.categories = res.data.filter((cate) => cate.status == true);
       })
       .catch((err) => {
         console.error(err);
@@ -88,14 +90,14 @@ const App = {
   mounted() {},
   template: `
   <div class="main-container">
-  <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
-    <Navbar v-if="!
-    (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
-    <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-        <component class=" flex-grow-1" :is="state.view"></component>
-  </div>
-    <Footer />
+    <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
+      <Navbar v-if="!
+      (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
+      <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+          <component class=" flex-grow-1" :is="state.view"></component>
     </div>
+    <Footer />
+  </div>
   `,
 };
 

@@ -1,6 +1,5 @@
 import {
   Banner,
-  TextInput,
   BookItemList,
   BookByCategory,
   Pagination,
@@ -23,7 +22,6 @@ const Home = {
   },
   components: {
     Banner,
-    TextInput,
     BookItemList,
     BookByCategory,
     Pagination,

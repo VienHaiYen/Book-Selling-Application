@@ -15,4 +15,5 @@ export default reactive({
   defaultAvatar:
     "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
   searchResult: undefined,
+  categorySelected: undefined,
 });

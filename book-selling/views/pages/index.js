@@ -7,6 +7,7 @@ export * from "./ForgotPassword.js";
 export * from "./Home.js";
 export * from "./BookDetail.js";
 export * from "./SearchResult.js";
+export * from "./BookPageByCate.js";
 
 // Needed Authen Screen
 export * from "./Setting.js";

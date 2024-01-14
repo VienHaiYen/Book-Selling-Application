@@ -19,7 +19,7 @@ const AddBook = {
     axios
       .get("/categories")
       .then((res) => {
-        this.categories = res.data;
+        this.categories = res.data.filter((cate) => cate.status == true);
       })
       .catch((err) => {
         console.error(err);

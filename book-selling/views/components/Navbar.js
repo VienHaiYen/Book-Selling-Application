@@ -49,7 +49,7 @@ const Navbar = {
               </a>
             </li>
             <li class="nav-item dropdown">
-              <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" />
+              <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" view="BookPageByCate"/>
             </li>
           </ul>
           <BookSearchBar />
