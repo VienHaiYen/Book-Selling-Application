@@ -1,4 +1,5 @@
 const authRouter = require("./auth.r");
+const authorRouter = require("./author.r");
 const bookRouter = require("./book.r");
 const categoryRouter = require("./category.r");
 const userRouter = require("./user.r");
@@ -9,6 +10,7 @@ const dashboardRouter = require("./dashboard.r");
 
 module.exports = {
   authRouter,
+  authorRouter,
   bookRouter,
   categoryRouter,
   userRouter,

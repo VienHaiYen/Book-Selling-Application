@@ -1,4 +1,4 @@
-const { Author } = require("../models")
+const { Author, Book } = require("../models")
 
 async function getAll(_req, res, next) {
   try {
@@ -19,9 +19,12 @@ async function getById(req, res, next) {
 
     if (authorId) {
       const rs = await Author.getById(authorId)
-      return res.status(200).send(rs)
+      const books = rs.books.map(book => new Book(book)) || []
+      return rs && rs.author.id
+        ? res.status(200).json(commonSuccessfulResponse({ author: rs.author, books }))
+        : res.status(400).json(commonErrorResponse('Not Found'))
     } else {
-      return res.status(404).send('Not Found')
+      return res.status(400).json(commonErrorResponse('Invalid query'))
     }
   } catch (err) {
     next(err)
