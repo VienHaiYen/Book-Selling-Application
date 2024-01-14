@@ -9,13 +9,17 @@ const Category = {
       categories: [],
       activeId: "",
       categoryName: "",
+      isActiveCate: true,
     };
   },
   methods: {
     async getCategories() {
       await axios
         .get("/categories")
-        .then((res) => (this.categories = res.data))
+        .then((res) => {
+          this.categories = res.data;
+          console.log(this.categories);
+        })
         .catch((err) => console.log(err));
     },
     async deleteCate() {
@@ -78,6 +82,10 @@ const Category = {
                 <h2>Manage <b>Category</b></h2>
               </div>
               <div class="col-sm-6">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" value="isActiveCate" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Active Category</label>
+                </div>
                 <button data-bs-toggle="modal" data-bs-target="#addCate"><span>Add New Category</span></button>
               </div>
             </div>
