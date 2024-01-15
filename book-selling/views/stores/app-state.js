@@ -2,7 +2,7 @@ const { reactive } = Vue;
 
 export default reactive({
   user: undefined,
-  view: "Home",
+  view: undefined,
   darkMode: false,
   bannerList: undefined,
   inCart: [],
@@ -18,4 +18,6 @@ export default reactive({
   userSearchInput: undefined,
   categorySelected: undefined,
   authorSelected: undefined,
+
+  viewStack: [],
 });

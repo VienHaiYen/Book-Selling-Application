@@ -14,6 +14,7 @@ const Dropdown = {
     setCategorySelected(category) {
       console.log(category);
       state.categorySelected = category;
+      state.authorSelected = undefined;
     },
     navigate(screen) {
       state.view = screen;

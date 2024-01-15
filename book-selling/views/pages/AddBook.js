@@ -1,6 +1,10 @@
 import { ValidateModel } from "../utils/index.js";
+import { BackButton } from "../components/index.js";
 import state from "../stores/app-state.js";
 const AddBook = {
+  components: {
+    BackButton,
+  },
   data() {
     return {
       categories: [],
@@ -121,6 +125,7 @@ const AddBook = {
   },
   template: `
     <div class="m-5">
+      <BackButton />
       <h1>Add Book</h1>
       <form id="add-book-form" class="m-3">
         <form id="form">

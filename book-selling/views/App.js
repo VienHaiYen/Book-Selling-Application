@@ -55,8 +55,17 @@ const App = {
       categories: [],
     };
   },
-
-  methods: {},
+  methods: {
+    handleStoreViewToLocalStorage() {
+      localStorage.setItem("view", state.view);
+      if (state.viewStack[state.viewStack.length - 1] == state.view) return;
+      state.viewStack.push(state.view);
+      console.log(state.viewStack);
+    },
+  },
+  watch: {
+    "state.view": "handleStoreViewToLocalStorage",
+  },
   async created() {
     axios
       .get("/categories")
@@ -86,8 +95,14 @@ const App = {
         console.error(err);
       });
   },
-  // / <BookDetail id="10"/>
-  mounted() {},
+  mounted() {
+    this.$watch(() => state.view, this.handleStoreViewToLocalStorage);
+    if (localStorage.getItem("view") == null) {
+      localStorage.setItem("view", "Home");
+    }
+    state.view = localStorage.getItem("view");
+    state.viewStack.push(state.view);
+  },
   template: `
   <div class="main-container">
     <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">

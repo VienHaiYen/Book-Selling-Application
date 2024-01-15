@@ -15,6 +15,7 @@ const BookSearchBar = {
         .then((res) => {
           console.log(res.data);
           state.view = "SearchResult";
+          state.categorySelected = undefined;
           state.searchResult = res.data;
           this.searchInput = "";
         })

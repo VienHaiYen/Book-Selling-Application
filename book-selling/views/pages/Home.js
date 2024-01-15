@@ -6,6 +6,7 @@ import {
   Spinner,
   Modal,
   BookSearchBar,
+  BackButton,
 } from "../components/index.js";
 
 import state from "../stores/app-state.js";
@@ -29,6 +30,7 @@ const Home = {
     Spinner,
     Modal,
     BookSearchBar,
+    BackButton,
   },
   computed: {
     books() {
@@ -91,6 +93,7 @@ const Home = {
 
         <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">
           <div v-if="!isAllBookUser">
+            <BackButton />
             <Banner />
             <div class="d-flex justify-content-between mx-3 mt-3">
               <h2>Popular</h2>
@@ -107,7 +110,13 @@ const Home = {
 
         <!-- Admin -->
         <div v-else>
-          <BookSearchBar />
+          <div class="d-flex justify-content-between mt-2">
+            <div>
+              <span></span>
+              <BackButton />
+            </div>
+            <BookSearchBar />
+          </div>
           <div class="d-flex justify-content-between mt-2">
             <!-- Button  -->
             <button type="button" class="btn btn-primary m-2" @click="this.navigate('AddBook')">

@@ -1,9 +1,10 @@
 import { ValidateModel } from "../utils/index.js";
-import { HorrizontalBookCard } from "../components/index.js";
+import { HorrizontalBookCard, BackButton } from "../components/index.js";
 import state from "../../stores/app-state.js";
 const EditProfile = {
   components: {
     HorrizontalBookCard,
+    BackButton,
   },
   data() {
     return {
@@ -144,7 +145,7 @@ const EditProfile = {
   template: `
     <section >
       <div class="container py-5">
-
+        <BackButton/>
         <div class="row">
           <div class="col-lg-4">
             <div class="card mb-4">

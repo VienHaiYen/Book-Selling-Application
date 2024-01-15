@@ -1,10 +1,16 @@
-import { HorrizontalBookCard, Avatar, Spinner } from "../components/index.js";
+import {
+  HorrizontalBookCard,
+  Avatar,
+  Spinner,
+  BackButton,
+} from "../components/index.js";
 import state from "../../stores/app-state.js";
 const Setting = {
   components: {
     HorrizontalBookCard,
     Avatar,
     Spinner,
+    BackButton,
   },
   data() {
     return {
@@ -44,7 +50,8 @@ const Setting = {
   template: `
    <Spinner v-if="this.onLoading" />
     <section v-else >
-      <div class="container py-5">
+      <BackButton />
+      <div class="container py-2">
         <div class="row">
           <div class="col-lg-4">
             <div class="card mb-4 p-4">
@@ -98,6 +105,7 @@ const Setting = {
                 </div>
               </div>
             </div>
+            <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">
               <div class="d-flex justify-content-between mb-3">
                 <h3 class="pb-2 mb-0">My book</h3>
                 <button type="button" class="btn btn-dark" @click="navigate('OrderHistory')">{{isShowingMyBook?"Back to my Profile":"See more"}} </button>
@@ -106,6 +114,7 @@ const Setting = {
                 <HorrizontalBookCard :books= "state.tempVal" />
               </div>
             </div>
+          </div>
         </div>
       </div>
     </section>

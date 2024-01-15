@@ -1,9 +1,14 @@
-import { BookItemList, AuthorItemList } from "../components/index.js";
+import {
+  BookItemList,
+  AuthorItemList,
+  BackButton,
+} from "../components/index.js";
 import state from "../../stores/app-state.js";
 const SearchResult = {
   components: {
     BookItemList,
     AuthorItemList,
+    BackButton,
   },
   data() {
     return {
@@ -21,6 +26,7 @@ const SearchResult = {
   mounted() {},
   template: `
     <div>
+      <BackButton />
       <h2 class="text-center my-5">Author Result</h2>
       <AuthorItemList :authors="state.searchResult.authors"/>
       <h2 class="text-center my-5">Books Result</h2>

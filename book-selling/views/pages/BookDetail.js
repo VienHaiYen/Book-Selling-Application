@@ -1,8 +1,8 @@
 import state from "../stores/app-state.js";
-import { Spinner, BookByCategory } from "../components/index.js";
+import { Spinner, BookByCategory, BackButton } from "../components/index.js";
 const BookDetail = {
   props: {},
-  components: { Spinner, BookByCategory },
+  components: { Spinner, BookByCategory, BackButton },
   data() {
     return {
       book: {},
@@ -70,16 +70,22 @@ const BookDetail = {
     },
   },
   created() {
-    this.id = state.bookId;
+    this.id = state.bookId
+      ? state.bookId
+      : localStorage.getItem("bookIdDetail");
     this.onLoading = true;
   },
   async mounted() {
     await this.getBookDetail();
+    if (state.bookId) {
+      localStorage.setItem("bookIdDetail", state.bookId);
+    }
   },
 
   template: `
       <Spinner v-if="this.onLoading" />
-          <div v-else v-if="book.title!=undefined" class="p-4 py-xl-5">
+          <div v-else v-if="book.title!=undefined" class="p-2">
+            <BackButton />
             <div class="bg-white border rounded border-0 border-dark overflow-hidden">
                 <div class="row g-0">
                     <div class="col-md-5 col-lg-4 px-2 px-sm-2 order-first" style="min-width: 250px;">

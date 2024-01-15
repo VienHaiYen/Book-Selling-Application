@@ -1,8 +1,9 @@
-import { Modal, ModalInput } from "../components/index.js";
+import { Modal, ModalInput, BackButton } from "../components/index.js";
 const Category = {
   components: {
     Modal,
     ModalInput,
+    BackButton,
   },
   data() {
     return {
@@ -70,6 +71,7 @@ const Category = {
   },
   template: `
       <div class="w-100">
+        <BackButton/>
         <Modal id="deleteCate" title="Delete category" description="Do you want remove this category?" :callback="deleteCate"/>
         <ModalInput id="editCate" title="Edit category" description="Edit Category name" :categoryName="categoryName" @callback="editCate"/>
         <ModalInput id="addCate" title="Add category" description="Add Category" @callback="addCate"/>

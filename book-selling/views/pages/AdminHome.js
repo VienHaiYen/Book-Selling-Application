@@ -1,6 +1,7 @@
+import { BackButton } from "../components/BackButton.js";
 const AdminHome = {
   props: {},
-  components: {},
+  components: { BackButton },
   data() {
     return {
       // state,
@@ -9,7 +10,10 @@ const AdminHome = {
   methods: {},
   mounted() {},
   template: `
-    <div>Admin Home</div>
+    <div>
+      <BackButton />
+      <div>Admin Home</div>
+    </div>
   `,
 };
 

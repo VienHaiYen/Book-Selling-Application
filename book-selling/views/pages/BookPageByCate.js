@@ -1,4 +1,4 @@
-import { BookItemList, Spinner } from "../components/index.js";
+import { BookItemList, Spinner, BackButton } from "../components/index.js";
 
 import state from "../stores/app-state.js";
 
@@ -17,6 +17,7 @@ const BookPageByCate = {
   components: {
     BookItemList,
     Spinner,
+    BackButton,
   },
   methods: {
     async getBookListByCate(page = 1) {
@@ -85,9 +86,32 @@ const BookPageByCate = {
     this.$watch("state.categorySelected", this.getBookListByCate);
     this.$watch("state.authorSelected", this.getBookListByAuthor);
 
-    state.categorySelected
-      ? await this.getBookListByCate()
-      : await this.getBookListByAuthor();
+    if (state.categorySelected || state.authorSelected) {
+      if (state.categorySelected) {
+        localStorage.setItem("categoryId", state.categorySelected);
+        localStorage.removeItem("authorId");
+      } else if (state.authorSelected) {
+        localStorage.setItem("authorId", state.authorSelected);
+        localStorage.removeItem("categoryId");
+      }
+
+      state.categorySelected
+        ? await this.getBookListByCate()
+        : await this.getBookListByAuthor();
+      return;
+    }
+
+    if (state.categorySelected) {
+      localStorage.setItem("categoryId", state.categorySelected);
+    } else if (localStorage.getItem("categoryId")) {
+      state.categorySelected = localStorage.getItem("categoryId");
+    }
+
+    if (state.authorSelected) {
+      localStorage.setItem("authorId", state.authorSelected);
+    } else if (localStorage.getItem("authorId")) {
+      state.authorSelected = localStorage.getItem("authorId");
+    }
   },
 
   destroyed() {
@@ -96,6 +120,7 @@ const BookPageByCate = {
   },
 
   template: `
+      <BackButton />
       <h1 v-if="state.categorySelected" class="my-3">Category: {{category.name}}</h1>
       <h1 v-if="state.authorSelected" class="my-3">Author: {{author.name}}</h1>
       <Spinner v-if="state.onLoading" />
