@@ -3,6 +3,7 @@ import {
   OrderCustomerInfo,
   OrderPaymentMethod,
   Spinner,
+  BackButton,
 } from "../components/index.js";
 import state from "../stores/app-state.js";
 const OrderDetail = {
@@ -11,6 +12,7 @@ const OrderDetail = {
     OrderCustomerInfo,
     OrderPaymentMethod,
     Spinner,
+    BackButton,
   },
   data: function () {
     return {
@@ -57,6 +59,7 @@ const OrderDetail = {
   computed: {},
   template: `
  <div class="flex-container">
+    <BackButton />
     <div class="order-container">
         <div class="shopping-cart-title">
             ORDER DETAIL

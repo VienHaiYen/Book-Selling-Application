@@ -1,7 +1,7 @@
-import { UserList, AdminSearch } from "../components/index.js";
+import { UserList, AdminSearch, BackButton } from "../components/index.js";
 
 const User = {
-  components: { UserList, AdminSearch },
+  components: { UserList, AdminSearch, BackButton },
   data() {
     return {};
   },
@@ -12,7 +12,8 @@ const User = {
   template: `
     <div>
       <AdminSearch />
-      <UserList/>
+      <BackButton />
+      <UserList />
     </div>
   `,
 };

@@ -1,7 +1,7 @@
-import { CartItemList } from "../components/index.js";
+import { CartItemList, BackButton } from "../components/index.js";
 import state from "../stores/app-state.js";
 const MyCart = {
-  components: { CartItemList },
+  components: { CartItemList, BackButton },
   data: function () {
     return {
       items: [],
@@ -41,6 +41,7 @@ const MyCart = {
   },
   template: `
    <div>
+    <BackButton />
    <link rel="stylesheet" href="./css/cart.css" />
    <div class="shopping-cart">
 

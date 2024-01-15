@@ -13,9 +13,7 @@ const Modal = {
     };
   },
   methods: {},
-  mounted() {
-    console.log("mounted");
-  },
+  mounted() {},
   template: `
 
 

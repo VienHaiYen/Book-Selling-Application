@@ -1,12 +1,12 @@
 import {
   Banner,
-  TextInput,
   BookItemList,
   BookByCategory,
   Pagination,
   Spinner,
   Modal,
   BookSearchBar,
+  BackButton,
 } from "../components/index.js";
 
 import state from "../stores/app-state.js";
@@ -19,17 +19,25 @@ const Home = {
       meta: {},
       perpage: 60,
       readMode: true,
+      isAllBookUser: false,
     };
   },
   components: {
     Banner,
-    TextInput,
     BookItemList,
     BookByCategory,
     Pagination,
     Spinner,
     Modal,
     BookSearchBar,
+    BackButton,
+  },
+  computed: {
+    books() {
+      return state.bannerList?.data
+        .filter((item) => item.status == true)
+        .slice(0, 6);
+    },
   },
   methods: {
     async getBookList(page = 1) {
@@ -39,9 +47,8 @@ const Home = {
       await axios
         .get("/books/?page=" + page + "&pageSize=" + this.perpage)
         .then((res) => {
-          this.bookList = res.data.data;
+          this.bookList = res.data.data.filter((book) => book.status == true);
           this.meta = res.data.meta;
-          // console.log(this.meta);
         })
         .catch((err) => {
           console.error(err);
@@ -68,6 +75,10 @@ const Home = {
     navigate(screen) {
       state.view = screen;
     },
+    changeBookDisplayMode() {
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+      this.isAllBookUser = !this.isAllBookUser;
+    },
   },
   async mounted() {
     await this.getBookList();
@@ -76,15 +87,37 @@ const Home = {
   template: `
       <Spinner v-if="state.onLoading" />
 
+      <!-- User -->
       <div v-else>
       <Modal id="deleteBook" title="Delete Book" description="Do you want remove this book ?" :callback="deleteBook"/>
 
         <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">
-          <Banner />
-          <BookByCategory title="Popular"/>
+          <div v-if="!isAllBookUser">
+            <BackButton />
+            <Banner />
+            <div class="d-flex justify-content-between mx-3 mt-3">
+              <h2>Popular</h2>
+              <button class="btn btn-outline-primary" @click="this.changeBookDisplayMode">See all</button>
+            </div>
+            <BookItemList :books="books"/>
+          </div>
+          <div v-else>
+            <button type="button" class="btn btn-primary m-2" @click="this.changeBookDisplayMode"><i class="fas fa-arrow-left"></i></button>
+            <h1>All Books</h1>
+            <BookItemList :books="bookList"/>
+            <Pagination v-if="meta.total" :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getBookList" />
+          </div>
         </div>
+
+        <!-- Admin -->
         <div v-else>
-          <BookSearchBar />
+          <div class="d-flex justify-content-between mt-2">
+            <div>
+              <span></span>
+              <BackButton />
+            </div>
+            <BookSearchBar />
+          </div>
           <div class="d-flex justify-content-between mt-2">
             <!-- Button  -->
             <button type="button" class="btn btn-primary m-2" @click="this.navigate('AddBook')">

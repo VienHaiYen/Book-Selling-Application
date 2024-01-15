@@ -2,10 +2,16 @@ import {
   OrderedItemList,
   OrderCustomerInfo,
   OrderPaymentMethod,
+  BackButton,
 } from "../components/index.js";
 import state from "../stores/app-state.js";
 const OrderSummary = {
-  components: { OrderedItemList, OrderCustomerInfo, OrderPaymentMethod },
+  components: {
+    OrderedItemList,
+    OrderCustomerInfo,
+    OrderPaymentMethod,
+    BackButton,
+  },
   data: function () {
     return {
       items: [],
@@ -17,7 +23,10 @@ const OrderSummary = {
       $.ajax({
         url: "/orders",
         type: "POST",
-        data: { item_list: state.inCartSelected, payment_method: state.paymentMethod },
+        data: {
+          item_list: state.inCartSelected,
+          payment_method: state.paymentMethod,
+        },
         success: function (data) {
           alert("Order successful");
           state.orderId = data.data.new_order_id;
@@ -59,6 +68,7 @@ const OrderSummary = {
   template: `
   <div class="flex-container">
   <div class="order-container">
+  <BackButton />
   <div class="shopping-cart-title">
 		ORDER SUMMARY
 	</div>
