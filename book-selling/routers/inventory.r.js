@@ -5,5 +5,5 @@ router.get(
   "/availableQuantity/:itemId",
   inventoryController.getAvailableQuantity
 );
-router.patch("/", inventoryController.updateById);
+router.put("/", inventoryController.updateById);
 module.exports = router;
