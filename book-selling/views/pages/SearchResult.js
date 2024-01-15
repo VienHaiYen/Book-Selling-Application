@@ -22,7 +22,7 @@ const SearchResult = {
   template: `
     <div>
       <h2 class="text-center my-5">Author Result</h2>
-      <AuthorItemList :authors="state.searchResult.authors.filter(item=>item.status==true)"/>
+      <AuthorItemList :authors="state.searchResult.authors"/>
       <h2 class="text-center my-5">Books Result</h2>
       <BookItemList :books="state.searchResult.books.filter(item=>item.status==true)"/>
     </div>

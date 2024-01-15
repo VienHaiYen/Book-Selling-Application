@@ -16,4 +16,5 @@ export default reactive({
     "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
   searchResult: undefined,
   categorySelected: undefined,
+  authorSelected: undefined,
 });

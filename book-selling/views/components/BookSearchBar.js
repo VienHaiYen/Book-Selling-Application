@@ -16,6 +16,7 @@ const BookSearchBar = {
           console.log(res.data);
           state.view = "SearchResult";
           state.searchResult = res.data;
+          this.searchInput = "";
         })
         .catch((err) => {
           console.error(err);
