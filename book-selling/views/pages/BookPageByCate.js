@@ -21,16 +21,15 @@ const BookPageByCate = {
   },
   methods: {
     async getBookListByCate(page = 1) {
+      if (!state.categorySelected) return;
       this.bookList = [];
       $("html, body").animate({ scrollTop: 0 }, "slow");
       state.onLoading = true;
       await axios
         .get(`categories/${state.categorySelected}`)
         .then((res) => {
-          console.log(res);
-          this.bookList = res.data.data.books.filter(
-            (item) => item.status == true
-          );
+          let tmp = res.data.data.books.filter((item) => item.status == true);
+          this.bookList = tmp;
           this.category = res.data.data.category;
           // this.meta = res.data.meta;
         })
@@ -40,6 +39,7 @@ const BookPageByCate = {
       state.onLoading = false;
     },
     async getBookListByAuthor(page = 1) {
+      if (!state.authorSelected) return;
       this.bookList = [];
       $("html, body").animate({ scrollTop: 0 }, "slow");
       state.onLoading = true;

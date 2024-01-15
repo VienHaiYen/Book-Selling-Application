@@ -105,6 +105,7 @@ const Home = {
             <button type="button" class="btn btn-primary m-2" @click="this.changeBookDisplayMode"><i class="fas fa-arrow-left"></i></button>
             <h1>All Books</h1>
             <BookItemList :books="bookList"/>
+            <Pagination v-if="meta.total" :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getBookList" />
           </div>
         </div>
 

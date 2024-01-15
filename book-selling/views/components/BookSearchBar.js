@@ -13,7 +13,7 @@ const BookSearchBar = {
       await axios
         .get(`/search?q=${this.searchInput}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           state.view = "SearchResult";
           state.categorySelected = undefined;
           state.searchResult = res.data;

@@ -60,7 +60,7 @@ const App = {
       localStorage.setItem("view", state.view);
       if (state.viewStack[state.viewStack.length - 1] == state.view) return;
       state.viewStack.push(state.view);
-      console.log(state.viewStack);
+      // console.log(state.viewStack);
     },
   },
   watch: {
@@ -104,12 +104,12 @@ const App = {
     state.viewStack.push(state.view);
   },
   template: `
-  <div class="main-container">
+  <div v-if="state.view!=undefined" class="main-container">
     <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
       <Navbar v-if="!
       (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
       <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-          <component class=" flex-grow-1" :is="state.view"></component>
+        <component class="flex-grow-1" :is="state.view"></component>
     </div>
     <Footer />
   </div>
