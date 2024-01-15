@@ -1,9 +1,10 @@
 import { ValidateModel } from "../utils/index.js";
-import { HorrizontalBookCard } from "../components/index.js";
+import { HorrizontalBookCard, BackButton } from "../components/index.js";
 import state from "../../stores/app-state.js";
 const EditProfile = {
   components: {
     HorrizontalBookCard,
+    BackButton,
   },
   data() {
     return {
@@ -11,7 +12,7 @@ const EditProfile = {
       img_file: File,
       full_name: state.user.full_name,
       email: state.user.email,
-      phone: state.user.phone.trim(),
+      phone: state.user.phone ? state.user.phone.trim() : "",
       address: state.user.address,
     };
   },
@@ -40,17 +41,36 @@ const EditProfile = {
       e.preventDefault();
       let imgInfo = await this.uploadImg();
       console.log(imgInfo);
-      if (!imgInfo) {
-        alert("Upload image failed");
-        return;
-      }
+      // if (!imgInfo) {
+      //   alert("Upload image failed");
+      //   // return;
+      //   imgInfo = "";
+
+      // }
       // thực hiện trả về
+      console.log(
+        44,
+        this.full_name,
+        this.phone,
+        this.address,
+        imgInfo
+          ? "https://drive.google.com/thumbnail?id=" + imgInfo.id
+          : state.user.avatar
+      );
+      console.log(
+        "avatar",
+        imgInfo
+          ? "https://drive.google.com/thumbnail?id=" + imgInfo.id
+          : state.user.avatar
+      );
       axios
         .put(`/users/${state.user.id}`, {
           full_name: this.full_name,
           phone: this.phone,
           address: this.address,
-          // avartar: imgInfo.id?"https://drive.google.com/file/d/" + imgInfo.id:state.user.avatar,
+          avatar: imgInfo
+            ? "https://drive.google.com/thumbnail?id=" + imgInfo.id
+            : state.user.avatar,
         })
         .then(async (res) => {
           alert("Update profile successfully");
@@ -119,16 +139,13 @@ const EditProfile = {
     if (state.user.avatar) {
       $("#blah").attr("src", state.user.avatar);
     } else {
-      $("#blah").attr(
-        "src",
-        "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-      );
+      $("#blah").attr("src", state.defaultAvatar);
     }
   },
   template: `
     <section >
       <div class="container py-5">
-
+        <BackButton/>
         <div class="row">
           <div class="col-lg-4">
             <div class="card mb-4">

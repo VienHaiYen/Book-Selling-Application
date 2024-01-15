@@ -1,12 +1,15 @@
 import { ValidateModel } from "../utils/index.js";
 import { BackButton } from "../components/index.js";
+
 import state from "../stores/app-state.js";
-const AddBook = {
-  components: {
-    BackButton,
-  },
+
+const EditBook = {
+  components: { BackButton },
   data() {
     return {
+      book: {},
+      author: {},
+      category: {},
       categories: [],
       img_file: File,
       title: "",
@@ -17,8 +20,7 @@ const AddBook = {
       published_year: "",
       author_name: "",
       category_id: "",
-      unit_price: "",
-      quantity: "",
+      thumbnail: "",
     };
   },
   created() {
@@ -32,14 +34,11 @@ const AddBook = {
       });
   },
   methods: {
-    cancel() {
-      state.view = "Home";
-    },
     async uploadImg() {
       const formElem = document.querySelector("form#form");
       if (!(fileInput.files && fileInput.files.length > 0)) {
-        alert("Please choose a file");
-        return;
+        // alert("Please choose a file");
+        return this.book.thumbnail;
       } else {
         if (
           !ValidateModel.areAllStringsNotEmpty([
@@ -68,33 +67,46 @@ const AddBook = {
           .catch((error) => {
             console.error(error);
           });
-        return data;
+        return "https://drive.google.com/thumbnail?id=" + data.id;
       }
     },
-    async addBook(e) {
-      e.preventDefault();
+    cancel() {
+      state.view = "Home";
+    },
+    async editBook() {
       let imgInfo = await this.uploadImg();
       console.log(imgInfo);
       if (!imgInfo) {
-        alert("Upload image failed");
-        return;
+        // alert("Upload image failed");
+        // return;
       }
 
+      console.log(
+        this.title,
+        this.language,
+        this.publisher,
+        this.page_count,
+        this.description,
+        this.published_year,
+        this.author_name,
+        this.category_id,
+        imgInfo
+      );
       await axios
-        .post("/books", {
+        .put(`/books/${this.book.id}`, {
           title: this.title,
           language: this.language,
           publisher: this.publisher,
           page_count: this.page_count,
           description: this.description,
           published_year: this.published_year,
-          author_name: this.author_name,
-          category_id: this.category_id,
-          thumbnail: "https://drive.google.com/thumbnail?id=" + imgInfo.id,
+          // author_name: this.author_name,
+          // category_id: this.category_id,
+          thumbnail: imgInfo,
         })
         .then((res) => {
           if (res.status == 200) {
-            alert(res.data);
+            // alert(res.data);
             // state.view = "Home";
           } else {
             alert("Add book failed");
@@ -104,15 +116,77 @@ const AddBook = {
           console.log(err);
         });
     },
+    async editCategory() {
+      await axios
+        .put(`/books/category/${state.activeId}`, {
+          categoryId: this.category_id,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            // console.log(res.data);
+            // state.view = "Home";
+          } else {
+            alert("Add book failed");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async editAuthor() {
+      await axios
+        .put(`/books/author/${state.activeId}`, {
+          authorName: this.author_name,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            // console.log(res.data);
+            // state.view = "Home";
+          } else {
+            alert("Add book failed");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async edit(e) {
+      e.preventDefault();
+
+      await this.editBook();
+      await this.editCategory();
+      await this.editAuthor();
+
+      await this.getBookInfo();
+    },
+    async getBookInfo() {
+      await axios
+        .get("/books/detail/" + state.activeId)
+        .then((res) => {
+          // console.log(res.data.data);
+          this.book = res.data.data.book;
+          this.author = res.data.data.author;
+          this.category = res.data.data.category;
+
+          this.title = this.book.title;
+          this.language = this.book.language;
+          this.publisher = this.book.publisher;
+          this.page_count = this.book.page_count;
+          this.description = this.book.description;
+          this.published_year = this.book.published_year;
+          // TODO: đang gặp bug, vì chưa có get được author id
+          this.author_name = this.author.name;
+          this.category_id = this.category.category_id;
+          this.thumbnail = this.book.thumbnail;
+          $("#blah").attr("src", this.thumbnail);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
-    var fileInput = document.getElementById("fileInput");
-    var fileInputLabel = document.getElementById("fileInputLabel");
-
-    fileInput.addEventListener("change", function () {
-      readURL(this);
-    });
-
+    // xử lí upload ảnh
     function readURL(input) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -122,11 +196,18 @@ const AddBook = {
         reader.readAsDataURL(input.files[0]);
       }
     }
+    var fileInput = document.getElementById("fileInput");
+    fileInput.addEventListener("change", function () {
+      readURL(this);
+    });
+
+    // xử lí load thông tin sách
+    this.getBookInfo();
   },
   template: `
     <div class="m-5">
       <BackButton />
-      <h1>Add Book</h1>
+      <h1>Edit Book</h1>
       <form id="add-book-form" class="m-3">
         <form id="form">
             <div class="custom-file-input">
@@ -138,7 +219,7 @@ const AddBook = {
         <div class="form-row d-flex">
           <div class="form-group col-md-6 m-1">
             <label>Book Title</label>
-            <input v-model="title" type="email" class="form-control"  />
+            <input v-model="title" type="text" class="form-control"  />
           </div>
           <div class="form-group col-md-6 m-1">
             <label >Author</label>
@@ -162,7 +243,7 @@ const AddBook = {
         <div class="form-row d-flex">
           <div class="form-group col-md-8 m-1">
             <label>Category</label>
-            <select v-model="category_id" class="form-control" @change="e=>console.log(e.target.value)">
+            <select v-model="category_id" class="form-control" @change="">
               <option v-for="(option, index) in categories" :value="option.id">{{option.name}}</option>
             </select>
           </div>
@@ -177,23 +258,10 @@ const AddBook = {
             <input v-model="published_year" type="number" class="form-control" />
           </div>
         </div>
-        <div class="form-row d-flex">
-          <div class="form-group col-md-6 m-1">
-            <label>Cost</label>
-            <div class="input-group mb-3">
-              <span class="input-group-text">$</span>
-              <input v-model="unit_price" type="number" class="form-control" />
-            </div>
-          </div>
-          <div class="form-group col-md-6 m-1">
-            <label>Quantity of stock</label>
-            <input v-model="quantity" type="number" class="form-control" />
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary m-2" @click="this.addBook">Add book</button>
+        <button type="submit" class="btn m-2 btn-primary" @click="this.edit">Edit</button>
         <button type="submit" class="btn m-2 btn-outline-primary" @click="this.cancel">Cancel</button>
       </form>
     </div>
   `,
 };
-export { AddBook };
+export { EditBook };

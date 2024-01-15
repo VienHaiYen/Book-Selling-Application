@@ -1,12 +1,13 @@
 import state from "../stores/app-state.js";
-import { Spinner } from "../components/index.js";
+import { Spinner, BookByCategory, BackButton } from "../components/index.js";
 const BookDetail = {
   props: {},
-  components: { Spinner },
+  components: { Spinner, BookByCategory, BackButton },
   data() {
     return {
       book: {},
       author: {},
+      category: {},
       state,
       onLoading: true,
     };
@@ -20,6 +21,7 @@ const BookDetail = {
         success: (res) => {
           this.book = res.data.book;
           this.author = res.data.author;
+          this.category = res.data.category;
         },
         error: function (error) {
           console.error(error);
@@ -68,16 +70,22 @@ const BookDetail = {
     },
   },
   created() {
-    this.id = state.bookId;
+    this.id = state.bookId
+      ? state.bookId
+      : localStorage.getItem("bookIdDetail");
     this.onLoading = true;
   },
   async mounted() {
     await this.getBookDetail();
+    if (state.bookId) {
+      localStorage.setItem("bookIdDetail", state.bookId);
+    }
   },
 
   template: `
       <Spinner v-if="this.onLoading" />
-          <div v-else v-if="book.title!=undefined" class="p-4 py-xl-5">
+          <div v-else v-if="book.title!=undefined" class="p-2">
+            <BackButton />
             <div class="bg-white border rounded border-0 border-dark overflow-hidden">
                 <div class="row g-0">
                     <div class="col-md-5 col-lg-4 px-2 px-sm-2 order-first" style="min-width: 250px;">
@@ -87,10 +95,12 @@ const BookDetail = {
                         <div class=" p-3">
                             <h2 class="fw-bold text mb-3">{{book.title}} ({{book.published_year}})</h2>
                             <h5>{{author.name}}</h5>
-                            <p class="card-text"><span><strong>Language: </strong></span>English</p>
-                            <p class="card-text"><span><strong>Publisher: </strong></span><span>William Morrow &amp; Company</span></p>
-                            <p class="card-text"><span><strong>Page number: </strong></span>478</p>
+                            <p class="card-text"><span><strong>Category: </strong></span>{{category.name}}</p>
+                            <p class="card-text"><span><strong>Language: </strong></span>{{book.language}}</p>
+                            <p class="card-text"><span><strong>Publisher: </strong></span><span>{{book.publisher}}</span></p>
+                            <p class="card-text"><span><strong>Page number: </strong></span>{{book.page_count}}</p>
                             <p class="card-text"><span><strong>Short desscription: </strong></span>{{book.description}}</p>
+                            <h2><span><strong></strong></span>{{"Bổ sung gấp"}}$</h2>
                             <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')" class="my-3">
                               <a class="btn btn-primary btn-md me-2" @click="buyNow(book.id)" role="button" href="#">Buy Now</a>
                               <a class="btn btn-outline-secondary btn-md" @click="addToCart(book.id)" role="button" href="#">Add to Cart</a>
@@ -103,6 +113,7 @@ const BookDetail = {
                     </div>
                 </div>
             </div>
+            <BookByCategory :categoryId="category.id"/>
           </div>
   `,
 };

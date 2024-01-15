@@ -1,11 +1,11 @@
 const { db } = require("../configs/postgres.js");
-const Book = require("./book.m.js");
 const { categorySQL } = require("./sql");
 
 module.exports = class Category {
-  constructor({ id, name, created_at, updated_at, count }) {
+  constructor({ id, name, status, created_at, updated_at, count }) {
     this.id = id;
     this.name = name;
+    this.status = status;
     this.created_at = created_at;
     this.updated_at = updated_at;
     this.count = count;
@@ -21,10 +21,9 @@ module.exports = class Category {
   static async getById(id) {
     try {
       const cateData = await db.oneOrNone(categorySQL.getById, [id]).then((cate) => new Category(cate))
-      const bookData = await db.manyOrNone(categorySQL.getBooks, [id]).then((books) => books.map((book) => new Book(book)))
+      const bookData = await db.manyOrNone(categorySQL.getBooks, [id])
 
       return { category: cateData, books: bookData }
-
     } catch (err) {
       return null;
     }

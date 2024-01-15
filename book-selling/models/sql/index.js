@@ -30,6 +30,8 @@ module.exports = {
     getByTitle: sql("book/getByTitle.sql"),
     getCategory: sql("book/getCategory.sql"),
     getMyBooks: sql("book/getMyBooks.sql"),
+    updateBookCategory: sql("book/updateBookCategory.sql"),
+    updateBookAuthor: sql("book/updateBookAuthor.sql"),
   },
   categorySQL: {
     add: sql("category/add.sql"),

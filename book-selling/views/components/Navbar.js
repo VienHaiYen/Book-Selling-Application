@@ -1,6 +1,7 @@
 import { Dropdown } from "./Dropdown.js";
 
 import { UserNav } from "./UserNav.js";
+import { BookSearchBar } from "./BookSearchBar.js";
 import state from "../stores/app-state.js";
 const Navbar = {
   props: {
@@ -11,6 +12,7 @@ const Navbar = {
   components: {
     Dropdown,
     UserNav,
+    BookSearchBar,
   },
   data() {
     return {};
@@ -25,7 +27,7 @@ const Navbar = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
-          state.view = "Home";
+          state.view = "SignIn";
           alert("Log out successfully");
         })
         .catch((err) => {
@@ -47,17 +49,13 @@ const Navbar = {
               </a>
             </li>
             <li class="nav-item dropdown">
-              <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" />
+              <Dropdown label="Categories" iconLeft="fa-solid fa-table-cells-large" :dropdownMenu="this.categories" view="BookPageByCate"/>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          <BookSearchBar />
           <button v-if="!isLogin" class="btn btn-dark" style="margin-left:20px" @click="this.navigation('SignIn')">Sign In</button>
            <button v-if="isLogin" class="btn mx-3  " @click="this.navigation('MyCart')"><i class="fas fa-shopping-cart"></i></button>
           <UserNav :avatarImg="this.avatarImg"   v-if="isLogin" />
-
           </div>
       </div>
     </nav>

@@ -48,6 +48,7 @@ app.use("/myCart", routers.cartRouter);
 app.use("/inventory", routers.inventoryRouter);
 app.use("/orders", routers.orderRouter);
 app.use("/dashboard", routers.dashboardRouter);
+app.use("/authors", routers.authorRouter);
 
 app.get("/search", async (req, res) => {
   try {

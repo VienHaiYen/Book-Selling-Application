@@ -19,7 +19,7 @@ module.exports = class Book {
     count,
     available_quantity,
     unit_price,
-
+    status,
   }) {
     this.id = id;
     this.title = title;
@@ -34,6 +34,7 @@ module.exports = class Book {
     this.count = count;
     this.available_quantity = available_quantity;
     this.unit_price = unit_price;
+    this.status = status;
   }
   static async getAll(page, pageSize) {
     try {
@@ -103,6 +104,7 @@ module.exports = class Book {
     sql = sql.slice(0, -1) + ` WHERE id = ${bookId} RETURNING *;`;
     return await db.oneOrNone(sql, params).then((book) => new Book(book));
   }
+
   static async getMyBooks(userId) {
     try {
       let result = await db.manyOrNone(bookSQL.getMyBooks, [userId]);
@@ -110,6 +112,21 @@ module.exports = class Book {
     } catch (err) {
       return null;
     }
+  }
 
+  static async updateCategory(bookId, categoryId) {
+    if (bookId && categoryId) {
+      return await db.oneOrNone(bookSQL.updateBookCategory, [bookId, categoryId])
+    } else {
+      return null;
+    }
+  }
+
+  static async updateAuthor(bookId, authorId) {
+    if (bookId && authorId) {
+      return await db.oneOrNone(bookSQL.updateBookAuthor, [bookId, authorId])
+    } else {
+      return null;
+    }
   }
 };

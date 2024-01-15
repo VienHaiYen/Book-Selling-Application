@@ -15,11 +15,14 @@ const BookItemList = {
     BookItem,
     state,
   },
-  methods: {},
-  created() {},
-  mounted() {},
+
   methods: {
     addToCart(item_id) {
+      if (state.user == undefined) {
+        alert("Please sign in to add item to cart");
+        state.view = "SignIn";
+        return;
+      }
       $.ajax({
         url: "/myCart/item",
         type: "POST",
@@ -39,6 +42,11 @@ const BookItemList = {
       });
     },
     buyNow(item_id) {
+      if (state.user == undefined) {
+        alert("Please sign in to add item to cart");
+        state.view = "SignIn";
+        return;
+      }
       $.ajax({
         url: "/myCart/item",
         type: "POST",
@@ -58,9 +66,12 @@ const BookItemList = {
         },
       });
     },
+    editBook(book_id) {
+      state.activeId = book_id;
+      state.view = "EditBook";
+    },
   },
-  created() {},
-  mounted() {},
+
   template: `
 
       <div class="mx-2">
@@ -71,7 +82,7 @@ const BookItemList = {
               <button class="btn btn-outline-primary m-1" @click="buyNow(book.id)">Buy now</button>
            </div>
            <div v-else class=" mb-2 ">
-              <button class="btn btn-outline-primary mr-2 my-1 w-100"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn btn-outline-primary mr-2 my-1 w-100" @click="editBook(book.id)"><i class="fas fa-edit"></i> Edit</button>
               <button @click="state.bookIdDeleteSelected=book.id" class="btn btn-danger my-1 w-100" data-bs-toggle="modal" data-bs-target="#deleteBook"> Delete </button>
            </div>
           </BookItem>

@@ -1,4 +1,5 @@
 import { Pagination, Spinner } from "./index.js";
+import state from "../stores/app-state.js";
 
 const UserList = {
   props: {},
@@ -13,7 +14,25 @@ const UserList = {
       perpage: 5,
     };
   },
+  watch: {
+    // Sử dụng watch để theo dõi sự thay đổi của state
+    "state.userSearchInput": "handleGetUser",
+  },
   methods: {
+    async getUserByEmail(page = 1) {
+      await $.ajax({
+        url: `/users?email=${state.userSearchInput}&page=${page}&pageSize=${this.perpage}`,
+        type: "GET",
+        success: (res) => {
+          console.log(res);
+          this.userList = res.data;
+          this.meta = res.meta;
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    },
     async getUserList(page = 1) {
       this.userList = [];
       await axios
@@ -21,7 +40,6 @@ const UserList = {
         .then((res) => {
           this.userList = res.data.data;
           this.meta = res.data.meta;
-          console.log(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -38,13 +56,22 @@ const UserList = {
           console.error(err);
         });
     },
+    handleGetUser() {
+      console.log(12, state.userSearchInput);
+      if (state.userSearchInput.length > 0) {
+        this.getUserByEmail();
+      } else {
+        this.getUserList();
+      }
+    },
   },
   mounted() {
+    this.$watch(() => state.userSearchInput, this.handleGetUser);
+
     this.getUserList();
   },
-  // <button class="btn btn-outline-primary mr-2"><i class="fas fa-edit"></i> Chỉnh sửa</button>
   template: `
-    <Spinner v-if="!userList.length" />
+    <!--<Spinner v-if="!userList.length" /> -->
     <div class="mx-2">
       <div class="d-flex justify-content-between">
         <h2>User list</h2>

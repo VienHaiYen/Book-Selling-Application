@@ -3,11 +3,14 @@ import { BookItemList } from "./BookItemList.js";
 
 const BookByCategory = {
   props: {
-    title: String,
+    // title: String,
+    categoryId: String,
   },
   data() {
     return {
+      bookList: [],
       state,
+      category: {},
     };
   },
   components: {
@@ -61,16 +64,37 @@ const BookByCategory = {
         },
       });
     },
+    async getBookListByCate() {
+      state.onLoading = true;
+      await axios
+        .get(`categories/${this.categoryId}`)
+        .then((res) => {
+          console.log(res.data.data.books);
+          this.bookList = res.data.data.books
+            .filter((item) => item.status == true)
+            .slice(0, 6);
+          this.category = res.data.data.category;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      state.onLoading = false;
+    },
+    seeAllBookOfCategory() {
+      state.categorySelected = this.categoryId;
+      state.view = "BookPageByCate";
+    },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getBookListByCate();
+  },
   template: `
       <div class="d-flex justify-content-between mx-3 mt-3">
-        <h2>{{title}}</h2>
-        <button href="#" class="btn btn-outline-primary">See all</button>
+        <h2>{{category.name}}</h2>
+        <button href="#" class="btn btn-outline-primary" @click="this.seeAllBookOfCategory">See all</button>
       </div>
-      //TODO: add book list
-      <BookItemList :books="books"/>
+      <BookItemList :books="bookList"/>
   `,
 };
 export { BookByCategory };

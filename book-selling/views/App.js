@@ -13,6 +13,10 @@ import {
   AdminReport,
   User,
   AddBook,
+  EditBook,
+  SearchResult,
+  Category,
+  BookPageByCate,
 } from "./pages/index.js";
 
 import { Footer, Navbar, SidebarAdmin } from "./components/index.js";
@@ -21,6 +25,7 @@ import state from "../stores/app-state.js";
 const App = {
   components: {
     Home,
+    BookPageByCate,
     SignIn,
     Register,
     ForgotPassword,
@@ -28,16 +33,19 @@ const App = {
     EditProfile,
     Footer,
     Navbar,
+    SearchResult,
     MyCart,
     BookDetail,
     OrderSummary,
     OrderHistory,
     OrderDetail,
-    SidebarAdmin,
     // admin
+    SidebarAdmin,
     AdminReport,
     User,
     AddBook,
+    EditBook,
+    Category,
   },
   data() {
     return {
@@ -47,13 +55,22 @@ const App = {
       categories: [],
     };
   },
-
-  methods: {},
+  methods: {
+    handleStoreViewToLocalStorage() {
+      localStorage.setItem("view", state.view);
+      if (state.viewStack[state.viewStack.length - 1] == state.view) return;
+      state.viewStack.push(state.view);
+      // console.log(state.viewStack);
+    },
+  },
+  watch: {
+    "state.view": "handleStoreViewToLocalStorage",
+  },
   async created() {
     axios
       .get("/categories")
       .then((res) => {
-        this.categories = res.data;
+        this.categories = res.data.filter((cate) => cate.status == true);
       })
       .catch((err) => {
         console.error(err);
@@ -70,7 +87,7 @@ const App = {
         console.log("Not in session");
       });
     await axios
-      .get("/books")
+      .get("/books?pageSize=20")
       .then((res) => {
         state.bannerList = res.data;
       })
@@ -78,18 +95,24 @@ const App = {
         console.error(err);
       });
   },
-  // / <BookDetail id="10"/>
-  mounted() {},
+  mounted() {
+    this.$watch(() => state.view, this.handleStoreViewToLocalStorage);
+    if (localStorage.getItem("view") == null) {
+      localStorage.setItem("view", "Home");
+    }
+    state.view = localStorage.getItem("view");
+    state.viewStack.push(state.view);
+  },
   template: `
-  <div class="main-container">
-  <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
-    <Navbar v-if="!
-    (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
-    <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
-        <component class=" flex-grow-1" :is="state.view"></component>
-  </div>
-    <Footer />
+  <div v-if="state.view!=undefined" class="main-container">
+    <div :class="{'d-flex':state.user == undefined ? false : state.user.role == 'admin'}">
+      <Navbar v-if="!
+      (state.user == undefined ? false : state.user.role == 'admin')" :avatarImg="avatarImg" :categories="categories" :isLogin="state.user != undefined"/>
+      <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
+        <component class="flex-grow-1" :is="state.view"></component>
     </div>
+    <Footer />
+  </div>
   `,
 };
 

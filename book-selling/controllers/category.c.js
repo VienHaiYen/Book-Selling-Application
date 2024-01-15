@@ -1,6 +1,6 @@
 const { commonErrorResponse } = require("../helpers/errorRes");
 const { commonSuccessfulResponse } = require("../helpers/successfulRes");
-const { Category } = require("../models");
+const { Category, Book } = require("../models");
 
 async function getAll(_req, res, next) {
   try {
@@ -20,10 +20,11 @@ async function getById(req, res, next) {
     const { categoryId } = req.params;
 
     if (categoryId) {
-      const rs = await Category.getById(categoryId);
+      const rs = await Category.getById(categoryId)
+      const books = rs.books.map(book => new Book(book)) || []
       return rs && rs.category.id
-        ? res.status(200).json(commonSuccessfulResponse(rs))
-        : res.status(400).json(commonErrorResponse("Not Found"));
+        ? res.status(200).json(commonSuccessfulResponse({ category: rs.category, books }))
+        : res.status(400).json(commonErrorResponse('Not Found'))
     } else {
       return res.status(400).json(commonErrorResponse("Invalid query"));
     }
@@ -72,7 +73,7 @@ async function update(req, res, next) {
       (await Category.update(categoryId, updateData));
     return rs && rs.id
       ? res.status(200).json(commonSuccessfulResponse("Update Success"))
-      : res.status(400).json(commonErrorResponse("Invalid query"));
+      : res.status(400).json(commonErrorResponse("Failed fo update new category"));
   } catch (err) {
     next(err);
   }

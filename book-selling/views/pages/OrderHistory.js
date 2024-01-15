@@ -1,7 +1,11 @@
-import { OrderHistoryItemList, Spinner } from "../components/index.js";
+import {
+  OrderHistoryItemList,
+  Spinner,
+  BackButton,
+} from "../components/index.js";
 import state from "../stores/app-state.js";
 const OrderHistory = {
-  components: { OrderHistoryItemList, Spinner },
+  components: { OrderHistoryItemList, Spinner, BackButton },
   data: function () {
     return {
       total: Number,
@@ -69,6 +73,7 @@ const OrderHistory = {
   template: `
   
    <div>
+    <BackButton />
    <link rel="stylesheet" href="./css/cart.css" />
    <div class="shopping-history-container">
 
