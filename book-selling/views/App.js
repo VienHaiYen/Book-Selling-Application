@@ -78,7 +78,7 @@ const App = {
         console.log("Not in session");
       });
     await axios
-      .get("/books")
+      .get("/books?pageSize=20")
       .then((res) => {
         state.bannerList = res.data;
       })

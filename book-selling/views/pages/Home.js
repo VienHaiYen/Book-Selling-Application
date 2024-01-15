@@ -18,6 +18,7 @@ const Home = {
       meta: {},
       perpage: 60,
       readMode: true,
+      isAllBookUser: false,
     };
   },
   components: {
@@ -28,6 +29,14 @@ const Home = {
     Spinner,
     Modal,
     BookSearchBar,
+  },
+  computed: {
+    books() {
+      console.log(state.bannerList?.data);
+      return state.bannerList?.data
+        .filter((item) => item.status == true)
+        .slice(0, 6);
+    },
   },
   methods: {
     async getBookList(page = 1) {
@@ -65,6 +74,10 @@ const Home = {
     navigate(screen) {
       state.view = screen;
     },
+    changeBookDisplayMode() {
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+      this.isAllBookUser = !this.isAllBookUser;
+    },
   },
   async mounted() {
     await this.getBookList();
@@ -73,13 +86,27 @@ const Home = {
   template: `
       <Spinner v-if="state.onLoading" />
 
+      <!-- User -->
       <div v-else>
       <Modal id="deleteBook" title="Delete Book" description="Do you want remove this book ?" :callback="deleteBook"/>
 
         <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')">
-          <Banner />
-          <BookByCategory title="Popular"/>
+          <div v-if="!isAllBookUser">
+            <Banner />
+            <div class="d-flex justify-content-between mx-3 mt-3">
+              <h2>Popular</h2>
+              <button class="btn btn-outline-primary" @click="this.changeBookDisplayMode">See all</button>
+            </div>
+            <BookItemList :books="books"/>
+          </div>
+          <div v-else>
+            <button type="button" class="btn btn-primary m-2" @click="this.changeBookDisplayMode"><i class="fas fa-arrow-left"></i></button>
+            <h1>All Books</h1>
+            <BookItemList :books="bookList"/>
+          </div>
         </div>
+
+        <!-- Admin -->
         <div v-else>
           <BookSearchBar />
           <div class="d-flex justify-content-between mt-2">

@@ -1,8 +1,8 @@
 import state from "../stores/app-state.js";
-import { Spinner } from "../components/index.js";
+import { Spinner, BookByCategory } from "../components/index.js";
 const BookDetail = {
   props: {},
-  components: { Spinner },
+  components: { Spinner, BookByCategory },
   data() {
     return {
       book: {},
@@ -107,6 +107,7 @@ const BookDetail = {
                     </div>
                 </div>
             </div>
+            <BookByCategory :categoryId="category.id"/>
           </div>
   `,
 };
