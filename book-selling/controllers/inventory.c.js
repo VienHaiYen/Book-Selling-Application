@@ -76,8 +76,38 @@ async function updateById(req, res, next) {
     next(err);
   }
 }
+async function create(req, res, next) {
+  try {
+    const item_id = req.body.book_id;
+    const quantity = req.body.quantity;
+    const unit_price = req.body.unit_price;
+    if (
+      !item_id ||
+      !quantity ||
+      !unit_price ||
+      quantity < 0 ||
+      unit_price < 0
+    ) {
+      return res.status(400).json(commonErrorResponse("Invalid payload"));
+    }
+    const item = await Inventory.getAvailableQuantity(item_id);
+    if (item) {
+      return res.status(400).json(commonErrorResponse("Item already existed"));
+    }
+
+    const rs = await Inventory.create(item_id, quantity, unit_price);
+    if (rs) return res.json(commonSuccessfulResponse(rs));
+    else
+      return res
+        .status(400)
+        .json(commonErrorResponse("Failed to create inventory"));
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = {
   getAvailableQuantity,
   checkAvailableList,
   updateById,
+  create,
 };

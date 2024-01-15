@@ -50,6 +50,7 @@ module.exports = {
     getAvailableQuantity: sql("inventory/getAvailableQuantity.sql"),
     checkAvailableQuantity: sql("inventory/checkAvailableQuantity.sql"),
     updateById: sql("inventory/updateById.sql"),
+    create: sql("inventory/create.sql"),
   },
   orderSQL: {
     makeNewOrder: sql("order/makeNewOrder.sql"),
