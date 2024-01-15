@@ -150,7 +150,7 @@ const EditProfile = {
           <div class="col-lg-4">
             <div class="card mb-4">
               <div class="card-body text-center position-relative">
-                <div style="width:fit-content; margin:0 auto" @mouseenter="mountOnAvatar" @mouseleave="mountOutAvatar">
+                <div style="width:fit-content; margin:0 auto" @mouseenter="mountOnAvatar" @mouseleave="this.mountOutAvatar">
                   <img id="blah" alt="avatar"
                     class=" rounded-circle img-fluid avartar" style="width: 150px;height: 150px;">
                   <div @click="this.changeAvatar" class="position-absolute icon d-none" style="top:30%; left:50%; transform:translate(-50%, -50%)"><i class="fas fa-camera  fs-1"></i></div>

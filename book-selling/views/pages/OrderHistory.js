@@ -19,8 +19,10 @@ const OrderHistory = {
     },
     async fetchData(page = 1, pageSize = 5) {
       state.onLoading = true;
+      var userStr = localStorage.getItem("user");
+      var user = JSON.parse(userStr);
       await $.ajax({
-        url: `/orders/user/${state.user.id}?page=${page}&pageSize=${pageSize}`,
+        url: `/orders/user/${user.id}?page=${page}&pageSize=${pageSize}`,
         type: "GET",
         success: function (res) {
           state.tempArray = res.data || [];

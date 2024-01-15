@@ -27,6 +27,7 @@ const SignIn = {
           state.view = "Home";
           state.user = res.data;
           console.log(state.user);
+          localStorage.setItem("user", JSON.stringify(res.data));
         })
         .catch((err) => {
           alert("Wrong email or password");

@@ -8,7 +8,7 @@ SELECT
             'thumbnail', b.thumbnail,
 			'unit_price',oi.unit_price
         )
-    ) AS order_items, COUNT(*) OVER() as total
+    ) AS order_items, COUNT(*) OVER() as total_count
 FROM
     orders AS o
 JOIN

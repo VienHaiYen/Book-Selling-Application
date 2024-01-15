@@ -19,6 +19,7 @@ const OrderDetail = {
       items: [],
       state,
       orderDetail: Object,
+      user: Object,
     };
   },
   methods: {
@@ -55,6 +56,8 @@ const OrderDetail = {
   },
   mounted() {
     this.fetchData();
+    var userStr = localStorage.getItem("user");
+    this.user = JSON.parse(userStr);
   },
   computed: {},
   template: `
@@ -87,7 +90,7 @@ const OrderDetail = {
 			<p class="mb-0">Customer Name</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.full_name}}</p>
+			<p class="text-muted mb-0">{{this.user.full_name}}</p>
 		</div>
 	</div>
 	<hr>
@@ -96,7 +99,7 @@ const OrderDetail = {
 			<p class="mb-0">Email</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.email}}</p>
+			<p class="text-muted mb-0">{{this.user.email}}</p>
 		</div>
 	</div>
 	<hr>
@@ -105,7 +108,7 @@ const OrderDetail = {
 			<p class="mb-0">Phone</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.phone}}</p>
+			<p class="text-muted mb-0">{{this.user.phone}}</p>
 		</div>
 	</div>
 	<hr>
@@ -114,7 +117,7 @@ const OrderDetail = {
 			<p class="mb-0">Address</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.address}}</p>
+			<p class="text-muted mb-0">{{this.user.address}}</p>
 		</div>
         </div>
 	</div>
