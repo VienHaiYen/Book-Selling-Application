@@ -32,4 +32,17 @@ module.exports = class Inventory {
       return false;
     }
   }
+  static async updateById(item_id, new_quantity, new_unit_price) {
+    try {
+      await db.none(inventorySQL.updateById, [
+        item_id,
+        new_quantity,
+        new_unit_price,
+      ]);
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
 };
