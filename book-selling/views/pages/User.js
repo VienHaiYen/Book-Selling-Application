@@ -12,7 +12,7 @@ const User = {
   template: `
     <div>
       <AdminSearch />
-      <UserList/>
+      <UserList />
     </div>
   `,
 };

@@ -13,6 +13,8 @@ const AddBook = {
       published_year: "",
       author_name: "",
       category_id: "",
+      unit_price: "",
+      quantity: "",
     };
   },
   created() {
@@ -168,6 +170,19 @@ const AddBook = {
           <div class="form-group col-md-8 m-1">
             <label>Year</label>
             <input v-model="published_year" type="number" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row d-flex">
+          <div class="form-group col-md-6 m-1">
+            <label>Cost</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">$</span>
+              <input v-model="unit_price" type="number" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group col-md-6 m-1">
+            <label>Quantity of stock</label>
+            <input v-model="quantity" type="number" class="form-control" />
           </div>
         </div>
         <button type="submit" class="btn btn-primary m-2" @click="this.addBook">Add book</button>
