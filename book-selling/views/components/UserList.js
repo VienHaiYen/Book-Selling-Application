@@ -40,7 +40,6 @@ const UserList = {
         .then((res) => {
           this.userList = res.data.data;
           this.meta = res.data.meta;
-          console.log(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -71,7 +70,6 @@ const UserList = {
 
     this.getUserList();
   },
-  // <button class="btn btn-outline-primary mr-2"><i class="fas fa-edit"></i> Chỉnh sửa</button>
   template: `
     <!--<Spinner v-if="!userList.length" /> -->
     <div class="mx-2">

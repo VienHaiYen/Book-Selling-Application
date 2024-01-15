@@ -32,7 +32,6 @@ const Home = {
   },
   computed: {
     books() {
-      console.log(state.bannerList?.data);
       return state.bannerList?.data
         .filter((item) => item.status == true)
         .slice(0, 6);

@@ -69,13 +69,12 @@ const EditBook = {
     cancel() {
       state.view = "Home";
     },
-    async editBook(e) {
-      e.preventDefault();
+    async editBook() {
       let imgInfo = await this.uploadImg();
       console.log(imgInfo);
       if (!imgInfo) {
         // alert("Upload image failed");
-        return;
+        // return;
       }
 
       console.log(
@@ -97,13 +96,13 @@ const EditBook = {
           page_count: this.page_count,
           description: this.description,
           published_year: this.published_year,
-          author_name: this.author_name,
-          category_id: this.category_id,
+          // author_name: this.author_name,
+          // category_id: this.category_id,
           thumbnail: imgInfo,
         })
         .then((res) => {
           if (res.status == 200) {
-            alert(res.data);
+            // alert(res.data);
             // state.view = "Home";
           } else {
             alert("Add book failed");
@@ -113,11 +112,54 @@ const EditBook = {
           console.log(err);
         });
     },
+    async editCategory() {
+      await axios
+        .put(`/books/category/${state.activeId}`, {
+          categoryId: this.category_id,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            // console.log(res.data);
+            // state.view = "Home";
+          } else {
+            alert("Add book failed");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async editAuthor() {
+      await axios
+        .put(`/books/author/${state.activeId}`, {
+          authorName: this.author_name,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            // console.log(res.data);
+            // state.view = "Home";
+          } else {
+            alert("Add book failed");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async edit(e) {
+      e.preventDefault();
+
+      await this.editBook();
+      await this.editCategory();
+      await this.editAuthor();
+
+      await this.getBookInfo();
+    },
     async getBookInfo() {
       await axios
         .get("/books/detail/" + state.activeId)
         .then((res) => {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           this.book = res.data.data.book;
           this.author = res.data.data.author;
           this.category = res.data.data.category;
@@ -172,7 +214,7 @@ const EditBook = {
         <div class="form-row d-flex">
           <div class="form-group col-md-6 m-1">
             <label>Book Title</label>
-            <input v-model="title" type="email" class="form-control"  />
+            <input v-model="title" type="text" class="form-control"  />
           </div>
           <div class="form-group col-md-6 m-1">
             <label >Author</label>
@@ -196,7 +238,7 @@ const EditBook = {
         <div class="form-row d-flex">
           <div class="form-group col-md-8 m-1">
             <label>Category</label>
-            <select v-model="category_id" class="form-control" @change="e=>console.log(e.target.value)">
+            <select v-model="category_id" class="form-control" @change="">
               <option v-for="(option, index) in categories" :value="option.id">{{option.name}}</option>
             </select>
           </div>
@@ -211,7 +253,7 @@ const EditBook = {
             <input v-model="published_year" type="number" class="form-control" />
           </div>
         </div>
-        <button type="submit" class="btn m-2 btn-primary" @click="this.editBook">Add book</button>
+        <button type="submit" class="btn m-2 btn-primary" @click="this.edit">Edit</button>
         <button type="submit" class="btn m-2 btn-outline-primary" @click="this.cancel">Cancel</button>
       </form>
     </div>
