@@ -43,12 +43,64 @@ async function checkAvailableList(req, res, next) {
 }
 async function updateById(req, res, next) {
   try {
-    const { itemId } = req.params;
-    if (!itemId) {
-      res.json(commonErrorResponse("Invalid item"));
+    const item_id = req.body.book_id;
+    var new_quantity = req.body.new_quantity;
+    var new_unit_price = req.body.new_unit_price;
+    var item = null;
+    if (!item_id) {
+      return res.status(400).json(commonErrorResponse("Invalid item"));
+    } else {
+      item = await Inventory.getAvailableQuantity(item_id);
+      if (!item) {
+        return res.status(400).json(commonErrorResponse("Item not found"));
+      }
     }
-    const rs = await Inventory.getAvailableQuantity(itemId);
-    res.json(commonSuccessfulResponse(rs));
+    if (!new_quantity || new_quantity < 0) {
+      new_quantity = item.available_quantity;
+    }
+    if (!new_unit_price || new_unit_price < 0) {
+      new_unit_price = item.unit_price;
+    }
+
+    const rs = await Inventory.updateById(
+      item_id,
+      new_quantity,
+      new_unit_price
+    );
+    if (rs) return res.json(commonSuccessfulResponse(rs));
+    else
+      return res
+        .status(400)
+        .json(commonErrorResponse("Failed to update inventory"));
+  } catch (err) {
+    next(err);
+  }
+}
+async function create(req, res, next) {
+  try {
+    const item_id = req.body.book_id;
+    const quantity = req.body.quantity;
+    const unit_price = req.body.unit_price;
+    if (
+      !item_id ||
+      !quantity ||
+      !unit_price ||
+      quantity < 0 ||
+      unit_price < 0
+    ) {
+      return res.status(400).json(commonErrorResponse("Invalid payload"));
+    }
+    const item = await Inventory.getAvailableQuantity(item_id);
+    if (item) {
+      return res.status(400).json(commonErrorResponse("Item already existed"));
+    }
+
+    const rs = await Inventory.create(item_id, quantity, unit_price);
+    if (rs) return res.json(commonSuccessfulResponse(rs));
+    else
+      return res
+        .status(400)
+        .json(commonErrorResponse("Failed to create inventory"));
   } catch (err) {
     next(err);
   }
@@ -57,4 +109,5 @@ module.exports = {
   getAvailableQuantity,
   checkAvailableList,
   updateById,
+  create,
 };

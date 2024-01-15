@@ -5,5 +5,6 @@ router.get(
   "/availableQuantity/:itemId",
   inventoryController.getAvailableQuantity
 );
-router.put("/:itemId", inventoryController.updateById);
+router.put("/", inventoryController.updateById);
+router.post("/", inventoryController.create);
 module.exports = router;
