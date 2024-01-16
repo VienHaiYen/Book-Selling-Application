@@ -120,11 +120,13 @@ const BookPageByCate = {
   },
 
   template: `
-      <BackButton />
-      <h1 v-if="state.categorySelected" class="my-3">Category: {{category.name}}</h1>
-      <h1 v-if="state.authorSelected" class="my-3">Author: {{author.name}}</h1>
-      <Spinner v-if="state.onLoading" />
-      <BookItemList :books="bookList" title="Popular"/>
+      <div class="m-3">
+        <BackButton />
+        <h1 v-if="state.categorySelected" class="my-3">Category: {{category.name}}</h1>
+        <h1 v-if="state.authorSelected" class="my-3">Author: {{author.name}}</h1>
+        <Spinner v-if="state.onLoading" />
+        <BookItemList :books="bookList" title="Popular"/>
+      </div>
     `,
 };
 
