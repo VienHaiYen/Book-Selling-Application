@@ -51,6 +51,11 @@ module.exports = class Order {
         payment_method,
         0,
       ]);
+      await db.none(orderSQL.updatePaidState, [
+        result.new_order_id,
+        "cash",
+        result.new_order_id,
+      ]);
       return result.new_order_id;
     } catch (err) {
       console.error(err);

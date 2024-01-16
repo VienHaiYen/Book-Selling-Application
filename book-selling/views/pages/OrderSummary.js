@@ -19,23 +19,28 @@ const OrderSummary = {
     };
   },
   methods: {
-    makeOrder() {
-      $.ajax({
+    async makeOrder() {
+      await $.ajax({
         url: "/orders",
         type: "POST",
         data: {
           item_list: state.inCartSelected,
           payment_method: state.paymentMethod,
         },
-        success: function (data) {
+        success: (data) => {
           alert("Order successful");
           state.orderId = data.data.new_order_id;
-          state.view = "OrderDetail";
+          this.changeView("OrderDetail");
         },
-        error: function (error) {
+        error: (error) => {
+          alert(error.responseJSON.message);
           console.error(error);
+          state.inCartSelected = [];
         },
       });
+    },
+    changeView(view) {
+      state.view = view;
     },
   },
   mounted() {},
@@ -75,7 +80,7 @@ const OrderSummary = {
    <link rel="stylesheet" href="./css/cart.css" />
     <OrderedItemList :displayList="calculatedSelectedItems"  title="My cart" />
     <OrderCustomerInfo/>
-    <OrderPaymentMethod/>
+    <OrderPaymentMethod :total="calculatedTotal" />
     <div class="total-checkout">
  
     <div></div>

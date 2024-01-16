@@ -8,7 +8,7 @@ const paginationResponse = (total, page, records, pageSize = 10) => {
     data: records,
     meta: {
       total: total,
-      totalPages: Math.ceil(total / pageSize),
+      totalPages: Math.max(Math.ceil(total / pageSize), 1),
       pageSize: pageSize,
       page: page,
     },

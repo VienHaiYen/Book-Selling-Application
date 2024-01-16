@@ -1,5 +1,6 @@
 const cookieOption = require("../configs/cookieOption");
 const { commonErrorResponse } = require("../helpers/errorRes");
+const { commonSuccessfulResponse } = require("../helpers/successfulRes");
 const { paginationResponse } = require("../helpers/pagination");
 const { User } = require("../models");
 const paymentConfig = require("../configs/payment");
@@ -113,6 +114,36 @@ module.exports.deposit = async (req, res, next) => {
     ).then((res) => res.json());
     console.log(id, amount, balance);
     res.send({ balance });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.listPaymentHistory = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+    let { page = "1", pageSize = "10" } = req.query;
+    let totalRecord = 0;
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
+    const rs = await User.listPaymentHistory(user_id, page, pageSize);
+    if (rs.length > 0) {
+      totalRecord = Number(rs[0].total_count);
+    }
+    return res.send(paginationResponse(totalRecord, page, rs, pageSize));
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports.getTotalPayment = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+    const { method } = req.query;
+    if (!user_id || !method) {
+      return res.status(400).json(commonErrorResponse("Bad request"));
+    }
+    const rs = await User.getTotalPaid(user_id, method);
+    return res.json(commonSuccessfulResponse(rs));
   } catch (error) {
     next(error);
   }
