@@ -9,6 +9,7 @@ const BookDetail = {
       author: {},
       category: {},
       state,
+      id: "",
       onLoading: true,
     };
   },
@@ -68,14 +69,16 @@ const BookDetail = {
         },
       });
     },
+    editBook() {
+      state.activeId = this.id;
+      state.view = "EditBook";
+    },
   },
-  created() {
+  async mounted() {
     this.id = state.bookId
       ? state.bookId
       : localStorage.getItem("bookIdDetail");
     this.onLoading = true;
-  },
-  async mounted() {
     await this.getBookDetail();
     if (state.bookId) {
       localStorage.setItem("bookIdDetail", state.bookId);
@@ -106,7 +109,7 @@ const BookDetail = {
                               <a class="btn btn-outline-secondary btn-md" @click="addToCart(book.id)" role="button" href="#">Add to Cart</a>
                             </div>
                             <div v-else class="my-3">
-                              <a class="btn btn-primary btn-md me-2" role="button" href="#">Edit</a>
+                              <a class="btn btn-primary btn-md me-2" role="button" @click="this.editBook">Edit</a>
                               <a class="btn btn-outline-secondary btn-md" role="button" href="#">Delete</a>
                             </div>
                         </div>

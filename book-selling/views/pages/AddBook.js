@@ -44,8 +44,8 @@ const AddBook = {
         if (
           !ValidateModel.areAllStringsNotEmpty([
             this.title,
-            this.language,
-            this.publisher,
+            // this.language,
+            // this.publisher,
             this.page_count,
             this.description,
             this.published_year,
@@ -71,7 +71,7 @@ const AddBook = {
         return data;
       }
     },
-    async addBook(e) {
+    async addBookInfo(e) {
       e.preventDefault();
       let imgInfo = await this.uploadImg();
       console.log(imgInfo);
@@ -94,8 +94,27 @@ const AddBook = {
         })
         .then((res) => {
           if (res.status == 200) {
-            alert(res.data);
-            // state.view = "Home";
+            console.log(res.data.data.id);
+            this.postInventory(res.data.data.id);
+            state.view = "Home";
+          } else {
+            alert("Add book failed");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async postInventory(book_id) {
+      await axios
+        .post("/inventory", {
+          book_id: book_id,
+          quantity: this.quantity,
+          unit_price: this.unit_price,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            alert("Add book successfully");
           } else {
             alert("Add book failed");
           }
@@ -130,18 +149,18 @@ const AddBook = {
       <form id="add-book-form" class="m-3">
         <form id="form">
             <div class="custom-file-input">
-              <label for="fileInput" class="form-label">Thumnail</label><br/>
+              <label for="fileInput" class="form-label">Thumnail(*)</label><br/>
               <img id="blah" width="400px" src="#" /><br/>
               <input id="fileInput" class="form-control" accept=".jpg, .png, .jpeg" type="file" name="Files" required />
             </div>
         </form>
         <div class="form-row d-flex">
           <div class="form-group col-md-6 m-1">
-            <label>Book Title</label>
+            <label>Book Title(*)</label>
             <input v-model="title" type="email" class="form-control"  />
           </div>
           <div class="form-group col-md-6 m-1">
-            <label >Author</label>
+            <label >Author(*)</label>
             <input v-model="author_name" type="text" class="form-control" />
           </div>
         </div>
@@ -151,17 +170,17 @@ const AddBook = {
             <input v-model="publisher" type="text" class="form-control" />
           </div>
           <div class="form-group col-md-6 m-1">
-            <label>Page number</label>
+            <label>Page number(*)</label>
             <input v-model="page_count" type="number" class="form-control" />
           </div>
         </div>
         <div class="form-group">
-            <label>Short description</label>
+            <label>Short description(*)</label>
             <textarea v-model="description" type="text" class="form-control"></textarea>
           </div>
         <div class="form-row d-flex">
           <div class="form-group col-md-8 m-1">
-            <label>Category</label>
+            <label>Category(*)</label>
             <select v-model="category_id" class="form-control" @change="e=>console.log(e.target.value)">
               <option v-for="(option, index) in categories" :value="option.id">{{option.name}}</option>
             </select>
@@ -173,24 +192,24 @@ const AddBook = {
         </div>
         <div class="form-row d-flex">
           <div class="form-group col-md-8 m-1">
-            <label>Year</label>
+            <label>Year(*)</label>
             <input v-model="published_year" type="number" class="form-control" />
           </div>
         </div>
         <div class="form-row d-flex">
           <div class="form-group col-md-6 m-1">
-            <label>Cost</label>
+            <label>Cost(*)</label>
             <div class="input-group mb-3">
               <span class="input-group-text">$</span>
               <input v-model="unit_price" type="number" class="form-control" />
             </div>
           </div>
           <div class="form-group col-md-6 m-1">
-            <label>Quantity of stock</label>
+            <label>Quantity of stock(*)</label>
             <input v-model="quantity" type="number" class="form-control" />
           </div>
         </div>
-        <button type="submit" class="btn btn-primary m-2" @click="this.addBook">Add book</button>
+        <button type="submit" class="btn btn-primary m-2" @click="this.addBookInfo">Add book</button>
         <button type="submit" class="btn m-2 btn-outline-primary" @click="this.cancel">Cancel</button>
       </form>
     </div>

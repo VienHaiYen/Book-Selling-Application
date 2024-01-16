@@ -57,7 +57,7 @@ async function add(req, res, next) {
   try {
     const rs = await Book.add(req.body).then((book) => new Book(book));
     return rs && rs.id
-      ? res.status(200).json(commonSuccessfulResponse("Add Success"))
+      ? res.status(200).json(commonSuccessfulResponse(rs))
       : res.status(400).json(commonErrorResponse("Failed fo create new book"));
   } catch (err) {
     next(err);

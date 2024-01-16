@@ -69,7 +69,6 @@ const BookByCategory = {
       await axios
         .get(`categories/${this.categoryId}`)
         .then((res) => {
-          console.log(res.data.data.books);
           this.bookList = res.data.data.books
             .filter((item) => item.status == true)
             .slice(0, 6);

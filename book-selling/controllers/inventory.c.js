@@ -43,6 +43,7 @@ async function checkAvailableList(req, res, next) {
 }
 async function updateById(req, res, next) {
   try {
+    console.log(req.body);
     const item_id = req.body.book_id;
     var new_quantity = req.body.new_quantity;
     var new_unit_price = req.body.new_unit_price;
