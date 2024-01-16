@@ -23,6 +23,8 @@ const UserNav = {
           state.user = undefined;
           state.view = "SignIn";
           localStorage.removeItem("user");
+          state.viewStack = [];
+
           alert("Log out successfully");
         })
         .catch((err) => {

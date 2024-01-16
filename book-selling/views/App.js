@@ -59,8 +59,13 @@ const App = {
     handleStoreViewToLocalStorage() {
       localStorage.setItem("view", state.view);
       if (state.viewStack[state.viewStack.length - 1] == state.view) return;
-      state.viewStack.push(state.view);
-      // console.log(state.viewStack);
+      if (
+        (state.viewStack[state.viewStack.length - 1] != "SignIn" ||
+          state.viewStack[state.viewStack.length - 1] != "Register") &&
+        state.user != undefined
+      ) {
+        state.viewStack.push(state.view);
+      }
     },
   },
   watch: {

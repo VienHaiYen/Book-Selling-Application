@@ -27,8 +27,10 @@ const Navbar = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
+          localStorage.removeItem("user");
           state.view = "SignIn";
           alert("Log out successfully");
+          state.viewStack = [];
         })
         .catch((err) => {
           console.error(err);

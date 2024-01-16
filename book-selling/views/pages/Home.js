@@ -7,6 +7,7 @@ import {
   Modal,
   BookSearchBar,
   BackButton,
+  Dropdown,
 } from "../components/index.js";
 
 import state from "../stores/app-state.js";
@@ -16,6 +17,8 @@ const Home = {
     return {
       state,
       bookList: Array,
+      categories: Array,
+      category: {},
       meta: {},
       perpage: 60,
       readMode: true,
@@ -31,6 +34,7 @@ const Home = {
     Modal,
     BookSearchBar,
     BackButton,
+    Dropdown,
   },
   computed: {
     books() {
@@ -40,6 +44,17 @@ const Home = {
     },
   },
   methods: {
+    async getCategoryList() {
+      axios
+        .get("/categories")
+        .then((res) => {
+          let data = res.data;
+          this.categories = data.filter((cate) => cate.status == true);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     async getBookList(page = 1) {
       this.bookList = [];
       $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -49,6 +64,23 @@ const Home = {
         .then((res) => {
           this.bookList = res.data.data.filter((book) => book.status == true);
           this.meta = res.data.meta;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      state.onLoading = false;
+    },
+    async getBookListByCate(categoryId) {
+      this.bookList = [];
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+      state.onLoading = true;
+      await axios
+        .get(`categories/${categoryId}`)
+        .then((res) => {
+          let tmp = res.data.data.books.filter((item) => item.status == true);
+          this.bookList = tmp;
+          this.category = res.data.data.category;
+          // this.meta = res.data.meta;
         })
         .catch((err) => {
           console.error(err);
@@ -79,9 +111,17 @@ const Home = {
       $("html, body").animate({ scrollTop: 0 }, "slow");
       this.isAllBookUser = !this.isAllBookUser;
     },
+    handleGetBookByCate(category) {
+      this.meta = {};
+      this.getBookListByCate(category);
+      console.log(44, category);
+    },
   },
   async mounted() {
     await this.getBookList();
+    if (state.user == undefined ? false : state.user.role == "admin") {
+      await this.getCategoryList();
+    }
   },
 
   template: `
@@ -125,18 +165,20 @@ const Home = {
             </button>
             <div class=d-flex>
               <div class="d-flex align-items-center mx-2"><span>Read By: </span></div>
-              <select style="width:150px" v-model="readMode" @change="this.getBookList(1)" class="form-select mr-3" aria-label="Default select example">
-                <option value="true">All Books</option>
-                <option value="false">By Category</option>
+              <select style="width:150px" v-model="readMode" @change="console.log(readMode)" class="form-select mr-3">
+                <option :value=true>All Books</option>
+                <option :value=false>By Category</option>
               </select>
-              <div class="d-flex align-items-center mx-2"><span>Perpage: </span></div>
-              <select style="width:100px" v-model="perpage" @change="this.getBookList(1)" class="form-select" aria-label="Default select example">
+              <Dropdown label="Categories" v-if="!readMode && categories" :isAdmin=true iconLeft="fa-solid fa-table-cells-large" :handleGetBookByCate="this.handleGetBookByCate" :dropdownMenu="categories"/>
+              <div v-if="readMode" class="d-flex align-items-center mx-2"><span>Perpage: </span></div>
+              <select v-if="readMode" style="width:100px" v-model="perpage" @change="this.getBookList(1)" class="form-select" aria-label="Default select example">
                 <option value="30">30</option>
                 <option selected value="60">60</option>
                 <option value="120">120</option>
               </select>
             </div>
           </div>
+          <h2 class="mx-3">{{category.name?category.name:""}}</h2>
           <Spinner v-if="!bookList.length" />
           <BookItemList :books="bookList"/>
           <Pagination v-if="meta.total" :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getBookList" />

@@ -22,8 +22,10 @@ const SidebarAdmin = {
         .post("/logout")
         .then((res) => {
           state.user = undefined;
+          localStorage.removeItem("user");
           state.view = "SignIn";
-          console.log(state);
+          // console.log(state);
+          state.viewStack = [];
           alert("Log out successfully");
         })
         .catch((err) => {
