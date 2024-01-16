@@ -51,10 +51,10 @@ module.exports = class Book {
       const bookData = await db
         .oneOrNone(bookSQL.getById, [id])
         .then((book) => new Book(book));
-      const authorData = await db.oneOrNone(bookSQL.getAuthor, [id])
-      const categoryData = await db.oneOrNone(bookSQL.getCategory, [id])
+      const authorData = await db.oneOrNone(bookSQL.getAuthor, [id]);
+      const categoryData = await db.oneOrNone(bookSQL.getCategory, [id]);
 
-      return { book: bookData, author: authorData, category: categoryData }
+      return { book: bookData, author: authorData, category: categoryData };
     } catch (err) {
       return null;
     }
@@ -116,7 +116,10 @@ module.exports = class Book {
 
   static async updateCategory(bookId, categoryId) {
     if (bookId && categoryId) {
-      return await db.oneOrNone(bookSQL.updateBookCategory, [bookId, categoryId])
+      return await db.oneOrNone(bookSQL.updateBookCategory, [
+        bookId,
+        categoryId,
+      ]);
     } else {
       return null;
     }
@@ -124,7 +127,7 @@ module.exports = class Book {
 
   static async updateAuthor(bookId, authorId) {
     if (bookId && authorId) {
-      return await db.oneOrNone(bookSQL.updateBookAuthor, [bookId, authorId])
+      return await db.oneOrNone(bookSQL.updateBookAuthor, [bookId, authorId]);
     } else {
       return null;
     }

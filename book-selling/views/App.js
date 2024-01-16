@@ -67,7 +67,7 @@ const App = {
     "state.view": "handleStoreViewToLocalStorage",
   },
   async created() {
-    axios
+    await axios
       .get("/categories")
       .then((res) => {
         this.categories = res.data.filter((cate) => cate.status == true);
@@ -76,10 +76,10 @@ const App = {
         console.error(err);
       });
 
-    axios
+    await axios
       .get("/auth")
       .then((res) => {
-        console.log(res.data);
+        console.log("xx", res.data);
         state.user = res.data;
         localStorage.setItem("user", JSON.stringify(res.data));
       })
