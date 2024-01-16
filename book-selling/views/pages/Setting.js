@@ -43,6 +43,14 @@ const Setting = {
       });
       this.onLoading = false;
     },
+    mountOutAvatar: (e) => {
+      e.target.querySelector("img").classList.remove("hover");
+      e.target.querySelector(".icon").classList.add("d-none");
+    },
+    mountOnAvatar: (e) => {
+      e.target.querySelector("img").classList.add("hover");
+      e.target.querySelector(".icon").classList.remove("d-none");
+    },
   },
   async mounted() {
     await this.fetchMyBooks();
@@ -55,7 +63,7 @@ const Setting = {
         <div class="row">
           <div class="col-lg-4">
             <div class="card mb-4 p-4">
-              <div style="width:fit-content; margin:0 auto" @mouseenter="mountOnAvatar" @mouseleave="mountOutAvatar">
+              <div style="width:fit-content; margin:0 auto" @mouseenter="this.mountOnAvatar" @mouseleave="this.mountOutAvatar">
                   <img alt="avatar"
                     :src="state.user.avatar?state.user.avatar:state.defaultAvatar"
                     class="my-2 rounded-circle img-fluid avartar" style="width: 150px;height: 150px;">

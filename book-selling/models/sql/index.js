@@ -57,6 +57,7 @@ module.exports = {
     getOrderById: sql("order/getOrderById.sql"),
     getOrderByUserId: sql("order/getOrderByUserId.sql"),
     getOrders: sql("order/getAll.sql"),
+    updatePaidState: sql("order/updatePaidState.sql"),
   },
   dashboardSQL: {
     getTodayOverallReport: sql("dashboard/getTodayOverallReport.sql"),

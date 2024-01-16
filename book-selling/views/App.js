@@ -81,6 +81,7 @@ const App = {
       .then((res) => {
         console.log(res.data);
         state.user = res.data;
+        localStorage.setItem("user", JSON.stringify(res.data));
       })
       .catch((err) => {
         // console.log(err);

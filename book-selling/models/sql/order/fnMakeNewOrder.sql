@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION makeNewOrder(user_id integer, item_list integer[])
+CREATE OR REPLACE FUNCTION makeNewOrder(user_id integer, item_list integer[],method VARCHAR,trsn_id integer)
 RETURNS INT AS $$
 DECLARE
   new_order_id INT;
@@ -8,7 +8,7 @@ BEGIN
   -- create new order
   BEGIN
     INSERT INTO orders (user_id, status)
-    VALUES (user_id, 'creating')
+    VALUES (user_id, 'Creating')
     RETURNING id INTO new_order_id;
  
     -- Iterate through each item in the item_list
@@ -64,9 +64,12 @@ BEGIN
     WHERE cart_item.id = ANY(item_list); -- Update with actual item IDs
 
     -- update order information
-    UPDATE orders
-    SET status = 'created', total = total_bill
-    WHERE id = new_order_id;
+ UPDATE orders
+  SET status = 'Created', 
+      total = total_bill,
+      payment_method = method,
+      transaction_id = CASE WHEN method = 'cash' THEN new_order_id ELSE trsn_id END
+  WHERE id = new_order_id;
 
     -- Return true if successful
     RETURN new_order_id;

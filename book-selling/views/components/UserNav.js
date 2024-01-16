@@ -22,6 +22,7 @@ const UserNav = {
         .then((res) => {
           state.user = undefined;
           state.view = "SignIn";
+          localStorage.removeItem("user");
           alert("Log out successfully");
         })
         .catch((err) => {

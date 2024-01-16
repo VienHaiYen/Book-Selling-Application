@@ -64,7 +64,7 @@ async function listOrdersByUserId(req, res, next) {
     let totalRecord = 0;
     const rs = await Order.listOrdersByUserId(id, page, pageSize);
     if (rs.length > 0) {
-      totalRecord = Number(rs[0].total);
+      totalRecord = Number(rs[0].total_count);
     }
     res.send(paginationResponse(totalRecord, page, rs, pageSize));
   } catch (err) {
@@ -79,7 +79,7 @@ async function listOrders(req, res, next) {
     let totalRecord = 0;
     const rs = await Order.listOrders(page, pageSize);
     if (rs.length > 0) {
-      totalRecord = Number(rs[0].total);
+      totalRecord = Number(rs[0].total_count);
     }
     res.send(paginationResponse(totalRecord, page, rs, pageSize));
   } catch (err) {

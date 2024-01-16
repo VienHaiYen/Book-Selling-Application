@@ -19,16 +19,17 @@ const OrderDetail = {
       items: [],
       state,
       orderDetail: Object,
+      user: Object,
     };
   },
   methods: {
-    fetchData() {
+    async fetchData() {
       state.onLoading = true;
       if (!state.orderId) {
         alert("Invalid action");
         return;
       }
-      $.ajax({
+      await $.ajax({
         url: `/orders/detail/${state.orderId}`,
         type: "get",
         success: (data) => {
@@ -45,6 +46,9 @@ const OrderDetail = {
 
           const formattedDate = date.toLocaleString("en-US", options);
           this.orderDetail.created_at = formattedDate;
+          this.orderDetail.payment_method = this.titlelize(
+            this.orderDetail.payment_method
+          );
         },
         error: (error) => {
           console.error(error);
@@ -52,9 +56,20 @@ const OrderDetail = {
       });
       state.onLoading = false;
     },
+    titlelize(text) {
+      return text
+        .toString()
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+    },
   },
-  mounted() {
-    this.fetchData();
+  async mounted() {
+    await this.fetchData();
+    var userStr = localStorage.getItem("user");
+    this.user = JSON.parse(userStr);
   },
   computed: {},
   template: `
@@ -87,7 +102,7 @@ const OrderDetail = {
 			<p class="mb-0">Customer Name</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.full_name}}</p>
+			<p class="text-muted mb-0">{{this.user.full_name}}</p>
 		</div>
 	</div>
 	<hr>
@@ -96,7 +111,7 @@ const OrderDetail = {
 			<p class="mb-0">Email</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.email}}</p>
+			<p class="text-muted mb-0">{{this.user.email}}</p>
 		</div>
 	</div>
 	<hr>
@@ -105,7 +120,7 @@ const OrderDetail = {
 			<p class="mb-0">Phone</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.phone}}</p>
+			<p class="text-muted mb-0">{{this.user.phone}}</p>
 		</div>
 	</div>
 	<hr>
@@ -114,7 +129,7 @@ const OrderDetail = {
 			<p class="mb-0">Address</p>
 		</div>
 		<div class="col-sm-9">
-			<p class="text-muted mb-0">{{state.user.address}}</p>
+			<p class="text-muted mb-0">{{this.user.address}}</p>
 		</div>
         </div>
 	</div>
@@ -133,8 +148,8 @@ const OrderDetail = {
             <div class="mt-2 d-flex justify-content-between align-items-end" style="width:80%">
 
                 <div>
-                    <div class="fw-bold">Payment ID: <span class='fw-light'>#1212323 </span></div>
-                    <div class="fw-bold">Payment method: <span class='fw-light'>MePay Balance</span></div>
+                    <div class="fw-bold">Payment ID: <span class='fw-light'>#{{this.orderDetail.transaction_id}} </span></div>
+                    <div class="fw-bold">Payment method: <span class='fw-light'>{{this.orderDetail.payment_method}}</span></div>
                 </div>
                 <div class='text-bold'>Total order: <i class="fa-solid fa-dollar-sign"></i>{{this.orderDetail.total}}
                 </div>

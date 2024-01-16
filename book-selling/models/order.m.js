@@ -3,12 +3,16 @@ const { orderSQL } = require("./sql");
 const paymentConfig = require("../configs/payment");
 
 module.exports = class Order {
-  constructor() { }
+  constructor() {}
   static async makeNewOrderByMePay(user_id, item_list) {
     try {
       return await db.tx(async (t) => {
-        const { new_order_id } = await t
-          .one(orderSQL.makeNewOrder, [user_id, item_list]);
+        const { new_order_id } = await t.one(orderSQL.makeNewOrder, [
+          user_id,
+          item_list,
+          "mepay",
+          null,
+        ]);
         const newOrder = await t.one(orderSQL.getOrderById, [new_order_id]);
         const { id: payment_id } = await fetch(
           `${paymentConfig.url}/transactions/purchase-order/${user_id}`,
@@ -23,7 +27,15 @@ module.exports = class Order {
               orderId: new_order_id,
             }),
           }
-        ).then((res) => res.json());
+        ).then(async (res) => {
+          const data = await res.json();
+          await t.none(orderSQL.updatePaidState, [
+            new_order_id,
+            "mepay",
+            data.id,
+          ]);
+          return data;
+        });
         return new_order_id;
       });
     } catch (error) {
@@ -31,11 +43,13 @@ module.exports = class Order {
       return -1;
     }
   }
-  static async makeNewOrder(user_id, item_list) {
+  static async makeNewOrder(user_id, item_list, payment_method = "cash") {
     try {
       let result = await db.oneOrNone(orderSQL.makeNewOrder, [
         user_id,
         item_list,
+        payment_method,
+        0,
       ]);
       return result.new_order_id;
     } catch (err) {
