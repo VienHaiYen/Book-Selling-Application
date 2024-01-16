@@ -67,6 +67,11 @@ const OrderDetail = {
     },
   },
   async mounted() {
+    if (state.orderId) {
+      localStorage.setItem("orderId", state.orderId);
+    } else {
+      state.orderId = localStorage.getItem("orderId");
+    }
     await this.fetchData();
     var userStr = localStorage.getItem("user");
     this.user = JSON.parse(userStr);
@@ -74,8 +79,8 @@ const OrderDetail = {
   computed: {},
   template: `
  <div class="flex-container">
-    <BackButton />
-    <div class="order-container">
+      <div class="order-container">
+      <BackButton />
         <div class="shopping-cart-title">
             ORDER DETAIL
         </div>

@@ -29,6 +29,7 @@ const Navbar = {
           state.user = undefined;
           state.view = "SignIn";
           alert("Log out successfully");
+          state.viewStack = [];
         })
         .catch((err) => {
           console.error(err);
