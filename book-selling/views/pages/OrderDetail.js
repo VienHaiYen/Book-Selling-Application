@@ -23,13 +23,13 @@ const OrderDetail = {
     };
   },
   methods: {
-    fetchData() {
+    async fetchData() {
       state.onLoading = true;
       if (!state.orderId) {
         alert("Invalid action");
         return;
       }
-      $.ajax({
+      await $.ajax({
         url: `/orders/detail/${state.orderId}`,
         type: "get",
         success: (data) => {
@@ -46,6 +46,9 @@ const OrderDetail = {
 
           const formattedDate = date.toLocaleString("en-US", options);
           this.orderDetail.created_at = formattedDate;
+          this.orderDetail.payment_method = this.titlelize(
+            this.orderDetail.payment_method
+          );
         },
         error: (error) => {
           console.error(error);
@@ -53,9 +56,18 @@ const OrderDetail = {
       });
       state.onLoading = false;
     },
+    titlelize(text) {
+      return text
+        .toString()
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+    },
   },
-  mounted() {
-    this.fetchData();
+  async mounted() {
+    await this.fetchData();
     var userStr = localStorage.getItem("user");
     this.user = JSON.parse(userStr);
   },
@@ -136,8 +148,8 @@ const OrderDetail = {
             <div class="mt-2 d-flex justify-content-between align-items-end" style="width:80%">
 
                 <div>
-                    <div class="fw-bold">Payment ID: <span class='fw-light'>#1212323 </span></div>
-                    <div class="fw-bold">Payment method: <span class='fw-light'>MePay Balance</span></div>
+                    <div class="fw-bold">Payment ID: <span class='fw-light'>#{{this.orderDetail.transaction_id}} </span></div>
+                    <div class="fw-bold">Payment method: <span class='fw-light'>{{this.orderDetail.payment_method}}</span></div>
                 </div>
                 <div class='text-bold'>Total order: <i class="fa-solid fa-dollar-sign"></i>{{this.orderDetail.total}}
                 </div>

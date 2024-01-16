@@ -21,10 +21,10 @@ module.exports = class Cart {
       if (result && result.cart_items) {
         return result.cart_items.map((item) => new CartItem(item));
       }
-      return null;
+      return [];
     } catch (err) {
       console.error(err);
-      return null;
+      return [];
     }
   }
   static async updateQuantity(cart_id, item_id, new_quantity) {

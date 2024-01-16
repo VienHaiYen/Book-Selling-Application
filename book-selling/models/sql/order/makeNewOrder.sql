@@ -1,1 +1,1 @@
-SELECT makeNewOrder($1, $2::integer[]) AS new_order_id;
+SELECT makeNewOrder($1, $2::integer[],$3,$4) AS new_order_id;

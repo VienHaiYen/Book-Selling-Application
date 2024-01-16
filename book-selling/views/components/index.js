@@ -21,6 +21,7 @@ export * from "./BookSearchBar.js";
 export * from "./UserNav.js";
 
 export * from "./Spinner.js";
+export * from "./SmallSpinner.js";
 export * from "./Modal.js";
 export * from "./ModalInput.js";
 

@@ -1,5 +1,5 @@
 import state from "../stores/app-state.js";
-
+import { SmallSpinner } from "./index.js";
 const OrderPaymentMethod = {
   props: {
     title: String,
@@ -10,10 +10,11 @@ const OrderPaymentMethod = {
       accountBalance: 0,
     };
   },
-  components: {},
+  components: { SmallSpinner },
   methods: {
-    fetchData() {
-      $.ajax({
+    async fetchData() {
+      state.onLoading = true;
+      await $.ajax({
         url: `/users/balance`,
         type: "get",
         success: (data) => {
@@ -23,20 +24,22 @@ const OrderPaymentMethod = {
           console.error(error);
         },
       });
+      state.onLoading = false;
     },
     updatePaymentMethod(method) {
       state.paymentMethod = method;
-      console.log(state.paymentMethod)
+      console.log(state.paymentMethod);
     },
   },
-  created() {
+  async created() {
     state.paymentMethod = "cash";
-    this.fetchData();
+    await this.fetchData();
   },
   mounted() {},
 
   template: `
-<div class="shopping-order">
+    <SmallSpinner v-if="state.onLoading" />
+  <div v-else class="shopping-order">
 	 <fieldset class="border p-2 order-fieldset">
    <legend  class="w-auto order-legend">Payment Method</legend>
 <div class="card-body">
