@@ -15,6 +15,7 @@ const BookDetail = {
   },
   methods: {
     async getBookDetail() {
+      $("html, body").animate({ scrollTop: 0 }, "slow");
       this.onLoading = true;
       await $.ajax({
         url: `/books/detail/${this.id}`,
@@ -31,6 +32,11 @@ const BookDetail = {
       this.onLoading = false;
     },
     addToCart(item_id) {
+      if (state.user == undefined) {
+        alert("Please sign in to add item to cart");
+        state.view = "SignIn";
+        return;
+      }
       $.ajax({
         url: "/myCart/item",
         type: "POST",
@@ -50,6 +56,11 @@ const BookDetail = {
       });
     },
     buyNow(item_id) {
+      if (state.user == undefined) {
+        alert("Please sign in to add item to cart");
+        state.view = "SignIn";
+        return;
+      }
       $.ajax({
         url: "/myCart/item",
         type: "POST",
