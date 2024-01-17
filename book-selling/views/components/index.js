@@ -29,8 +29,9 @@ export * from "./ModalInput.js";
 export * from "./SidebarAdmin.js";
 export * from "./UserList.js";
 export * from "./AdminSearch.js";
+export * from "./Chart.js";
 
-// charts
+//
 export * from "./CartItem.js";
 export * from "./CartItemList.js";
 export * from "./OrderedItem.js";

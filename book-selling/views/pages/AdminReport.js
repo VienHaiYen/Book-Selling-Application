@@ -1,10 +1,11 @@
-import { BookItemList, BackButton } from "../components/index.js";
+import { BookItemList, BackButton, MyChart } from "../components/index.js";
 
 const AdminReport = {
   props: {},
   components: {
     BookItemList,
     BackButton,
+    MyChart,
   },
   data() {
     return {
@@ -17,6 +18,7 @@ const AdminReport = {
     <div>
       <BackButton />
       <h1>Admin Report</h1>
+      <MyChart />
     </div>
   `,
 };
