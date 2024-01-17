@@ -4,7 +4,7 @@ import { BookItemList } from "./BookItemList.js";
 const BookByCategory = {
   props: {
     // title: String,
-    categoryId: String,
+    categoryId: Number,
   },
   data() {
     return {

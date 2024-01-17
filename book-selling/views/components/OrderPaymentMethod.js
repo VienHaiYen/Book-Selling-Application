@@ -3,6 +3,7 @@ import { SmallSpinner } from "./index.js";
 const OrderPaymentMethod = {
   props: {
     title: String,
+    total: Number,
   },
   data() {
     return {
@@ -49,7 +50,7 @@ const OrderPaymentMethod = {
     <label class="payment-method-name" for="Cash">Cash</label>    
   </div>
   <div class='payment-method-group'>
-    <input id="MePay" type="radio" name="paymentMethod" value="mepay" @change="updatePaymentMethod('mepay')">
+    <input id="MePay" type="radio" name="paymentMethod" value="mepay" @change="updatePaymentMethod('mepay')" :disabled="(accountBalance<this.total)">
     <i class="fa-solid fa-wallet payment-method-name"></i>
     <label for="MePay">
       <div class="order-description">

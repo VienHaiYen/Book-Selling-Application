@@ -11,6 +11,8 @@ module.exports = {
     getById: sql("user/getById.sql"),
     update: sql("user/update.sql"),
     delete: sql("user/delete.sql"),
+    listPaymentHistory: sql("user/listPaymentHistory.sql"),
+    getTotalPaid: sql("user/getTotalPaid.sql"),
   },
   authorSQL: {
     add: sql("author/add.sql"),
@@ -66,17 +68,6 @@ module.exports = {
     getThisYearOverallReport: sql("dashboard/getThisYearOverallReport.sql"),
     getThisWeekDetailReport: sql("dashboard/getThisWeekDetailReport.sql"),
   },
-  // movieSQL: {
-  //     add: sql("movie/add.sql"),
-  //     add_Movie_Cast: sql("movie/add_movie_cast.sql"),
-  //     get_rating_sorted: sql("movie/get_rating_sorted.sql"),
-  //     get_limit_rating_sorted: sql("movie/get_limit_rating_sorted.sql"),
-  //     get_limit_box_office_sorted: sql("movie/get_limit_box_office_sorted.sql"),
-  //     search: sql("movie/search.sql"),
-  //     count_search: sql("movie/count_search_result.sql"),
-  //     get_by_id: sql("movie/get_by_id.sql"),
-  //     get_list_ralated_to_cast: sql("movie/get_list_ralated_to_cast.sql")
-  // },
 };
 
 function sql(file) {

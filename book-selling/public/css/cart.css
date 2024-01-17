@@ -281,7 +281,7 @@ input:focus {
 
 .order-history-brief-info-bar {
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 65% 35%;
     font-size: 14px !important;
     color: gray;
 }

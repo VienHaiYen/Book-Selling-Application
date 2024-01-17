@@ -3,6 +3,7 @@ import {
   Avatar,
   Spinner,
   BackButton,
+  DepositModal,
 } from "../components/index.js";
 import state from "../../stores/app-state.js";
 const Setting = {
@@ -11,12 +12,14 @@ const Setting = {
     Avatar,
     Spinner,
     BackButton,
+    DepositModal,
   },
   data() {
     return {
       state,
       isShowingMyBook: false,
       onLoading: true,
+      balance: 0,
     };
   },
   methods: {
@@ -43,30 +46,66 @@ const Setting = {
       });
       this.onLoading = false;
     },
-    mountOutAvatar: (e) => {
-      e.target.querySelector("img").classList.remove("hover");
-      e.target.querySelector(".icon").classList.add("d-none");
+    async getBalance() {
+      state.onLoading = true;
+      await $.ajax({
+        url: `/users/balance`,
+        type: "get",
+        success: (data) => {
+          this.balance = Number.parseFloat(data.balance);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+      state.onLoading = false;
     },
-    mountOnAvatar: (e) => {
-      e.target.querySelector("img").classList.add("hover");
-      e.target.querySelector(".icon").classList.remove("d-none");
+    async handleDeposit(money) {
+      await $.ajax({
+        url: `/users/deposit`,
+        type: "post",
+        data: { amount: money },
+        success: (data) => {
+          this.balance = Number.parseFloat(data.balance);
+          alert(`Deposit successfully! ${this.balance}`);
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+      $("#addBalance").modal("hide");
+      $(".modal-backdrop").hide();
+      $("body").removeClass("modal-open");
+      $("body").css("overflow", "auto");
     },
+  },
+  async created() {
+    await this.getBalance();
   },
   async mounted() {
     await this.fetchMyBooks();
   },
   template: `
    <Spinner v-if="this.onLoading" />
-    <section v-else >
+   
+   <section v-else >
+    <DepositModal id="addBalance" title="Add Balance" description="Enter the amount you want to deposit"  :callback="handleDeposit"/>
       <BackButton />
-      <div class="container py-2">
+      <div class="container py-2" v-if="state.user!=undefined">
         <div class="row">
           <div class="col-lg-4">
             <div class="card mb-4 p-4">
-              <div style="width:fit-content; margin:0 auto" @mouseenter="this.mountOnAvatar" @mouseleave="this.mountOutAvatar">
+              <div style="width:fit-content; margin:0 auto">
                   <img alt="avatar"
                     :src="state.user.avatar?state.user.avatar:state.defaultAvatar"
                     class="my-2 rounded-circle img-fluid avartar" style="width: 150px;height: 150px;">
+              </div>
+            </div>
+            <div class="card" v-if="state.user!=undefined">
+              <div class="card-body">
+                <h5 class="card-title">Budget</h5>
+                <p class="card-text">Số tiền {{ balance.toLocaleString('en-US', {style: 'currency',currency: 'USD'}) }} </p>
+                <a href="#" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#addBalance">Add Balance</a>
               </div>
             </div>
           </div>
