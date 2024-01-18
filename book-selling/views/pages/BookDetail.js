@@ -98,37 +98,37 @@ const BookDetail = {
 
   template: `
       <Spinner v-if="this.onLoading" />
-          <div v-else v-if="book.title!=undefined" class="p-2">
-            <BackButton />
-            <div class="bg-white border rounded border-0 border-dark overflow-hidden">
-                <div class="row g-0">
-                    <div class="col-md-5 col-lg-4 px-2 px-sm-2 order-first" style="min-width: 250px;">
-                      <img class="w-100 fit-cover" :src="book.thumbnail" />
-                    </div>
-                    <div class="col-md-7 col-lg-8">
-                        <div class=" p-3">
-                            <h2 class="fw-bold text mb-3">{{book.title}} ({{book.published_year}})</h2>
-                            <h5>{{author.name}}</h5>
-                            <p class="card-text"><span><strong>Category: </strong></span>{{category.name}}</p>
-                            <p class="card-text"><span><strong>Language: </strong></span>{{book.language}}</p>
-                            <p class="card-text"><span><strong>Publisher: </strong></span><span>{{book.publisher}}</span></p>
-                            <p class="card-text"><span><strong>Page number: </strong></span>{{book.page_count}}</p>
-                            <p class="card-text"><span><strong>Short desscription: </strong></span>{{book.description}}</p>
-                            <h2><span><strong></strong></span>{{"Bổ sung gấp"}}$</h2>
-                            <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')" class="my-3">
-                              <a class="btn btn-primary btn-md me-2" @click="buyNow(book.id)" role="button" href="#">Buy Now</a>
-                              <a class="btn btn-outline-secondary btn-md" @click="addToCart(book.id)" role="button" href="#">Add to Cart</a>
-                            </div>
-                            <div v-else class="my-3">
-                              <a class="btn btn-primary btn-md me-2" role="button" @click="this.editBook">Edit</a>
-                              <a class="btn btn-outline-secondary btn-md" role="button" href="#">Delete</a>
-                            </div>
+      <div v-else v-if="book.title!=undefined" class="p-2">
+        <BackButton />
+        <div class="bg-white border rounded border-0 border-dark overflow-hidden">
+            <div class="row g-0">
+                <div class="col-md-5 col-lg-4 px-2 py-3 order-first" style="min-width: 250px;">
+                  <img class="w-100 fit-cover" :src="book.thumbnail" />
+                </div>
+                <div class="col-md-7 col-lg-8">
+                    <div class=" p-3">
+                        <h2 class="fw-bold text mb-3">{{book.title}} ({{book.published_year}})</h2>
+                        <h5>{{author.name}}</h5>
+                        <p class="card-text"><span><strong>Category: </strong></span>{{category.name}}</p>
+                        <p class="card-text"><span><strong>Language: </strong></span>{{book.language}}</p>
+                        <p class="card-text"><span><strong>Publisher: </strong></span><span>{{book.publisher}}</span></p>
+                        <p class="card-text"><span><strong>Page number: </strong></span>{{book.page_count}}</p>
+                        <p class="card-text"><span><strong>Short desscription: </strong></span>{{book.description}}</p>
+                        <h2><span><strong></strong></span>{{"Bổ sung gấp"}}$</h2>
+                        <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')" class="my-3">
+                          <a class="btn btn-primary btn-md me-2" @click="buyNow(book.id)" role="button" href="#">Buy Now</a>
+                          <a class="btn btn-outline-secondary btn-md" @click="addToCart(book.id)" role="button" href="#">Add to Cart</a>
+                        </div>
+                        <div v-else class="my-3">
+                          <a class="btn btn-primary btn-md me-2" role="button" @click="this.editBook">Edit</a>
+                          <a class="btn btn-outline-secondary btn-md" role="button" href="#">Delete</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <BookByCategory :categoryId="category.id"/>
-          </div>
+        </div>
+        <BookByCategory :categoryId="category.id"/>
+      </div>
   `,
 };
 

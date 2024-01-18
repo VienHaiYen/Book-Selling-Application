@@ -1,8 +1,22 @@
 const MyChart = {
+  props: {
+    data: Array,
+  },
   data() {
     return {
       chart: null,
     };
+  },
+  methods: {
+    labels() {
+      return this.data.map((item) => this.toDDMMYYYY(item.date));
+    },
+    saleItems() {
+      return this.data.map((item) => Number(item.total_sales));
+    },
+    toDDMMYYYY(date) {
+      return new Date(date).toLocaleDateString("en-GB");
+    },
   },
   mounted() {
     let script = document.createElement("script");
@@ -11,18 +25,11 @@ const MyChart = {
       this.chart = new Chart(ctx, {
         type: "line",
         data: {
-          labels: [
-            "HTML",
-            "CSS",
-            "JAVASCRIPT",
-            "CHART.JS",
-            "JQUERY",
-            "BOOTSTRP",
-          ],
+          labels: this.labels(),
           datasets: [
             {
-              label: "online tutorial subjects",
-              data: [20, 40, 30, 35, 30, 20],
+              label: "Selling items",
+              data: this.saleItems(),
               backgroundColor: [
                 "yellow",
                 "aqua",
@@ -30,6 +37,7 @@ const MyChart = {
                 "lightgreen",
                 "lightblue",
                 "gold",
+                "lightcoral",
               ],
               borderColor: ["black"],
               borderWidth: 2,
@@ -39,6 +47,7 @@ const MyChart = {
         },
         options: {
           responsive: false,
+          maintainAspectRatio: false, // Không giữ tỷ lệ khung hình
         },
       });
     };
@@ -53,7 +62,7 @@ const MyChart = {
   },
   template: `
     <div>
-      <canvas ref="canvas"></canvas>
+      <canvas ref="canvas" style="width: 800px; height: 400px"></canvas>
     </div>
   `,
 };
