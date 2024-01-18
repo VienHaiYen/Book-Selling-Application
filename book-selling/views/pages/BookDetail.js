@@ -11,6 +11,8 @@ const BookDetail = {
       state,
       id: "",
       onLoading: true,
+      unit_price: "",
+      quantity: "",
     };
   },
   methods: {
@@ -84,6 +86,17 @@ const BookDetail = {
       state.activeId = this.id;
       state.view = "EditBook";
     },
+    async getBookInventory() {
+      await axios
+        .get("/inventory/availableQuantity/" + this.id)
+        .then((res) => {
+          this.unit_price = res.data.data.unit_price;
+          this.quantity = res.data.data.available_quantity;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   async mounted() {
     this.id = state.bookId
@@ -91,6 +104,7 @@ const BookDetail = {
       : localStorage.getItem("bookIdDetail");
     this.onLoading = true;
     await this.getBookDetail();
+    await this.getBookInventory();
     if (state.bookId) {
       localStorage.setItem("bookIdDetail", state.bookId);
     }
@@ -114,7 +128,8 @@ const BookDetail = {
                         <p class="card-text"><span><strong>Publisher: </strong></span><span>{{book.publisher}}</span></p>
                         <p class="card-text"><span><strong>Page number: </strong></span>{{book.page_count}}</p>
                         <p class="card-text"><span><strong>Short desscription: </strong></span>{{book.description}}</p>
-                        <h2><span><strong></strong></span>{{"Bổ sung gấp"}}$</h2>
+                        <h2><span><strong></strong></span>$ {{unit_price}}</h2>
+                        <h6><span><strong></strong></span>Stock {{quantity}} left</h6>
                         <div v-if="!(state.user == undefined ? false : state.user.role == 'admin')" class="my-3">
                           <a class="btn btn-primary btn-md me-2" @click="buyNow(book.id)" role="button" href="#">Buy Now</a>
                           <a class="btn btn-outline-secondary btn-md" @click="addToCart(book.id)" role="button" href="#">Add to Cart</a>

@@ -15,7 +15,7 @@ const Dropdown = {
   methods: {
     setCategorySelected(category) {
       if (this.view) {
-        state.view = screen;
+        state.view = this.view;
       } else {
         this.handleGetBookByCate(category);
       }
@@ -26,7 +26,7 @@ const Dropdown = {
     },
   },
   mounted() {
-    console.log(this.dropdownMenu);
+    // console.log(this.dropdownMenu);
   },
   template: `
     <div class="dropdown">

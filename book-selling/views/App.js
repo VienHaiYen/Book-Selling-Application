@@ -117,7 +117,7 @@ const App = {
       <SidebarAdmin v-else :avatarImg="avatarImg" :isLogin="state.user != undefined"/>
         <component class="flex-grow-1" :is="state.view"></component>
     </div>
-    <Footer />
+    <!-- <Footer /> -->
   </div>
   `,
 };
