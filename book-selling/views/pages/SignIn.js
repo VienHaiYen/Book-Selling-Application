@@ -37,9 +37,17 @@ const SignIn = {
     navigator(screen) {
       state.view = screen;
     },
+    navigatorHome() {
+      state.view = "Home";
+    },
   },
-
-  mounted() {},
+  watch: {
+    // Sử dụng watch để theo dõi sự thay đổi của state
+    "state.user": "navigatorHome",
+  },
+  mounted() {
+    this.$watch(() => state.user, this.navigatorHome);
+  },
 
   template: `
     <section class="text-center text-lg-start">
