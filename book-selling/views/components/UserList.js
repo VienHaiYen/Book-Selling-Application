@@ -12,6 +12,7 @@ const UserList = {
       userList: Array,
       meta: {},
       perpage: 5,
+      state,
     };
   },
   watch: {
@@ -57,7 +58,7 @@ const UserList = {
         });
     },
     handleGetUser() {
-      console.log(12, state.userSearchInput);
+      // console.log(12, state.userSearchInput);
       if (state.userSearchInput.length > 0) {
         this.getUserByEmail();
       } else {
@@ -90,7 +91,6 @@ const UserList = {
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
-            <th scope="col">Items Bought</th>
             <th></th>
           </tr>
         </thead>
@@ -99,9 +99,8 @@ const UserList = {
             <th scope="row">{{(meta.page-1)*perpage+index+1}}</th>
             <td>{{user.full_name}}</td>
             <td>{{user.email}}</td>
-            <td>{{1}}</td>
             <td>
-              <button @click="deleteUser(user.id)" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+              <button v-if="user.email!=state.user.email" @click="deleteUser(user.id)" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Deactivate</button>
             </td>
           </tr>
         </tbody>
