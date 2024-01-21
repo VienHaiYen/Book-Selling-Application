@@ -17,6 +17,7 @@ import {
   SearchResult,
   Category,
   BookPageByCate,
+  TransferHistory,
 } from "./pages/index.js";
 
 import { Footer, Navbar, SidebarAdmin } from "./components/index.js";
@@ -39,6 +40,8 @@ const App = {
     OrderSummary,
     OrderHistory,
     OrderDetail,
+    TransferHistory,
+
     // admin
     SidebarAdmin,
     AdminReport,

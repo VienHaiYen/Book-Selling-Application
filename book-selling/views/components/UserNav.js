@@ -44,6 +44,7 @@ const UserNav = {
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
     <li><button class="dropdown-item" @click="this.navigation('Setting')">My Account</button></li>
     <li><button class="dropdown-item" @click="this.navigation('OrderHistory')">My Purchase</button></li>
+    <li><button class="dropdown-item" @click="this.navigation('TransferHistory')">Transfer History</button></li>
     <li><div class="dropdown-item d-flex gap-3 align-items-center">Log out <button class="btn-sm btn-danger" @click="logOut" ><i class="fas fa-sign-out-alt"></i></button></div></li>
   </ul>
 </div>

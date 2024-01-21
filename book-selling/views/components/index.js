@@ -40,3 +40,5 @@ export * from "./OrderedItemList.js";
 export * from "./OrderCustomerInfo.js";
 export * from "./OrderPaymentMethod.js";
 export * from "./OrderHistoryItemList.js";
+
+export * from "./TransferHistoryItemList.js";
