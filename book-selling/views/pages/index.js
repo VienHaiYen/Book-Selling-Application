@@ -23,3 +23,5 @@ export * from "./EditBook.js";
 export * from "./OrderSummary.js";
 export * from "./OrderHistory.js";
 export * from "./OrderDetail.js";
+
+export * from "./TransferHistory.js";
