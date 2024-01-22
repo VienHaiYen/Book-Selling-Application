@@ -4,6 +4,8 @@ const { commonSuccessfulResponse } = require("../helpers/successfulRes");
 const { paginationResponse } = require("../helpers/pagination");
 const { User } = require("../models");
 const paymentConfig = require("../configs/payment");
+const fetch = require("node-fetch");
+
 
 module.exports.getUserList = async (req, res, next) => {
   try {
@@ -87,9 +89,9 @@ module.exports.deleteUser = async (req, res, next) => {
 module.exports.getBalance = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { balance } = await fetch(`${paymentConfig.url}/accounts/${id}`).then(
-      (res) => res.json()
-    );
+    const { balance } = await fetch(`${paymentConfig.url}/accounts/${id}`, {
+       agent: paymentConfig.agent 
+      }).then((res) => res.json());
     res.send({ balance });
     console.log(id, balance);
   } catch (error) {
@@ -104,6 +106,7 @@ module.exports.deposit = async (req, res, next) => {
     const { balance } = await fetch(
       `${paymentConfig.url}/transactions/deposit/${id}`,
       {
+        agent: paymentConfig.agent,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
