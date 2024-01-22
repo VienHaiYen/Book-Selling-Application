@@ -1,6 +1,7 @@
 const { db } = require("../configs/postgres.js");
 const { orderSQL } = require("./sql");
 const paymentConfig = require("../configs/payment");
+const fetch = require("node-fetch");
 
 module.exports = class Order {
   constructor() {}
@@ -17,6 +18,7 @@ module.exports = class Order {
         const { id: payment_id } = await fetch(
           `${paymentConfig.url}/transactions/purchase-order/${user_id}`,
           {
+            agent: paymentConfig.agent,
             method: "POST",
             headers: {
               "Content-Type": "application/json",
