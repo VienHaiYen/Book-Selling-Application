@@ -65,6 +65,7 @@ const App = {
       if (
         (state.viewStack[state.viewStack.length - 1] != "SignIn" ||
           state.viewStack[state.viewStack.length - 1] != "Register") &&
+        state.view != "OrderSummary" &&
         state.user != undefined
       ) {
         state.viewStack.push(state.view);

@@ -23,6 +23,8 @@ const Home = {
       perpage: 60,
       readMode: true,
       isAllBookUser: false,
+      minFilter: "",
+      maxFilter: "",
     };
   },
   components: {
@@ -116,6 +118,21 @@ const Home = {
       this.getBookListByCate(category);
       console.log(44, category);
     },
+    getFilter() {
+      if (this.minFilter == "" && this.maxFilter == "") {
+        this.getBookList();
+      } else {
+        this.bookList = this.bookList.filter((book) => {
+          if (this.minFilter == "") {
+            return book.price <= this.maxFilter;
+          } else if (this.maxFilter == "") {
+            return book.price >= this.minFilter;
+          } else {
+            return book.price >= this.minFilter && book.price <= this.maxFilter;
+          }
+        });
+      }
+    },
   },
   async mounted() {
     await this.getBookList();
@@ -143,7 +160,17 @@ const Home = {
           </div>
           <div v-else>
             <button type="button" class="btn btn-primary m-2" @click="this.changeBookDisplayMode"><i class="fas fa-arrow-left"></i></button>
-            <h1>All Books</h1>
+            <div class="d-flex justify-content-between">
+              <h1>All Books</h1>
+              <div>
+                Filter by price:
+                <div class="d-flex">
+                  <input v-model="minFilter" style="height:40px" class="form-control mx-2" type="search" placeholder="Min" /> <p class="mt-2">to </p>
+                  <input v-model="maxFilter" style="height:40px" class="form-control mx-2" type="search" placeholder="Max" />
+                  <button class="btn btn-primary" @click="this.getFilter()">Filter</button>
+                </div>
+              </div>
+            </div>
             <BookItemList :books="bookList"/>
             <Pagination v-if="meta.total" :totalPages="Math.ceil(meta.total/perpage)" :total="meta.total" :currentPage="meta.page" @pagechanged="this.getBookList" />
           </div>
