@@ -18,6 +18,8 @@ module.exports = class Book {
     updated_at,
     count,
     status,
+    available_quantity,
+    unit_price,
   }) {
     this.id = id;
     this.title = title;
@@ -31,6 +33,8 @@ module.exports = class Book {
     this.updated_at = updated_at;
     this.count = count;
     this.status = status;
+    this.available_quantity = available_quantity;
+    this.unit_price = unit_price;
   }
   static async getAll(page, pageSize) {
     try {
