@@ -36,11 +36,11 @@ module.exports = class Book {
     this.available_quantity = available_quantity;
     this.unit_price = unit_price;
   }
-  static async getAll(page, pageSize) {
+  static async getAll(orderBy, order, page, pageSize) {
     try {
       return await db
-        .manyOrNone(bookSQL.getAll, [pageSize, pageSize * (page - 1)])
-        .then((books) => books.map((book) => new Book(book)));
+        .manyOrNone(bookSQL.getAll, [pageSize, pageSize * (page - 1), orderBy || 'id', order || 'asc'])
+        .then((books) => books.map((book) => new Book(book)))
     } catch (err) {
       return null;
     }

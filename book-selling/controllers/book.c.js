@@ -5,12 +5,14 @@ const { commonErrorResponse } = require("../helpers/errorRes");
 async function getAll(req, res, next) {
   try {
     let { page = "1", pageSize = "10" } = req.query;
+    const { orderBy, order } = req.body;
+    
     page = parseInt(page);
     pageSize = parseInt(pageSize);
 
     let totalRecord = 0;
 
-    const rs = await Book.getAll(page, pageSize);
+    const rs = await Book.getAll(orderBy, order, page, pageSize);
     if (rs.length > 0) {
       totalRecord = Number(rs[0].count);
       return res.status(200).send(paginationResponse(totalRecord, page, rs));
