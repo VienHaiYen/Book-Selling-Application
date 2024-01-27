@@ -6,7 +6,7 @@ const tokenOption = require("../configs/tokenOption")
 const cookieOption = require("../configs/cookieOption")
 const googleOption = require("../configs/googleOption")
 const { commonErrorResponse } = require("../helpers/errorRes")
-
+const paymentConfig = require("../configs/payment")
 class GoogleUser {
     constructor({ id, email, verified_email, name, given_name, family_name, picture, locale, }) {
         this.id = id
@@ -129,6 +129,21 @@ module.exports = {
         try {
             const { password_hash, ...user } = req.user
             res.send(user)
+        } catch (error) {
+            next(error)
+        }
+    },
+    getBalance: async (req, res, next) => {
+        try {
+            const { balance } = await fetch(`${paymentConfig.url}/shop/balance`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    apikey: paymentConfig.apikey,
+                },
+            })
+                .then(res => res.json())
+            res.send({ balance })
         } catch (error) {
             next(error)
         }
