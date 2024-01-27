@@ -6,7 +6,7 @@ async function getAll(req, res, next) {
   try {
     let { page = "1", pageSize = "10", orderBy, order } = req.query;
     // const { orderBy, order } = req.body;
-    console.log(req.query);
+    // console.log(req.query);
     page = parseInt(page);
     pageSize = parseInt(pageSize);
 
