@@ -47,13 +47,10 @@ const OrderPaymentMethod = {
       console.log(state.paymentMethod);
     },
   },
-  async created() {
+  async mounted() {
     state.paymentMethod = "cash";
-    if (state.user.role == "admin") {
-      await this.fetchAdminBalance();
-    } else {
-      await this.fetchClientBalance();
-    }
+
+    await this.fetchClientBalance();
   },
   mounted() {},
 
