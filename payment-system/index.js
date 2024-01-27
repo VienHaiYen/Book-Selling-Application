@@ -1,5 +1,4 @@
 const express = require("express");
-const https = require("https");
 require("dotenv").config();
 
 const app = express();
@@ -26,10 +25,4 @@ app.use((err, req, res, next) => {
     res.status(500).send("Internal Error");
 });
 // app.use("/", routers);
-
-// https server
-const privateKey = process.env.PRIVATE_KEY;
-const certificate = process.env.CERTIFICATE;
-const credentials = { key: privateKey, cert: certificate };
-const server = https.createServer(credentials, app);
-server.listen(PORT, () => console.log(`Server is running at https://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`));

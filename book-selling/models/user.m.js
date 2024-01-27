@@ -4,7 +4,6 @@ const { userSQL } = require("./sql");
 const { getOffset } = require("../helpers/pagination");
 const saltRounds = 10;
 const paymentConfig = require("../configs/payment");
-const fetch = require("node-fetch");
 module.exports = class User {
   constructor({
     id,
@@ -66,7 +65,6 @@ module.exports = class User {
         .then((user) => new User(user));
       const paymentAccount = await (
         await fetch(`${paymentConfig.url}/accounts`, {
-          agent: paymentConfig.agent,
           method: "POST",
           headers: {
             "Content-Type": "application/json",
