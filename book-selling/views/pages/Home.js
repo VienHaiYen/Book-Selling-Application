@@ -23,8 +23,8 @@ const Home = {
       perpage: 60,
       readMode: true,
       isAllBookUser: false,
-      minFilter: "",
-      maxFilter: "",
+      filterName: "",
+      filterTrend: "asc",
     };
   },
   components: {
@@ -62,7 +62,20 @@ const Home = {
       $("html, body").animate({ scrollTop: 0 }, "slow");
       state.onLoading = true;
       await axios
-        .get("/books/?page=" + page + "&pageSize=" + this.perpage)
+        .get(
+          "/books/?page=" +
+            page +
+            "&pageSize=" +
+            this.perpage +
+            "&orderBy=" +
+            this.filterName +
+            "&order=" +
+            this.filterTrend
+          // {
+          //   orderBy: this.filterName,
+          //   order: this.filterTrend,
+          // }
+        )
         .then((res) => {
           this.bookList = res.data.data.filter((book) => book.status == true);
           this.meta = res.data.meta;
@@ -163,11 +176,17 @@ const Home = {
             <div class="d-flex justify-content-between">
               <h1>All Books</h1>
               <div>
-                Filter by price:
                 <div class="d-flex">
-                  <input v-model="minFilter" style="height:40px" class="form-control mx-2" type="search" placeholder="Min" /> <p class="mt-2">to </p>
-                  <input v-model="maxFilter" style="height:40px" class="form-control mx-2" type="search" placeholder="Max" />
-                  <button class="btn btn-primary" @click="this.getFilter()">Filter</button>
+                  <select v-model="filterName" class="form-select m-2" aria-label="Default select example">
+                    <option value="">No Filter</option>
+                    <option value="unit_price">Price</option>
+                    <option value="title">Name</option>
+                  </select>
+                  <select v-model="filterTrend" class="form-select m-2" aria-label="Default select example">
+                    <option value="asc">Ascrease</option>
+                    <option value="desc">Descrease</option>
+                  </select>
+                  <button class="btn btn-primary my-2"  @click="this.getBookList()">Filter</button>
                 </div>
               </div>
             </div>
@@ -190,19 +209,35 @@ const Home = {
             <button type="button" class="btn btn-primary m-2" @click="this.navigate('AddBook')">
               Add book
             </button>
-            <div class=d-flex>
-              <div class="d-flex align-items-center mx-2"><span>Read By: </span></div>
-              <select style="width:150px" v-model="readMode" @change="console.log(readMode)" class="form-select mr-3">
-                <option :value=true>All Books</option>
-                <option :value=false>By Category</option>
-              </select>
-              <Dropdown label="Categories" v-if="!readMode && categories" :isAdmin=true iconLeft="fa-solid fa-table-cells-large" :handleGetBookByCate="this.handleGetBookByCate" :dropdownMenu="categories"/>
-              <div v-if="readMode" class="d-flex align-items-center mx-2"><span>Perpage: </span></div>
-              <select v-if="readMode" style="width:100px" v-model="perpage" @change="this.getBookList(1)" class="form-select" aria-label="Default select example">
-                <option value="30">30</option>
-                <option selected value="60">60</option>
-                <option value="120">120</option>
-              </select>
+            <div class="d-flex justify-content-between">
+              <div class=d-flex>
+                <div class="d-flex align-items-center mx-2"><span>Read By: </span></div>
+                <select style="width:150px" v-model="readMode" @change="console.log(readMode)" class="form-select m-2">
+                  <option :value=true>All Books</option>
+                  <option :value=false>By Category</option>
+                </select>
+                <Dropdown label="Categories" class="m-2" v-if="!readMode && categories" :isAdmin=true iconLeft="fa-solid fa-table-cells-large" :handleGetBookByCate="this.handleGetBookByCate" :dropdownMenu="categories"/>
+                <div v-if="readMode" class="d-flex align-items-center mx-2"><span>Perpage: </span></div>
+                <select v-if="readMode" style="width:100px" v-model="perpage" @change="this.getBookList(1)" class="form-select m-2" aria-label="Default select example">
+                  <option value="30">30</option>
+                  <option selected value="60">60</option>
+                  <option value="120">120</option>
+                </select>
+              </div>
+              <div>
+                <div class="d-flex" v-if="readMode">
+                  <select v-model="filterName" class="form-select m-2" aria-label="Default select example">
+                    <option value="">No Filter</option>
+                    <option value="unit_price">Price</option>
+                    <option value="title">Name</option>
+                  </select>
+                  <select v-model="filterTrend" class="form-select m-2" aria-label="Default select example">
+                    <option value="asc">Ascrease</option>
+                    <option value="desc">Descrease</option>
+                  </select>
+                  <button class="btn btn-primary my-2"  @click="this.getBookList()">Filter</button>
+                </div>
+              </div>
             </div>
           </div>
           <h2 class="mx-3">{{category.name?category.name:""}}</h2>

@@ -4,9 +4,9 @@ const { commonSuccessfulResponse } = require("../helpers/successfulRes");
 const { commonErrorResponse } = require("../helpers/errorRes");
 async function getAll(req, res, next) {
   try {
-    let { page = "1", pageSize = "10" } = req.query;
-    const { orderBy, order } = req.body;
-    
+    let { page = "1", pageSize = "10", orderBy, order } = req.query;
+    // const { orderBy, order } = req.body;
+    console.log(req.query);
     page = parseInt(page);
     pageSize = parseInt(pageSize);
 
@@ -117,7 +117,7 @@ async function updateCategory(req, res, next) {
     const { bookId } = req.params;
     const updateData = req.body;
     const checkBook = await Book.getById(bookId);
-    const checkCate = await Category.getById(updateData.categoryId)
+    const checkCate = await Category.getById(updateData.categoryId);
     if (checkCate && checkCate.category.id && checkBook && checkBook.book.id) {
       const rs = await Book.updateCategory(bookId, checkCate.category.id);
       return rs
@@ -136,11 +136,12 @@ async function updateAuthor(req, res, next) {
     const { bookId } = req.params;
     const updateData = req.body;
     const checkBook = await Book.getById(bookId);
-    const checkAuthor = await Author.getByName(updateData.authorName)
+    const checkAuthor = await Author.getByName(updateData.authorName);
     if (checkBook && checkBook.book.id) {
-      const authorId = checkAuthor?.length && checkAuthor[0].id
-        ? checkAuthor[0].id
-        : (await Author.add({ name: updateData.authorName })).id
+      const authorId =
+        checkAuthor?.length && checkAuthor[0].id
+          ? checkAuthor[0].id
+          : (await Author.add({ name: updateData.authorName })).id;
       const rs = await Book.updateAuthor(bookId, authorId);
       return rs
         ? res.status(200).json(commonSuccessfulResponse("Update Success"))
