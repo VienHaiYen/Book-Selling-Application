@@ -1,5 +1,10 @@
 const response_type = 'code'
-const redirect_uri = `http://${process.env.HOST}:${process.env.PORT}/login/google/callback`
+let redirect_uri;
+if(process.env.PORT == '10000') {
+    redirect_uri = `https://${process.env.HOST}/login/google/callback`
+} else {
+    redirect_uri = `http://${process.env.HOST}:${process.env.PORT}/login/google/callback`
+}
 const client_id = process.env.GG_CLIENT_ID
 const client_secret = process.env.GG_CLIENT_SECRET
 const scope = [
