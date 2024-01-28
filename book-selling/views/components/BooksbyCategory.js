@@ -84,7 +84,6 @@ const BookByCategory = {
       state.view = "BookPageByCate";
     },
   },
-  created() {},
   mounted() {
     this.getBookListByCate();
   },
