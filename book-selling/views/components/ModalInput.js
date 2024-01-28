@@ -16,6 +16,10 @@ const ModalInput = {
   },
   methods: {
     changeValue() {
+      if (this.newString == "") {
+        alert("Please enter a value");
+        return;
+      }
       this.$emit("callback", this.newString);
     },
     onChange(e) {

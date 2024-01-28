@@ -13,7 +13,7 @@ const OrderPaymentMethod = {
   },
   components: { SmallSpinner },
   methods: {
-    async fetchClientBalance() {
+    async fetchData() {
       state.onLoading = true;
       await $.ajax({
         url: `/users/balance`,
@@ -27,30 +27,14 @@ const OrderPaymentMethod = {
       });
       state.onLoading = false;
     },
-    async fetchAdminBalance() {
-      state.onLoading = true;
-      await $.ajax({
-        url: `/balance`,
-        type: "get",
-        success: (data) => {
-          console.log(data);
-          // this.accountBalance = data.balance;
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
-      state.onLoading = false;
-    },
     updatePaymentMethod(method) {
       state.paymentMethod = method;
       console.log(state.paymentMethod);
     },
   },
-  async mounted() {
+  async created() {
     state.paymentMethod = "cash";
-
-    await this.fetchClientBalance();
+    await this.fetchData();
   },
   mounted() {},
 

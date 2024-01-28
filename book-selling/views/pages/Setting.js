@@ -4,6 +4,7 @@ import {
   Spinner,
   BackButton,
   DepositModal,
+  ModalInput,
 } from "../components/index.js";
 import state from "../../stores/app-state.js";
 const Setting = {
@@ -13,6 +14,7 @@ const Setting = {
     Spinner,
     BackButton,
     DepositModal,
+    ModalInput,
   },
   data() {
     return {
@@ -93,6 +95,14 @@ const Setting = {
       $("body").removeClass("modal-open");
       $("body").css("overflow", "auto");
     },
+    confirmCode(code) {
+      // xu ly logic
+
+      $("#confirmCode").modal("hide");
+      $(".modal-backdrop").hide();
+
+      $("#addBalance").modal("show");
+    },
   },
   async created() {
     this.role = JSON.parse(localStorage.getItem("user")).role;
@@ -102,8 +112,9 @@ const Setting = {
     await this.fetchMyBooks();
   },
   template: `
+  <ModalInput id="confirmCode" title="Your code" description="Input your code" @callback="confirmCode"/>
+
    <Spinner v-if="this.onLoading" />
-   
    <section v-else >
     <DepositModal id="addBalance" title="Add Balance" description="Enter the amount you want to deposit"  :callback="handleDeposit"/>
       <BackButton />
@@ -121,7 +132,7 @@ const Setting = {
               <div class="card-body">
                 <h5 class="card-title">Budget</h5>
                 <p class="card-text">Số tiền {{ balance.toLocaleString('en-US', {style: 'currency',currency: 'USD'}) }} </p>
-                <a href="#" v-if="role=='client'" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#addBalance">Add Balance</a>
+                <a href="#" v-if="role=='client'" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#confirmCode">Add Balance</a>
               </div>
             </div>
           </div>

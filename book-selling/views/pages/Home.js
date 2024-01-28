@@ -183,7 +183,7 @@ const Home = {
                     <option value="title">Name</option>
                   </select>
                   <select v-model="filterTrend" class="form-select m-2" aria-label="Default select example">
-                    <option value="asc">Ascrease</option>
+                    <option value="asc">Ascending</option>
                     <option value="desc">Descrease</option>
                   </select>
                   <button class="btn btn-primary my-2"  @click="this.getBookList()">Filter</button>
@@ -232,7 +232,7 @@ const Home = {
                     <option value="title">Name</option>
                   </select>
                   <select v-model="filterTrend" class="form-select m-2" aria-label="Default select example">
-                    <option value="asc">Ascrease</option>
+                    <option value="asc">Ascending</option>
                     <option value="desc">Descrease</option>
                   </select>
                   <button class="btn btn-primary my-2"  @click="this.getBookList()">Filter</button>
