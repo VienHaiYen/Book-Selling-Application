@@ -41,7 +41,7 @@ const TransferHistory = {
       state.onLoading = true;
 
       await axios
-        .get(`/transactions?page=${page}&pageSize=${pageSize}`)
+        .get(`/orders/list?page=${page}&pageSize=${pageSize}`)
         .then((res) => {
           this.orders = res.data.data;
           console.log(res.data.data);
