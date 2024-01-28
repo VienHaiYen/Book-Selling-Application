@@ -9,6 +9,7 @@ module.exports = {
     },
     transactionSQL: {
         add: sql("transaction/add.sql"),
+        addPurchaseOrder: sql("transaction/add_purchase_order.sql"),
     },
 };
 

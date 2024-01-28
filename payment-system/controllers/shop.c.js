@@ -1,5 +1,5 @@
 const { getOffset, paginationResponse } = require("../helpers/pagination");
-const { Account } = require("../models");
+const { Account, Transaction } = require("../models");
 
 module.exports.getBalance = async (req, res, next) => {
     try {
@@ -22,7 +22,7 @@ module.exports.getTransactions = async (req, res, next) => {
         const offset = getOffset(page, pageSize);
 
         const bookstoreId = req.user.id;
-        const [transactions, count] = await Account.getTransactions(bookstoreId, offset, pageSize);
+        const [transactions, count] = await Transaction.getTransactions(bookstoreId, offset, pageSize);
         res.status(200).send(paginationResponse(count, page, transactions, pageSize));
     } catch (err) {
         console.error(err);
