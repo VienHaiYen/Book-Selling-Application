@@ -97,17 +97,25 @@ const BookDetail = {
           console.log(err);
         });
     },
+    async handleStoreViewToLocalStorage() {},
+    async loadBookDetail() {
+      this.id = state.bookId
+        ? state.bookId
+        : localStorage.getItem("bookIdDetail");
+      this.onLoading = true;
+      await this.getBookDetail();
+      await this.getBookInventory();
+      if (state.bookId) {
+        localStorage.setItem("bookIdDetail", state.bookId);
+      }
+    },
   },
   async mounted() {
-    this.id = state.bookId
-      ? state.bookId
-      : localStorage.getItem("bookIdDetail");
-    this.onLoading = true;
-    await this.getBookDetail();
-    await this.getBookInventory();
-    if (state.bookId) {
-      localStorage.setItem("bookIdDetail", state.bookId);
-    }
+    this.$watch(() => state.bookId, this.loadBookDetail);
+    this.loadBookDetail();
+  },
+  watch: {
+    "state.bookId": "loadBookDetail",
   },
 
   template: `

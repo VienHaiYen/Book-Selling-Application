@@ -13,8 +13,22 @@ const DepositModal = {
     };
   },
 
-  methods: {},
+  methods: {
+    handle() {
+      if (this.newString == "") {
+        alert("Please enter a value");
+        return;
+      }
+      let tmp = this.newString;
+      // this.$emit("callback", tmp);
+      this.callback(tmp);
+      this.newString = "";
+    },
+  },
   mounted() {},
+  detroyed() {
+    this.newString = "";
+  },
 
   template: `
     <!-- Modal -->
@@ -25,11 +39,11 @@ const DepositModal = {
             <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
           </div>
           <div class="modal-body">
-            <input v-model="newString" type="number" class="form-control me-2" aria-label="Category Name">
+            <input v-model="newString" type="number" :min="0" class="form-control me-2" aria-label="Category Name">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" aria-hidden="true" @click="callback(newString)">Confirm</button>
+            <button type="button" class="btn btn-primary" aria-hidden="true" @click="handle">Confirm</button>
           </div>
         </div>
       </div>

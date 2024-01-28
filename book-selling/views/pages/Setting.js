@@ -4,6 +4,7 @@ import {
   Spinner,
   BackButton,
   DepositModal,
+  ModalInput,
 } from "../components/index.js";
 import state from "../../stores/app-state.js";
 const Setting = {
@@ -13,6 +14,7 @@ const Setting = {
     Spinner,
     BackButton,
     DepositModal,
+    ModalInput,
   },
   data() {
     return {
@@ -20,6 +22,7 @@ const Setting = {
       isShowingMyBook: false,
       onLoading: true,
       balance: 0,
+      role: "",
     };
   },
   methods: {
@@ -48,16 +51,30 @@ const Setting = {
     },
     async getBalance() {
       state.onLoading = true;
-      await $.ajax({
-        url: `/users/balance`,
-        type: "get",
-        success: (data) => {
-          this.balance = Number.parseFloat(data.balance);
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+      if (this.role == "admin") {
+        await $.ajax({
+          url: `/balance`,
+          type: "get",
+          success: (data) => {
+            this.balance = Number.parseFloat(data.balance);
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      } else {
+        await $.ajax({
+          url: `/users/balance`,
+          type: "get",
+          success: (data) => {
+            this.balance = Number.parseFloat(data.balance);
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      }
+
       state.onLoading = false;
     },
     async handleDeposit(money) {
@@ -78,16 +95,26 @@ const Setting = {
       $("body").removeClass("modal-open");
       $("body").css("overflow", "auto");
     },
+    confirmCode(code) {
+      // xu ly logic
+
+      $("#confirmCode").modal("hide");
+      $(".modal-backdrop").hide();
+
+      $("#addBalance").modal("show");
+    },
   },
   async created() {
+    this.role = JSON.parse(localStorage.getItem("user")).role;
     await this.getBalance();
   },
   async mounted() {
     await this.fetchMyBooks();
   },
   template: `
+  <ModalInput id="confirmCode" title="Your code" description="Input your code" @callback="confirmCode"/>
+
    <Spinner v-if="this.onLoading" />
-   
    <section v-else >
     <DepositModal id="addBalance" title="Add Balance" description="Enter the amount you want to deposit"  :callback="handleDeposit"/>
       <BackButton />
@@ -105,7 +132,7 @@ const Setting = {
               <div class="card-body">
                 <h5 class="card-title">Budget</h5>
                 <p class="card-text">Số tiền {{ balance.toLocaleString('en-US', {style: 'currency',currency: 'USD'}) }} </p>
-                <a href="#" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#addBalance">Add Balance</a>
+                <a href="#" v-if="role=='client'" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#confirmCode">Add Balance</a>
               </div>
             </div>
           </div>
