@@ -5,6 +5,7 @@ module.exports = {
         add: sql("account/add.sql"),
         get: sql("account/get.sql"),
         updateBalance: sql("account/updateBalance.sql"),
+        getTransactions: sql("account/getTransactions.sql"),
     },
     transactionSQL: {
         add: sql("transaction/add.sql"),
