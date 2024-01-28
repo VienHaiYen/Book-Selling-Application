@@ -35,9 +35,14 @@ const OrderHistory = {
       });
       state.onLoading = false;
     },
-    formatDate(input_date) {
-      const date = new Date(input_date);
+    addHours(date, hours) {
+      date.setTime(date.getTime() + hours * 60 * 60 * 1000);
 
+      return date;
+    },
+    formatDate(input_date) {
+      let date = new Date(input_date);
+      date = this.addHours(date, 7);
       const options = {
         year: "numeric",
         month: "2-digit",
