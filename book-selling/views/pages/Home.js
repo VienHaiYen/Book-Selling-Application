@@ -71,10 +71,6 @@ const Home = {
             this.filterName +
             "&order=" +
             this.filterTrend
-          // {
-          //   orderBy: this.filterName,
-          //   order: this.filterTrend,
-          // }
         )
         .then((res) => {
           this.bookList = res.data.data.filter((book) => book.status == true);
