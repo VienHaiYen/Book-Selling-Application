@@ -30,7 +30,7 @@ module.exports = class Transaction {
             const description = `Payment for order with id: ${orderId}`;
             const insertNewTransaction = await t.one(transactionSQL.add, [userAccountId, amount, Transaction.transactionTypes.purchaseOrder, description])
                 .then(transaction => new Transaction(transaction));
-
+            const insertNewPurchaseOrder = await t.one(transactionSQL.addPurchaseOrder, [insertNewTransaction.id, bookstoreId])
             return insertNewTransaction;
         });
     }
@@ -45,5 +45,12 @@ module.exports = class Transaction {
 
             return updatedAccount;
         });
+    }
+
+    static getTransactions = async (id, offset, limit) => {
+        const results = await db.any(accountSQL.getTransactions, [id, limit, offset]);
+        const transactions = results.map(transaction => new Transaction(transaction));
+        const count = parseInt(results.length > 0 ? results[0].total_count : 0);
+        return [transactions, count]
     }
 }
