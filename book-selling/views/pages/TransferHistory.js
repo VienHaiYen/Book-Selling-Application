@@ -10,10 +10,11 @@ const TransferHistory = {
     return {
       total: Number,
       state,
-      orders: [],
+      orders: Array,
       isAll: true,
       mepay: "",
       cash: "",
+      role: "",
     };
   },
   methods: {
@@ -27,6 +28,23 @@ const TransferHistory = {
         .get(`/users/payment/history?page=${page}&pageSize=${pageSize}`)
         .then((res) => {
           this.orders = res.data.data;
+          state.currentPage = res.data.meta.page;
+          state.totalPage = res.data.meta.totalPages;
+          console.log(res.data.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      state.onLoading = false;
+    },
+    async getAdminTransaction(page = 1, pageSize = 5) {
+      state.onLoading = true;
+
+      await axios
+        .get(`/orders/list?page=${page}&pageSize=${pageSize}`)
+        .then((res) => {
+          this.orders = res.data.data;
+          console.log(res.data.data);
           state.currentPage = res.data.meta.page;
           state.totalPage = res.data.meta.totalPages;
         })
@@ -61,17 +79,30 @@ const TransferHistory = {
     goToNextPage() {
       if (state.currentPage < state.totalPage) {
         state.currentPage++;
-        this.fetchAllTransactions(state.currentPage);
+        this.role == "admin"
+          ? this.getAdminTransaction(state.currentPage)
+          : this.fetchAllTransactions(state.currentPage);
       }
     },
     goToPreviousPage() {
       if (state.currentPage > 1) {
         state.currentPage--;
-        this.fetchAllTransactions(state.currentPage);
+        this.role == "admin"
+          ? this.getAdminTransaction(state.currentPage)
+          : this.fetchAllTransactions(state.currentPage);
       }
     },
   },
+
   async mounted() {
+    this.role = JSON.parse(localStorage.getItem("user")).role;
+
+    if (this.role == "admin") {
+      await this.getAdminTransaction();
+      this.isAll = true;
+      console.log(123);
+      return;
+    }
     await this.fetchAllTransactions();
     await this.fetchPay();
   },
@@ -79,15 +110,15 @@ const TransferHistory = {
 
   template: `
   <link rel="stylesheet" href="./css/cart.css" />
-  <div>
+  <div class="flex-grow-1">
   <BackButton />
   <div class="shopping-history-container">
     <div class="d-flex justify-content-between">
       <div class="shopping-cart-title">{{isAll?'TRANSFER HISTORY':'TOTAL PAY BY METHOD'}}</div>
-      <select v-model="isAll" @change="changeMode" style="width:200px; height:40px" class="form-select" aria-label="Default select example">
+      <select v-if="role!='admin'" v-model="isAll" style="width:200px; height:40px" class="form-select" aria-label="Default select example">
         <option selected :value=true>All transaction</option>
         <option :value=false>Total by method</option>
-      </select> 
+      </select>
     </div>
     <Spinner v-if="state.onLoading" />
     <div v-if="isAll">

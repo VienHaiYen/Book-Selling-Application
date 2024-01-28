@@ -76,7 +76,7 @@ const SignIn = {
                       current-password
                         v-model="password"
                         required type="password" id="password" class="form-control border border-secondary w-75 mb-1" />
-                        <span class="small"><a  href="#!">Forgot password?</a></span>
+                        <!-- <span class="small"><a  href="#!">Forgot password?</a></span> -->
                       </div>
                   </div>
 

@@ -16,7 +16,8 @@ const TransferHistoryItemList = {
       state.view = screen;
     },
     formatDate(input_date) {
-      const date = new Date(input_date);
+      let date = new Date(input_date);
+      date = this.addHours(date, 7);
 
       const options = {
         year: "numeric",
@@ -29,11 +30,13 @@ const TransferHistoryItemList = {
       const formattedDate = date.toLocaleString("en-US", options);
       return formattedDate;
     },
+    addHours(date, hours) {
+      date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+      return date;
+    },
   },
   created() {},
-  async mounted() {
-    await console.log(454454, this.orders);
-  },
+  async mounted() {},
 
   template: `
       <div v-if="orders">
@@ -45,11 +48,10 @@ const TransferHistoryItemList = {
             <div class="order-history-brief-info-bar">
               <div>
                 <div>Transaction ID: <span class="order-id">#{{order.transaction_id}}</span></div>
-                <div>Order ID: <span class="order-id">#{{order.order_id}}</span></div>
+                <div>Order ID: <span class="order-id">#{{order.id?order.id:order.order_id}}</span></div>
               </div>
-  
               <div style="justify-self: end">
-                Date: {{formatDate(order.paid_time)}}
+                Date: {{formatDate(order.created_at?order.created_at:order.paid_time)}}
               </div>
               <div></div>
               <div style="justify-self: end">
@@ -59,6 +61,7 @@ const TransferHistoryItemList = {
             <div class="text-bold history-total-order">
               Total paid: <i class="fa-solid fa-dollar-sign"></i>{{order.total}}
             </div>
+            <h6 v-if="order.user_id">User id: {{order.user_id}}</h6>
           </div>
       </div>
       <div v-else>
