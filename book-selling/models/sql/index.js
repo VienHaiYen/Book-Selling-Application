@@ -13,6 +13,7 @@ module.exports = {
     delete: sql("user/delete.sql"),
     listPaymentHistory: sql("user/listPaymentHistory.sql"),
     getTotalPaid: sql("user/getTotalPaid.sql"),
+    getByIds: sql("user/getByIds.sql"),
   },
   authorSQL: {
     add: sql("author/add.sql"),
