@@ -9,7 +9,7 @@ const paginationResponse = (total, page, records, pageSize = 10) => {
     meta: {
       total: total,
       totalPages: Math.max(Math.ceil(total / pageSize), 1),
-      pageSize: pageSize,
+      pageSize: records.length,
       page: page,
     },
   };

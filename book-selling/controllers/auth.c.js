@@ -135,7 +135,7 @@ module.exports = {
     },
     getBalance: async (req, res, next) => {
         try {
-            const { balance } = await fetch(`${paymentConfig.url}/shop/balance`,{
+            const { balance } = await fetch(`${paymentConfig.url}/shop/balance`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -144,6 +144,41 @@ module.exports = {
             })
                 .then(res => res.json())
             res.send({ balance })
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    getTransactions: async (req, res, next) => {
+        try {
+            // pagination
+            let { page = "1", pageSize = "10" } = req.query;
+            page = parseInt(page);
+            pageSize = parseInt(pageSize);
+
+            const { data, meta } = await fetch(`${paymentConfig.url}/shop/transactions?page=${page}&pageSize=${pageSize}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    apikey: paymentConfig.apikey,
+                },
+            })
+                .then(res => res.json())
+            const userIdList = data.map(item => item.payment_account_id)
+            const userList = await User.getByIds(userIdList)
+            const dateWithUserData = data.map(item => {
+                const { payment_account_id, ...rest } = item
+                const user = userList.find(user => user.id === payment_account_id)
+                return {
+                    ...rest,
+                    user
+                }
+            })
+        
+            res.send({
+                data: dateWithUserData,
+                meta
+            })
         } catch (error) {
             next(error)
         }

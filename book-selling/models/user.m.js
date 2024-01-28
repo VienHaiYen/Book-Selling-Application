@@ -133,4 +133,10 @@ module.exports = class User {
       return res.total_paid;
     }
   }
+
+  static async getByIds(ids) {
+    return await db
+      .any(userSQL.getByIds, [ids])
+      .then((userList) => userList.map((user) => new User(user)));
+  }
 };
