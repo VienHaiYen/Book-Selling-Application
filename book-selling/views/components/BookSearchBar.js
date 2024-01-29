@@ -10,6 +10,10 @@ const BookSearchBar = {
   methods: {
     async search(e) {
       e.preventDefault();
+      if (this.searchInput == "") {
+        alert("Please fill in search field");
+        return;
+      }
       await axios
         .get(`/search?q=${this.searchInput}`)
         .then((res) => {
