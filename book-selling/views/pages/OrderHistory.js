@@ -42,7 +42,7 @@ const OrderHistory = {
     },
     formatDate(input_date) {
       let date = new Date(input_date);
-      date = this.addHours(date, 7);
+      // date = this.addHours(date, 7);
       const options = {
         year: "numeric",
         month: "2-digit",
